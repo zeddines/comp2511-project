@@ -1,4 +1,7 @@
 package dungeonmania.entityfactory;
+import dungeonmania.entity.collectable.*;
+import dungeonmania.entity.*;
+import org.json.JSONObject;
 import java.util.Arrays;
 
 public class RareFactory extends PrimaryFactory{
@@ -7,7 +10,11 @@ public class RareFactory extends PrimaryFactory{
 
     public RareFactory() {
         super(rare);
+    }
 
+    @Override
+    public Entity build(JSONObject entityContents) {
+        return new Ring(entityContents);
     }
 
     

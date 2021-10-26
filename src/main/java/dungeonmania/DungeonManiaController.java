@@ -14,6 +14,9 @@ import java.util.List;
 import dungeonmania.game.*;
 import static dungeonmania.util.FileLoader.listFileNamesInResourceDirectory;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class DungeonManiaController {
     
     //key is the dungeonId -> use static variable for number of dungeons -> what happens if we finish a game?
@@ -49,7 +52,7 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
-    try {
+    try {    
         if (!(getGameModes().contains(gameMode))) {
             throw new IllegalArgumentException();
         } else if (!FileLoader.listFileNamesInResourceDirectory("dungeons").contains(dungeonName)) {

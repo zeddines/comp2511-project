@@ -9,8 +9,13 @@ public class ZombieToast extends Entity {
      * Zombies are limited by the same movement constraints as character
      * except portals have no effect on then  
      */
-    public ZombieToast() {
-        super(); 
+    public ZombieToast(JSONObject entityContents) {
+        super(entityContents); 
+    }
+
+    @Override
+    public boolean action(EntityAPI creature) {
+        return false;
     }
 
 }

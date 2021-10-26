@@ -5,11 +5,16 @@ import org.json.JSONObject;
 
 public class Player extends Entity {
     
-    public Player(){
-        super(); 
+    public Player(JSONObject entityContents) {
+        super(entityContents); 
     }
 
-    public void toItemResponse() {
+    @Override
+    public boolean action(EntityAPI creature) {
+        return false;
+    }
+
+    /*public void toItemResponse() {
         // returns itemResponse 
         return; 
     }
@@ -21,5 +26,5 @@ public class Player extends Entity {
     public void move(String direction) {
         // Direction direction 
         return; 
-    }
+    }*/
 }

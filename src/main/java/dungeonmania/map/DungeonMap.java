@@ -4,7 +4,6 @@ import dungeonmania.util.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
-import dungeonmania.entities.*;
 import dungeonmania.entity.EntityAPI;
 import org.json.JSONObject;
 
@@ -18,6 +17,10 @@ public class DungeonMap {
     public DungeonMap() {
         entities = new Hashtable<>();
         inventory = new ArrayList<>();
+    }
+
+    public void addEntity(EntityAPI newEntity) {
+        entities.put(newEntity.getPosition(), newEntity);
     }
 
     

@@ -5,8 +5,13 @@ import org.json.JSONObject;
 
 public class Enemy extends Entity {
     
-    public Enemy() {
-        super(); 
+    public Enemy(JSONObject entityContents) {
+        super(entityContents); 
+    }
+
+    @Override
+    public boolean action(EntityAPI creature) {
+        return false;
     }
 
     /**
@@ -15,13 +20,13 @@ public class Enemy extends Entity {
      * add to battling arrayList in game object 
      * @param player - Player object 
      */
-    public void collideAction(String player) {      // Player player 
+    /*public void collideAction(String player) {      // Player player 
         return; 
     }
 
     public void regularAction() {
         return; 
-    }
+    }*/
 
     // movement fn 
 

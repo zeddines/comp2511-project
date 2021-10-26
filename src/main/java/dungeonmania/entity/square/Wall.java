@@ -6,12 +6,12 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Wall extends Entity {
-    public Wall(Position currentPosition) {
-        super(currentPosition); 
+    public Wall(JSONObject entityContents) {
+        super(entityContents); 
     }
 
     @Override
-    public boolean action (EntityAPI creature) {
+    public boolean action(EntityAPI creature) {
         return false;
     }
 

@@ -12,7 +12,12 @@ public class Mercenary extends Entity {
      * in which case they become allies 
      * As an ally, once it reaches the player it simply follows the player around 
      */
-    public Mercenary() {
-        super(); 
+    public Mercenary(JSONObject entityContents) {
+        super(entityContents); 
+    }
+
+    @Override
+    public boolean action(EntityAPI creature) {
+        return false;
     }
 }

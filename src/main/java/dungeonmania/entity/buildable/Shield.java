@@ -1,10 +1,11 @@
 package dungeonmania.entity.buildable;
 import dungeonmania.entity.*;
 import dungeonmania.util.*;
+import org.json.JSONObject;
 
 import dungeonmania.entity.interfaces.*;
 
-public class Shield extends Buildable implements Guard, Consumable {
+public class Shield extends Entity implements EntityAPI {
     private int durability; 
     private int remainingUses; 
 
@@ -14,11 +15,16 @@ public class Shield extends Buildable implements Guard, Consumable {
      * each shield has specific durability that dictates the number of times it can be used 
      * before it deteriorates 
      */
-    public Shield() {
-        super(); 
+    public Shield(JSONObject entityContents) {
+        super(entityContents); 
     }
 
-    public void modifyDefence() {
-        return; 
+    @Override
+    public boolean action(EntityAPI creature) {
+        return false;
     }
+
+    /*public void modifyDefence() {
+        return; 
+    }*/
 }

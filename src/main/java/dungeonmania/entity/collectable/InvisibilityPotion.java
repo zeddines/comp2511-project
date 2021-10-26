@@ -3,7 +3,7 @@ import dungeonmania.entity.*;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
-public class InvincibilityPotion extends Entity implements EntityAPI {
+public class InvisibilityPotion extends Entity implements EntityAPI {
     private int duration; 
 
     /**
@@ -13,7 +13,7 @@ public class InvincibilityPotion extends Entity implements EntityAPI {
      * all enemies will run away from char when they are invincible 
      * effects only last for a limited time 
      */
-    public InvincibilityPotion(JSONObject entityContents) {
+    public InvisibilityPotion(JSONObject entityContents) {
         super(entityContents); 
     }
 

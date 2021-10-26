@@ -16,5 +16,9 @@ abstract public class Entity implements EntityAPI {
     public String getType() {
         return this.getClass().getSimpleName();
     }
+
+    public Position getPosition() {
+        return currentPosition;
+    }
     
 }

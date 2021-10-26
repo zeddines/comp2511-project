@@ -3,7 +3,6 @@ package dungeonmania.entityfactory;
 import java.util.Arrays;
 import java.util.List;
 import dungeonmania.entity.*;
-import dungeonmania.entity.Entity;
 import org.json.JSONObject;
 
 abstract public class PrimaryFactory implements FactoryExtendAPI {

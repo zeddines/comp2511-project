@@ -1,14 +1,15 @@
 package dungeonmania.game;
 
+import dungeonmania.map.DungeonMap;
 import dungeonmania.response.models.*;
 
 public class Game implements GameAPI {
 
     private String dungeonName;
     private String dungeonId;
-    //use for dungeonId
     public static Integer numGames;
-    public String gameMode;
+    private String gameMode;
+    private DungeonMap map;
 
     public Game(String dungeonName, String gameMode) {
         this.dungeonName = dungeonName;
@@ -23,5 +24,9 @@ public class Game implements GameAPI {
 
     public DungeonResponse getInfo() {
         return null;
+    }
+
+    public void setMap(DungeonMap map) {
+        this.map = map;
     }
 }

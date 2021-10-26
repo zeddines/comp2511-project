@@ -12,8 +12,13 @@ public class Spider extends Entity {
      * Not able to traverse through boulders in which case it will reverse direction 
      * At least 4 spiders at a time 
      */
-    public Spider() {
-        super(); 
+    public Spider(JSONObject entityContents) {
+        super(entityContents); 
+    }
+
+    @Override
+    public boolean action(EntityAPI creature) {
+        return false;
     }
     
 

@@ -4,14 +4,14 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Portal extends Entity {
-    public Portal(Position currentPosition) {
-        super(currentPosition);
-
-    }
 
     /**
      *  Teleports entities to a corresponding portal 
      */
+    public Portal(JSONObject entityContents) {
+        super(entityContents); 
+    }
+
     @Override
     public boolean action(EntityAPI creature) {
         return false;
