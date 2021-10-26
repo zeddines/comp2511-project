@@ -2,7 +2,9 @@ package dungeonmania.entityfactory;
 
 import java.util.Arrays;
 import java.util.List;
-import dungeonmania.entities.*;
+import dungeonmania.entity.*;
+import dungeonmania.entity.Entity;
+import org.json.JSONObject;
 
 abstract public class PrimaryFactory implements FactoryExtendAPI {
 
@@ -12,11 +14,10 @@ abstract public class PrimaryFactory implements FactoryExtendAPI {
         this.entities = Arrays.asList(entities);
     }
 
-    public boolean check(String type) {
+    public boolean checkType(String type) {
         return entities.contains(type);
     }
 
-    abstract public Entity build(String type);
-    }
+    abstract public Entity build(JSONObject entityContents);
     
 }

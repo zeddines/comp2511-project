@@ -1,8 +1,11 @@
 package dungeonmania.entity.square;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
-public class ZombieToastSpawner extends Square {
-    public ZombieToastSpawner(int x, int y) {
-        super(x,y); 
+public class ZombieToastSpawner extends Entity {
+    public ZombieToastSpawner(Position currentPosition) {
+        super(currentPosition); 
     }
 
     /**
@@ -11,7 +14,8 @@ public class ZombieToastSpawner extends Square {
      *  to spawner 
      */
     @Override
-    public void action(String s) {
-        return; 
-    }
+    
+public boolean action(EntityAPI creature) {
+    return false;
+}
 }

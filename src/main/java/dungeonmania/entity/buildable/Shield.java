@@ -1,4 +1,6 @@
 package dungeonmania.entity.buildable;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
 
 import dungeonmania.entity.interfaces.*;
 

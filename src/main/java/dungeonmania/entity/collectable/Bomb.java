@@ -1,4 +1,7 @@
 package dungeonmania.entity.collectable;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
 public class Bomb extends Collectable {
     /**

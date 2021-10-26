@@ -1,8 +1,9 @@
 package dungeonmania.entityfactory;
-import dungeonmania.entities.*;
+import dungeonmania.entity.*;
+import org.json.JSONObject;
 
 public interface FactoryAPI {
 
-    public Entity build(String type);
+    public Entity build(JSONObject entityContents);
     
 }

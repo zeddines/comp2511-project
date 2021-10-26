@@ -1,10 +1,12 @@
 package dungeonmania.entity.square;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
 
-public class FloorSwitch extends Square {
+public class FloorSwitch extends Entity {
     private boolean triggered; 
 
-    public FloorSwitch(int x, int y) {
-        super(x,y); 
+    public FloorSwitch(Position currentPosition) {
+        super(currentPosition); 
         this.triggered = false; 
     }
 
@@ -14,8 +16,8 @@ public class FloorSwitch extends Square {
      *  Pushing a boulder off the floor switch untriggers it 
      */
     @Override
-    public void action(String s) {
-        return; 
+    public boolean action(EntityAPI creature) {
+        return false;
     }
     
 }

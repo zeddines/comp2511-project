@@ -1,19 +1,20 @@
 package dungeonmania.entity.square;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
-public class Portal extends Square {
-    public Portal(int x, int y) {
+public class Portal extends Entity {
+    public Portal(Position currentPosition) {
+        super(currentPosition);
 
-        // corresponding portal 
-
-        super(x,y); 
     }
 
     /**
      *  Teleports entities to a corresponding portal 
      */
     @Override
-    public void movement(String s) {
-        return; 
+    public boolean action(EntityAPI creature) {
+        return false;
     }
     
 }

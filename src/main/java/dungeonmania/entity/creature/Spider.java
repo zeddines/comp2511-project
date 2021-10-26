@@ -1,6 +1,9 @@
 package dungeonmania.entity.creature;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
-public class Spider extends Enemy {
+public class Spider extends Entity {
     /**
      * Spiders spawn at random locations in the dungeon from the beginning of the game 
      * When the spider spawns, they immediately move the 1 square upwards (towards top of screen)

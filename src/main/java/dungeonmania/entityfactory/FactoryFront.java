@@ -1,5 +1,6 @@
 package dungeonmania.entityfactory;
-import dungeonmania.entities.*;
+import dungeonmania.entity.*;
+import org.json.JSONObject;
 
 public class FactoryFront implements FactoryAPI {
 
@@ -13,10 +14,18 @@ public class FactoryFront implements FactoryAPI {
 
     }
 
-    public Entity build(String type) {
-
+    public Entity build(JSONObject entityContents) {
+        String type = entityContents.getString("type");
+        if (bFac.checkType(type))
+            return bFac.build(entityContents);
+        else if (cFac.checkType(type))
+            return cFac.build(entityContents);
+        else if (mFac.checkType(type))
+            return mFac.build(entityContents);
+        else if (sFac.checkType(type))
+            return sFac.build(entityContents);
+        else
+            return rFac.build(entityContents);
     }
-
-
-    
+   
 }

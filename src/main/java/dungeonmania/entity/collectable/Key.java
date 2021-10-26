@@ -1,4 +1,6 @@
 package dungeonmania.entity.collectable;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
 
 public class Key extends Collectable {
     private String door; 

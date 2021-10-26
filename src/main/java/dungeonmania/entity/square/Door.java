@@ -1,6 +1,8 @@
 package dungeonmania.entity.square;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
 
-public class Door extends Square {
+public class Door extends Entity {
     private String key; 
     private boolean opened; 
 

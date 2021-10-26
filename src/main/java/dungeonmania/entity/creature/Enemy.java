@@ -1,6 +1,9 @@
 package dungeonmania.entity.creature;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
-public class Enemy extends Creature {
+public class Enemy extends Entity {
     
     public Enemy() {
         super(); 

@@ -1,4 +1,6 @@
 package dungeonmania.entity.square;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
 
 public class Boulder extends Wall {
     public Boulder(int x, int y) {

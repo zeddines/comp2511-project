@@ -1,6 +1,9 @@
 package dungeonmania.entity.creature;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
-public class Mercenary extends Creature {
+public class Mercenary extends Entity {
     /**
      * On maps with at least one enemy, mercenaries spawn at the entry location periodically
      * They constrantly move towarsd the character, stopping if they cannot move any closer 

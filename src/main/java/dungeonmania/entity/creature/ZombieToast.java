@@ -1,6 +1,9 @@
 package dungeonmania.entity.creature;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
 
-public class ZombieToast extends Creature {
+public class ZombieToast extends Entity {
     /**
      * Zombies spawn at zombie spawners and move in random directions 
      * Zombies are limited by the same movement constraints as character
