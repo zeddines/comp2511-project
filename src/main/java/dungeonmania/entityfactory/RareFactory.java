@@ -10,8 +10,5 @@ public class RareFactory extends PrimaryFactory{
 
     }
 
-    public boolean check(String type) {
-        return Arrays.asList(rare).contains(type);
-    }
     
 }
