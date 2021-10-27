@@ -1,20 +1,25 @@
 package dungeonmania.entity.square;
 
-public class Wall extends Square {
-    public Wall(int x, int y) {
-        super(x,y); 
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.*;
+import dungeonmania.util.*;
+import org.json.JSONObject;
+
+public class Wall extends Entity {
+    public Wall(JSONObject entityContents) {
+        super(entityContents); 
     }
 
     @Override
-    public void action(String s) {
-        return; 
+    public boolean action(EntityAPI creature) {
+        return false;
     }
 
-    /**
+    /*/**
      *  Blocks the movement of the character, enemies and boulders 
      */
-    @Override
+   /* @Override
     public void movement(String s) {
         return; 
-    }
+    }*/
 }
