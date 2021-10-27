@@ -1,5 +1,7 @@
 package dungeonmania;
 
+import dungeonmania.creatures.Enemy;
+import dungeonmania.creatures.Player;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -10,7 +12,94 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DungeonManiaController {
+public class DungeonManiaController{
+    //all entities from map, can move to other objects at later stage
+    private Player player;
+    private ArrayList<CollideActionEntity> collideActionEntities;
+    private ArrayList<Enemy> battlingNPCs;
+    private ArrayList<RegularActionEntity> regularActionEntities;
+
+    private ArrayList<Entity> allEntities;
+
+    //TODO GOAL
+    //PRIVATE ...
+    //
+
+    //TODO NOT MENTIONED UML
+    public void removeEntityFromMap(Entity entity){
+        collideActionEntities.remove(entity);
+        battlingNPCs.remove(entity);
+        regularActionEntities.remove(entity);
+        allEntities.remove(entity);
+    }
+
+    //TODO NOT MENTIONED UML
+    public Entity getEntityFromId(String id){
+        for (Entity entity : allEntities){
+            if (entity.getId().equals(id))
+                return entity;
+        }
+        return null;
+    }
+
+    //TODO NOT MENTIONED UML
+    public void addToBattle(Enemy enemy){
+        collideActionEntities.remove(enemy);
+        regularActionEntities.remove(enemy);
+        battlingNPCs.add(enemy);
+    }
+
+    public void retreatFromBattle(Enemy enemy){
+        collideActionEntities.add(enemy);
+        regularActionEntities.add(enemy);
+        battlingNPCs.remove(enemy);        
+    }
+
+    public void resolveBattle(){
+        //TODO
+        BattleStat playerStat = player.getBattleStat();
+        //now only allows character to battle, no allies
+        for (Enemy enemy : battlingNPCs){
+            BattleStat enemyStat = enemy.getBattleStat();
+            if (player.isInvincible()){
+                playerDefeatsEnemy(enemy);
+            }
+            else if(player.isInvisible()){
+                retreatFromBattle(enemy);
+            }
+            else{
+                // resolve numbers for battling
+                int playerReceivedDamage = (playerStat.getReducedAttack(enemyStat.getAttack()) * enemyStat.getHealth()) / 10;
+                int enemyReceivedDamage = (enemyStat.getReducedAttack(playerStat.getAttack()) * playerStat.getHealth()) / 5;
+                playerStat.reduceHealth(playerReceivedDamage);
+                enemyStat.reduceHealth(enemyReceivedDamage);
+                if (playerStat.getHealth() <= 0){
+                    //TODO player loses and game ends
+                }
+                else if(enemyStat.getHealth() <= 0){
+                    playerDefeatsEnemy(enemy);
+                }
+            }
+        }
+    }
+
+    private void playerDefeatsEnemy(Enemy enemy){
+        BattleStat enemyStat = enemy.getBattleStat();
+        //player receive rewards//
+        for (Weapon weapon : enemyStat.getWeapons()){
+            player.addCollectable((Collectable)weapon);
+        }
+        for (Guard guard : enemyStat.getGuards()){
+            player.addCollectable((Collectable)guard);
+        }
+        //randomly give player an epic reward
+        //TODO
+        
+        
+        //receive reward end//        
+        removeEntityFromMap(enemy);
+    }
+
     public DungeonManiaController() {
     }
 
