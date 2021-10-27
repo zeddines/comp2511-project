@@ -8,10 +8,22 @@ import dungeonmania.util.FileLoader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Hashtable; 
 import java.util.List;
+import dungeonmania.game.*;
+import static dungeonmania.util.FileLoader.listFileNamesInResourceDirectory;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class DungeonManiaController {
+    
+    //key is the dungeonId -> use static variable for number of dungeons -> what happens if we finish a game?
+    private Map<String,GameAPI> games;
     public DungeonManiaController() {
+
+        this.games = new Hashtable<>();
     }
 
     public String getSkin() {
@@ -40,7 +52,20 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
-        return null;
+        try {    
+            if (!(getGameModes().contains(gameMode))) {
+                throw new IllegalArgumentException();
+            } else if (!FileLoader.listFileNamesInResourceDirectory("dungeons").contains(dungeonName)) {
+                throw new IllegalArgumentException();
+            } else {
+                GameAPI newGame = new Game(dungeonName, gameMode);
+                games.put(newGame.getId(), newGame);
+                return newGame.getInfo();
+            }
+        }
+        catch(IOException e) {
+            return null;
+        } 
     }
     
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
