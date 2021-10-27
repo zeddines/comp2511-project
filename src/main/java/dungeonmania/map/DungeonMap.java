@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import dungeonmania.entity.EntityAPI;
 import org.json.JSONObject;
+import dungeonmania.response.models.*;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class DungeonMap {
 
     private Map<Position,EntityAPI> entities;
     private List<EntityAPI> inventory;
+    private String goals;
 
     public DungeonMap() {
         entities = new Hashtable<>();
@@ -22,6 +24,21 @@ public class DungeonMap {
     public void addEntity(EntityAPI newEntity) {
         entities.put(newEntity.getPosition(), newEntity);
     }
+
+    public List<EntityResponse> getInfoList() {
+        List<EntityResponse> info = new ArrayList<>();
+        entities.entrySet().stream().map(e -> e.getValue()).forEach(e->info.add(e.getInfo()));
+        return info;
+    }
+
+    public String getGoals() {
+        return goals;
+    }
+    public void setGoals(String goals) {
+        this.goals = goals;
+    }
+       
+
 
     
 }

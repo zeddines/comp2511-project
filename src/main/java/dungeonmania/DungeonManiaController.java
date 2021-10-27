@@ -52,20 +52,20 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
-    try {    
-        if (!(getGameModes().contains(gameMode))) {
-            throw new IllegalArgumentException();
-        } else if (!FileLoader.listFileNamesInResourceDirectory("dungeons").contains(dungeonName)) {
-            throw new IllegalArgumentException();
-        } else {
-            GameAPI newGame = new Game(dungeonName, gameMode);
-            games.put(newGame.getId(), newGame);
+        try {    
+            if (!(getGameModes().contains(gameMode))) {
+                throw new IllegalArgumentException();
+            } else if (!FileLoader.listFileNamesInResourceDirectory("dungeons").contains(dungeonName)) {
+                throw new IllegalArgumentException();
+            } else {
+                GameAPI newGame = new Game(dungeonName, gameMode);
+                games.put(newGame.getId(), newGame);
+                return newGame.getInfo();
+            }
         }
-    }
-    catch(IOException e) {
-        return null;
-    }
-        return null;
+        catch(IOException e) {
+            return null;
+        } 
     }
     
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
