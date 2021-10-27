@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DungeonManiaController{
-    //all entities from map, can move to other objects at later stage
+    //all entities from map, can move to other objects at later stage of development depending on how map is implemented
     private Player player;
     private ArrayList<CollideActionEntity> collideActionEntities;
     private ArrayList<Enemy> battlingNPCs;

@@ -17,13 +17,12 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;
 
 public class Player extends Creature{
-    //buffs
-    //TODO
     private boolean isInvisible;
     private boolean isInvincible;
 
     public ArrayList<Potion> potionsInEffect;
 
+    //methods about potion
     public void addPotionInEffect(Potion potion){
         potionsInEffect.add(potion);
     }
@@ -31,6 +30,17 @@ public class Player extends Creature{
     public void removePotionEffect(Potion potion){
         potionsInEffect.remove(potion);
     }
+
+    public void updatePotionEffects(){
+        for (Potion potion : potionsInEffect){
+            //will remove potions in potionsInEffect array if the effect has ended
+            potion.updateEffectDuration();
+        }
+        for (Potion potion : potionsInEffect){
+            potion.applyPotionEffect();
+        }
+    }
+    //
 
     //getter setters
     public boolean isInvisible() {

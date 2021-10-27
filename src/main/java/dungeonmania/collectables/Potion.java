@@ -23,6 +23,14 @@ public class Potion extends Collectable implements Usable{
         ((Player)getOwner()).addPotionInEffect(this);
     }
 
+    public void applyPotionEffect(){
+        effect.applyPotionEffect();
+    }
+
+    public void updateEffectDuration(){
+        effect.updateEffectDuration();
+    }
+
     // public TemporaryBuffItem(DungeonManiaController game, String id, String type, boolean isInteractable,
     //         Creature owner) {
     //     super(game, id, type, isInteractable, owner);

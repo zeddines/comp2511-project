@@ -20,7 +20,9 @@ public class Enemy extends Creature implements CollideActionEntity, RegularActio
 
     @Override
     public void collideAction(Player player) {
-        getGame().addToBattle(this);
+        if (!player.isInvisible()){
+            getGame().addToBattle(this);
+        }
     }
 
     @Override
