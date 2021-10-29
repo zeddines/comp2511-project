@@ -16,7 +16,7 @@ public class CollectibleFactory extends PrimaryFactory {
     @Override
     public Entity build(JSONObject entityContents, DungeonMapAPI map) {
         String type = entityContents.getString("type");
-        if (type.equals("treasuse"))
+        if (type.equals("treasure"))
             return new Treasure(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("key"))
             return new Key(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
