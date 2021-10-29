@@ -6,5 +6,9 @@ public interface GameAPI {
     public String getId();   
     
     public DungeonResponse getInfo();
+
+    public void setID(String name);
+
+
     
 }

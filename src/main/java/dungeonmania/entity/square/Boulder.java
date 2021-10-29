@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
@@ -10,8 +11,8 @@ public class Boulder extends Entity {
      *  Can be pushed by character into cardinally adjacent squares
      *  Character can only push one boulder at a time 
      */
-    public Boulder(JSONObject entityContents) {
-        super(entityContents); 
+    public Boulder(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
     }
 
     @Override

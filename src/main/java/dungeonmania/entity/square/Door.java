@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
@@ -11,9 +12,9 @@ public class Door extends Entity {
      *  If character holds the key, they can open the door by moving through it
      *  Remains open once opened 
      */
-    public Door(JSONObject entityContents) {
-        super(entityContents); 
-        key = entityContents.getString("key");
+    public Door(Position current, String type, String key, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
+        this.key = key;
     }
 
     @Override

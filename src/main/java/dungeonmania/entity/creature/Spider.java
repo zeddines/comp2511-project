@@ -1,7 +1,9 @@
 package dungeonmania.entity.creature;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
+import dungeonmania.util.*;
 
 public class Spider extends Entity {
     /**
@@ -12,8 +14,8 @@ public class Spider extends Entity {
      * Not able to traverse through boulders in which case it will reverse direction 
      * At least 4 spiders at a time 
      */
-    public Spider(JSONObject entityContents) {
-        super(entityContents); 
+    public Spider(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, true, map); 
     }
 
     @Override

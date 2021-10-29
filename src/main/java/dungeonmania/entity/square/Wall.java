@@ -1,13 +1,14 @@
 package dungeonmania.entity.square;
 
 import dungeonmania.entity.Entity;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Wall extends Entity {
-    public Wall(JSONObject entityContents) {
-        super(entityContents); 
+    public Wall(Position current, String type, DungeonMapAPI map) {
+        super(current, type, false, false, map); 
     }
 
     @Override

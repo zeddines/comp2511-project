@@ -1,5 +1,6 @@
 package dungeonmania.entity.creature;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
@@ -12,8 +13,8 @@ public class Mercenary extends Entity {
      * in which case they become allies 
      * As an ally, once it reaches the player it simply follows the player around 
      */
-    public Mercenary(JSONObject entityContents) {
-        super(entityContents); 
+    public Mercenary(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, true, map); 
     }
 
     @Override

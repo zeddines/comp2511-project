@@ -4,6 +4,7 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 
 import dungeonmania.entity.interfaces.*;
+import dungeonmania.map.DungeonMapAPI;
 
 public class Shield extends Entity implements EntityAPI {
     private int durability; 
@@ -15,8 +16,8 @@ public class Shield extends Entity implements EntityAPI {
      * each shield has specific durability that dictates the number of times it can be used 
      * before it deteriorates 
      */
-    public Shield(JSONObject entityContents) {
-        super(entityContents); 
+    public Shield(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, true, map); 
     }
 
     @Override

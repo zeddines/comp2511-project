@@ -1,7 +1,7 @@
 package dungeonmania.entity.creature;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
-import org.json.JSONObject;
 
 public class ZombieToast extends Entity {
     /**
@@ -9,8 +9,8 @@ public class ZombieToast extends Entity {
      * Zombies are limited by the same movement constraints as character
      * except portals have no effect on then  
      */
-    public ZombieToast(JSONObject entityContents) {
-        super(entityContents); 
+    public ZombieToast(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, true, map); 
     }
 
     @Override

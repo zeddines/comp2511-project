@@ -3,6 +3,8 @@ package dungeonmania.entityfactory;
 import java.util.Arrays;
 import java.util.List;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
+
 import org.json.JSONObject;
 
 abstract public class PrimaryFactory implements FactoryExtendAPI {
@@ -17,6 +19,6 @@ abstract public class PrimaryFactory implements FactoryExtendAPI {
         return entities.contains(type);
     }
 
-    abstract public Entity build(JSONObject entityContents);
+    abstract public Entity build(JSONObject entityContents, DungeonMapAPI map);
     
 }

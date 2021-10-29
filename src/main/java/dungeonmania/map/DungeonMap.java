@@ -9,7 +9,7 @@ import dungeonmania.response.models.*;
 
 import java.util.List;
 
-public class DungeonMap {
+public class DungeonMap implements DungeonMapAPI {
 
     private Map<Position,List<EntityAPI>> entities;
     private List<EntityAPI> inventory;

@@ -4,6 +4,7 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 
 import dungeonmania.entity.interfaces.*;
+import dungeonmania.map.DungeonMapAPI;
 
 public class Armour extends Entity implements EntityAPI {
     private int durability; 
@@ -17,8 +18,8 @@ public class Armour extends Entity implements EntityAPI {
      * each piece of armour has a specific durability that dictates the num of times 
      * it can be used before it deteriorates 
      */
-    public Armour(JSONObject entityContents) {
-        super(entityContents); 
+    public Armour(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
     }
 
     /*public void modifyDefence() {

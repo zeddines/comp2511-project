@@ -1,13 +1,15 @@
 package dungeonmania.entity.collectable;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Collectable extends Entity {
     // private Player owner; 
     private boolean inInventory; 
-    public Collectable(JSONObject entityContents) {
-        super(entityContents); 
+
+    public Collectable(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
         this.inInventory = false;
     }
 
