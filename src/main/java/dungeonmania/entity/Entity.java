@@ -21,7 +21,7 @@ abstract public class Entity implements EntityAPI {
 
     }
 
-   abstract public boolean action(EntityAPI creature);
+    abstract public boolean action(EntityAPI creature);
 
     public String getType() {
         return this.getClass().getSimpleName();
