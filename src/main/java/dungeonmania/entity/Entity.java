@@ -3,6 +3,7 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 import java.lang.Integer;
 import dungeonmania.response.models.*;
+import dungeonmania.map.*;
 
 abstract public class Entity implements EntityAPI {
 
@@ -11,13 +12,18 @@ abstract public class Entity implements EntityAPI {
     Position currentPosition;
     public static Integer numEntities = 0;
     Boolean isInteractable;
+    Boolean dynamic;
+    DungeonMapAPI dungeon;
 
-    public Entity(JSONObject entityContents) {
-        this.currentPosition = new Position(entityContents.getInt("x"), entityContents.getInt("y"));
-        this.type = entityContents.getString("type");
+    public Entity(Position current, String type, boolean interactable, boolean dynamic, DungeonMapAPI dungeon) {
+        this.currentPosition = current;
+        this.type = type;
         this.iD = numEntities.toString();
         this.isInteractable = false;
         numEntities++;
+        this.isInteractable = interactable;
+        this.dynamic = dynamic;
+        this.dungeon = dungeon;
 
     }
 
@@ -33,6 +39,13 @@ abstract public class Entity implements EntityAPI {
 
     public EntityResponse getInfo() {
         return new EntityResponse(iD, type, currentPosition, isInteractable);
+    }
+
+    public boolean checkDyanmic() {
+        if (dynamic)
+            return  true;
+        else 
+            return false;
     }
     
 }

@@ -1,5 +1,6 @@
 package dungeonmania.entity.collectable;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
@@ -7,8 +8,8 @@ public class Wood extends Entity implements EntityAPI {
     /**
      * can be collected by player 
      */
-    public Wood(JSONObject entityContents) {
-        super(entityContents); 
+    public Wood(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
     }
 
     @Override

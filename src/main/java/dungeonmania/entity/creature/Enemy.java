@@ -1,12 +1,13 @@
 package dungeonmania.entity.creature;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Enemy extends Entity {
     
-    public Enemy(JSONObject entityContents) {
-        super(entityContents); 
+    public Enemy(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, true, map); 
     }
 
     @Override

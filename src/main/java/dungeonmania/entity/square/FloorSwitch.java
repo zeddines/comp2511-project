@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
@@ -10,8 +11,8 @@ public class FloorSwitch extends Entity {
      *  When a boulder is pushed onto a floor switch, it is triggered 
      *  Pushing a boulder off the floor switch untriggers it 
      */
-    public FloorSwitch(JSONObject entityContents) {
-        super(entityContents); 
+    public FloorSwitch(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
         this.triggered = false;
     }
 
