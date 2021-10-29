@@ -60,8 +60,38 @@ public class BoulderTest {
         }
 
         assertTrue(positionCorrect);
-    }                
+    }     
+    
+    @Test
+    public void testBoulderMovement(){
+        DungeonManiaController newController = new DungeonManiaController();
+        DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
+        List<EntityResponse> newEntities = newResponse.getEntities();
 
+        //Position of the movable boulder
+        Position newPosition = new Position(3,2);
+
+        //Position of the player
+        Position playerPosition = new Position(2,2);
+
+        List<Position> adjacentPositionList = new ArrayList<>();  
+        adjacentPositionList.add(newPosition);
+        adjacentPositionList.add(playerPosition);
+
+        //Check if the player is next to the boulder
+        //Then check if it is moved accordingly to the direction of the player that is moving        
+        //Return true and move boulder if it is performed
+        //Check also if boulder is next to a wall
+
+        boolean isMovable = false;
+        for (EntityResponse entity: newEntities){
+            if (entity.getType().equals("boulder")){
+
+            }
+        }
+
+        assertTrue(isMovable);        
+    }
 }
 
 
