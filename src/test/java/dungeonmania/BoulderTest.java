@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 public class BoulderTest {
         
     @Test 
-    public void testBoulder(){  
+    public void testBoulderPosition(){  
         DungeonManiaController newController = new DungeonManiaController();
         DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
         List<EntityResponse>  newEntities = newResponse.getEntities();
@@ -60,7 +60,21 @@ public class BoulderTest {
         }
 
         assertTrue(positionCorrect);
-    }                
+    }
+    
+    @Test
+    public void testBoulderMovement(){
+        DungeonManiaController newController = new DungeonManiaController();
+        DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
+        List<EntityResponse>  newEntities = newResponse.getEntities();
+
+
+        //Check if the player is next to the boulder
+        //Then check if it is moved accordingly to the direction of the player that is moving        
+        //Return true and move boulder if it is performed
+        //Check also if boulder is next to a wall
+
+    }
 
 }
 
