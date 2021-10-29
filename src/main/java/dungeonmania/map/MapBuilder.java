@@ -21,7 +21,7 @@ public class MapBuilder implements MapBuilderAPI {
             JSONObject map = new JSONObject(mapString);
             JSONArray entities = map.getJSONArray("entities");  
             for (int i = 0; i < entities.length(); i++)
-                newGame.addEntity(entityFactory.build(entities.getJSONObject(i)));
+                newGame.addEntity(entityFactory.build(entities.getJSONObject(i), newGame));
             
             String goals = "";
             JSONObject goalConditions = map.getJSONObject("goal-condition");

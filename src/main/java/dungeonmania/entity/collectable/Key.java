@@ -1,5 +1,6 @@
 package dungeonmania.entity.collectable;
 import dungeonmania.entity.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
@@ -12,8 +13,8 @@ public class Key extends Entity implements EntityAPI {
      * fits that key
      * the key also disappears once it is used to open its corresponding door  
      */
-    public Key(JSONObject entityContents) {
-        super(entityContents); 
+    public Key(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
         //this.do = entityContents.getString("key");
     }
 

@@ -21,6 +21,7 @@ public class DungeonManiaController {
     
     //key is the dungeonId -> use static variable for number of dungeons -> what happens if we finish a game?
     private Map<String,GameAPI> games;
+    private GameAPI currentGame;
     public DungeonManiaController() {
 
         this.games = new Hashtable<>();
@@ -52,6 +53,7 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
+ 
         try {    
             if (!(getGameModes().contains(gameMode))) {
                 throw new IllegalArgumentException();
@@ -59,7 +61,7 @@ public class DungeonManiaController {
                 throw new IllegalArgumentException();
             } else {
                 GameAPI newGame = new Game(dungeonName, gameMode);
-                games.put(newGame.getId(), newGame);
+                currentGame = newGame; 
                 return newGame.getInfo();
             }
         }
@@ -69,15 +71,28 @@ public class DungeonManiaController {
     }
     
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        return null;
+        if (games.containsKey(name))
+            throw new IllegalArgumentException();
+        else
+            games.put(name, currentGame);
+            currentGame.setID(name);
+            DungeonResponse returnInfo = currentGame.getInfo();
+            currentGame = null;
+            return returnInfo;
     }
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
+        if(!games.containsKey(name))
+            throw new IllegalArgumentException();
+        else
+            currentGame = games.get(name);
+            return currentGame.getInfo();
     }
 
     public List<String> allGames() {
-        return new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+        games.entrySet().stream().forEach(e -> ids.add(e.getKey()));
+        return ids;
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {

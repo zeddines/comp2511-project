@@ -7,16 +7,17 @@ import java.util.ArrayList;
 public class Game implements GameAPI {
 
     private String dungeonName;
-    private String dungeonId = "hello";
+    private String dungeonId = "";
     public static Integer numGames = 0;
     private String gameMode;
-    private DungeonMap map;
+    private DungeonMapAPI map;
     private MapBuilderAPI factory = new MapBuilder();
 
     public Game(String dungeonName, String gameMode) {
         this.dungeonName = dungeonName;
         this.gameMode = gameMode;
         this.map =  factory.build(dungeonName, gameMode);
+        this.dungeonId = numGames.toString();
         numGames++;
     }
 
@@ -32,5 +33,9 @@ public class Game implements GameAPI {
 
     public void setMap(DungeonMap map) {
         this.map = map;
+    }
+
+    public void setID(String name) {
+        this.dungeonId = name;
     }
 }

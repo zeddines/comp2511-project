@@ -2,6 +2,8 @@ package dungeonmania.entityfactory;
 import org.json.JSONObject;
 import dungeonmania.entity.*;
 import dungeonmania.entity.collectable.*;
+import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.util.*;
 
 public class CollectibleFactory extends PrimaryFactory {
 
@@ -12,29 +14,26 @@ public class CollectibleFactory extends PrimaryFactory {
     }
 
     @Override
-    public Entity build(JSONObject entityContents) {
+    public Entity build(JSONObject entityContents, DungeonMapAPI map) {
         String type = entityContents.getString("type");
-        if (type.equals("treasuse"))
-            return new Treasure(entityContents);
+        if (type.equals("treasure"))
+            return new Treasure(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("key"))
-            return new Key(entityContents);
+            return new Key(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if(type.equals("health_potion"))
-            return new HealthPotion(entityContents);
+            return new HealthPotion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"),map);
         else if(type.equals("invincibility_potion"))
-            return new InvincibilityPotion(entityContents);
+            return new InvincibilityPotion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("invisibility_potion"))
-            return new InvisibilityPotion(entityContents);
+            return new InvisibilityPotion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("wood"))
-            return new Wood(entityContents);
+            return new Wood(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("arrow"))
-            return new Arrow(entityContents);
+            return new Arrow(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("bomb"))
-            return new Bomb(entityContents);
+            return new Bomb(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else
-            return new Armour(entityContents);
-     
-
-            
+            return new Armour(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);       
     }
     
 }

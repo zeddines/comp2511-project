@@ -4,6 +4,7 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 
 import dungeonmania.entity.interfaces.*;
+import dungeonmania.map.DungeonMapAPI;
 
 public class Sword extends Entity implements EntityAPI {
     private int durability; 
@@ -15,8 +16,8 @@ public class Sword extends Entity implements EntityAPI {
      * each sword has a sp ecific durability that dictates the num 
      * of times it can be used before it deteriorates 
      */
-    public Sword(JSONObject entityContents) {
-        super(entityContents); 
+    public Sword(Position current, String type, DungeonMapAPI map) {
+        super(current, type, true, false, map); 
     }
 
     @Override

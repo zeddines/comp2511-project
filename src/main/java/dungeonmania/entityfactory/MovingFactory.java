@@ -1,7 +1,9 @@
 package dungeonmania.entityfactory;
 import org.json.JSONObject;
 import dungeonmania.entity.creature.*;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
+import dungeonmania.util.*;
 
 public class MovingFactory extends PrimaryFactory {
 
@@ -13,14 +15,14 @@ public class MovingFactory extends PrimaryFactory {
     }
 
     @Override
-    public Entity build(JSONObject entityContents) {
+    public Entity build(JSONObject entityContents, DungeonMapAPI map) {
         String type = entityContents.getString("type");
         if (type.equals("spider"))
-            return new Spider(entityContents);
+            return new Spider(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);     
         else if (type.equals("zombie_toast"))
-            return new ZombieToast(entityContents);
-        else
-            return new Mercenary(entityContents);
+            return new ZombieToast(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);  
+        else 
+            return new Mercenary(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);  
     }
     
 }
