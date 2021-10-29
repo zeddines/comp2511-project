@@ -6,20 +6,20 @@ import dungeonmania.entity.Entity;
 import dungeonmania.entity.interfaces.*;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.util.Position;
-import dungeonmania.DungeonManiaController;
+import dungeonmania.map.DungeonMapAPI;
 
 public class Collectable extends Entity implements CollideActionEntity {
     private Creature owner = null;
 
     //use this when creating a collectable with an owner. does not have a position
-    public Collectable(DungeonManiaController game,String id, String type, boolean isInteractable, Creature owner) {
-        super(game, id, type, null, isInteractable);
+    public Collectable(DungeonMapAPI game, String type, boolean isInteractable, Creature owner) {
+        super(game, null, type, isInteractable);
         this.owner = owner;
     }
     
     //use this when creating a collectable at ground
-    public Collectable(DungeonManiaController game, String id, String type, Position position, boolean isInteractable) {
-        super(game, id, type, position, isInteractable);
+    public Collectable(DungeonMapAPI game, String type, Position position, boolean isInteractable) {
+        super(game, position, type, isInteractable);
     }
 
     public void collideAction(Player player){
@@ -41,5 +41,10 @@ public class Collectable extends Entity implements CollideActionEntity {
 
     public void setOwner(Creature owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public void action(Player player) {
+        collideAction(player);
     }
 }

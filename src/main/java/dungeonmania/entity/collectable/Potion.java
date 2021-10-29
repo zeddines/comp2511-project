@@ -1,8 +1,7 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.DungeonManiaController;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.creature.Player;
-import dungeonmania.entity.interfaces.PotionEffect;
 import dungeonmania.entity.interfaces.Usable;
 import dungeonmania.util.Position;
 
@@ -11,10 +10,17 @@ import dungeonmania.util.Position;
 public class Potion extends Collectable implements Usable{
     PotionEffect effect;
 
-    public Potion(DungeonManiaController game, String id, String type, Position position,
-            boolean isInteractable, int buffLastFor, PotionEffect effect) {
-        super(game, id, type, position, isInteractable);
+
+    public Potion(Position position, String type, DungeonMapAPI game, PotionEffect effect) {
+        super(game, type, position, false);
         this.effect = effect;
+        effect.setPotion(this);
+    }
+
+    @Override
+    public void collideAction(Player player){
+        super.collideAction(player);
+        effect.setOwner(player);
     }
 
     @Override
@@ -30,9 +36,4 @@ public class Potion extends Collectable implements Usable{
     public void updateEffectDuration(){
         effect.updateEffectDuration();
     }
-
-    // public TemporaryBuffItem(DungeonManiaController game, String id, String type, boolean isInteractable,
-    //         Creature owner) {
-    //     super(game, id, type, isInteractable, owner);
-    // }
 }

@@ -1,33 +1,44 @@
 package dungeonmania.entity;
 
-import dungeonmania.DungeonManiaController;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.RegularActionEntity;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Position;
 
-public class Entity {
-    //TODO NOT MENTIONED IN UML
-    private DungeonManiaController game;
+public abstract class Entity implements EntityAPI{
+    public static Integer numEntities = 0;
+
+    private DungeonMapAPI game;
 
     private String id;
     private String type;
     private Position position;
     private boolean isInteractable;
     
-    public Entity(DungeonManiaController game, String id, String type, Position position, boolean isInteractable) {
-        this.game = game;
-        this.id = id;
+    public Entity(DungeonMapAPI dungeon, Position current, String type, boolean interactable) {
+        numEntities++;
+        this.position = current;
         this.type = type;
-        this.position = position;
-        this.isInteractable = isInteractable;
+        this.id = numEntities.toString();
+        this.isInteractable = interactable;
+        this.game = dungeon;
     }
 
-    public EntityResponse toEntityResponse(){
+    public boolean isDynamic(){
+        return (this instanceof RegularActionEntity);
+    }
+
+    @Override
+    public EntityResponse getInfo(){
         return new EntityResponse(id, type, position, isInteractable);
     }
 
-
-
-
+    @Override
+    public void action(Player player) {
+        return;
+    }
+    
     //setter getters
 
     public String getId() {
@@ -62,13 +73,11 @@ public class Entity {
         this.isInteractable = isInteractable;
     }
 
-    public DungeonManiaController getGame() {
+    public DungeonMapAPI getGame() {
         return game;
     }
 
-    public void setGame(DungeonManiaController game) {
+    public void setGame(DungeonMapAPI game) {
         this.game = game;
     }
-
-    
 }

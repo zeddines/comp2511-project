@@ -1,17 +1,10 @@
 package dungeonmania.entity.collectable;
 
 import dungeonmania.entity.creature.Player;
-import dungeonmania.entity.interfaces.PotionEffect;
 
-public class RecoverHealthEffect implements PotionEffect{
-    private Potion potion;
-    private Player player;
-    private int effectLastFor;
-
-    public RecoverHealthEffect(Potion potion, Player player){
-        this.potion = potion;
-        this.player = player;
-        this.effectLastFor = 1;
+public class RecoverHealthEffect extends PotionEffect{
+    public RecoverHealthEffect(){
+        super(1);
     }
 
     @Override
@@ -21,14 +14,6 @@ public class RecoverHealthEffect implements PotionEffect{
 
     @Override
     public void applyPotionEffect() {
-        player.getBattleStat().recoverToFull();
-    }
-
-    @Override
-    public void updateEffectDuration() {
-        effectLastFor--;
-        if (effectLastFor == 0){
-            player.removePotionEffect(potion);
-        }
-    }    
+        getOwner().getBattleStat().recoverToFull();
+    }  
 }

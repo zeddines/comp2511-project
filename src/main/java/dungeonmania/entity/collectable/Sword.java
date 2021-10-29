@@ -1,6 +1,6 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.DungeonManiaController;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.entity.interfaces.Weapon;
@@ -10,18 +10,18 @@ public class Sword extends Collectable implements Weapon{
     private int durability;
 
     //constructor for sword with an owner
-    public Sword(DungeonManiaController game, String id, String type, boolean isInteractable, Creature owner, int durability) {
-        super(game, id, type, isInteractable, owner);
-        this.durability = durability;
+    //TODO durability should be passed from the factory, rn it is hard coded
+    public Sword(String type, DungeonMapAPI map, Creature owner) {
+        super(map, type, false, owner);
+        this.durability = 5;
     }
 
-    //constructor for sword on ground
-    public Sword(DungeonManiaController game, String id, String type, Position position, boolean isInteractable, int durability) {
-        super(game, id, type, position, isInteractable);
-        this.durability = durability;
-    }
 
-    //TODO NOT MENTIONED (REMOVED OVERRIDING COLLIDEACTION)
+    //constructor for sword on ground, rn the factory is using this one
+    public Sword(Position current, String type, DungeonMapAPI map) {
+        super(map, type, current, false);
+        this.durability = 5;
+    }
     
     @Override
     public void modifyAttack(BattleStat battleStat) {

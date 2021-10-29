@@ -2,22 +2,22 @@ package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
 
-import dungeonmania.DungeonManiaController;
 import dungeonmania.entity.interfaces.Guard;
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.entity.interfaces.Weapon;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.Position;
 
-public class Creature extends Entity{
+public abstract class Creature extends Entity{
     //TODO NOT MENTIONED IN UML(CREATURE SHOULDN'T HAVE INVENTORY AND CHANGE BATTLESTAT NAME) 
     private BattleStat battleStat;
 
     private ArrayList<Collectable> nonBattleItems; 
     
-    public Creature(DungeonManiaController game, String id, String type, Position position, boolean isInteractable ,BattleStat battleStat) {
-        super(game, id, type, position, isInteractable);
+    public Creature(DungeonMapAPI game, String type, Position position, boolean isInteractable, BattleStat battleStat) {
+        super(game, position, type, isInteractable);
         this.battleStat = battleStat;
     }
 
@@ -46,11 +46,6 @@ public class Creature extends Entity{
         }
     }
 
-    //TODO NOT MENTIONED IN UML 
-    // public ArrayList<Collectable> getAllOwned(){
-        
-    // }
-
     //getter setters
     public BattleStat getBattleStat() {
         return battleStat;
@@ -74,5 +69,14 @@ public class Creature extends Entity{
 
     public ArrayList<Guard> getOwnedGuards(){
         return battleStat.getGuards();
+    }
+
+    public Collectable getNonBattleItemFromInventory(String id){
+        for (Collectable collectable : nonBattleItems){
+            if (collectable.getId() == id){
+                return collectable;
+            }
+        }
+        return null;
     }
 }

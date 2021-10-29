@@ -2,8 +2,8 @@ package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
 
-import dungeonmania.DungeonManiaController;
 import dungeonmania.entity.Entity;
+import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.collectable.Potion;
 import dungeonmania.entity.interfaces.BattleStat;
@@ -11,14 +11,24 @@ import dungeonmania.entity.interfaces.Guard;
 import dungeonmania.entity.interfaces.Usable;
 import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.exceptions.InvalidActionException;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;
 
 public class Player extends Creature{
+
     private boolean isInvisible;
     private boolean isInvincible;
 
     public ArrayList<Potion> potionsInEffect;
+
+    public Player(DungeonMapAPI game, String type, Position position, boolean isInteractable,
+            BattleStat battleStat) {
+        super(game, type, position, isInteractable, new StandardBattleStat(100, 10, 0));
+        potionsInEffect = new ArrayList<>();
+        isInvisible = false;
+        isInvincible = false; 
+    }
 
     //methods about potion
     public void addPotionInEffect(Potion potion){
@@ -57,24 +67,6 @@ public class Player extends Creature{
         this.isInvincible = isInvincible;
     }
 
-    //TODO MOVEMENT IN CREATURES AND ENEMIES 
-
-    //movementOptions and stuff
-
-
-
-    //player movement
-    
-
-    public Player(DungeonManiaController game, String id, String type, Position position, boolean isInteractable,
-            BattleStat battleStat) {
-        super(game, id, type, position, isInteractable, battleStat);
-        potionsInEffect = new ArrayList<>();
-        isInvisible = false;
-        isInvincible = false;
-    }
-
-    //TODO NOT MENTIONED IN UML (changed method name)
     public ArrayList<ItemResponse> inventoryToItemResposne(){
         ArrayList<ItemResponse> returnList = new ArrayList<>();
 
@@ -96,15 +88,21 @@ public class Player extends Creature{
     }
 
     public void use(String id) throws IllegalArgumentException, InvalidActionException{
-        Entity entity = getGame().getEntityFromId(id);
-        
+        //Entity entity = getGame().getEntityFromId(id);
+        Entity entity = getNonBattleItemFromInventory(id);
+        if (entity == null){
+            throw new InvalidActionException(id);
+        }
         if (!(entity instanceof Usable))
             throw new IllegalArgumentException();
-
-        Usable item = (Usable)entity;
-        if (!getNonBattleItems().contains(item))
-            throw new InvalidActionException(id);
-        
+        Usable item = (Usable)entity;       
         item.use();
     }
+
+    @Override
+    public void action(Player player) {
+        return;
+    }
+
+
 }

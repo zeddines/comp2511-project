@@ -1,17 +1,11 @@
 package dungeonmania.entity.collectable;
 
 import dungeonmania.entity.creature.Player;
-import dungeonmania.entity.interfaces.PotionEffect;
 
-public class InvisibilityEffect implements PotionEffect{
-    private Potion potion;
-    private Player player;
-    private int effectLastFor;
+public class InvisibilityEffect extends PotionEffect{
 
-    public InvisibilityEffect(Potion potion, Player player, int lastFor){
-        this.potion = potion;
-        this.player = player;
-        this.effectLastFor = lastFor;
+    public InvisibilityEffect(int lastFor){
+        super(lastFor);
     }
 
     @Override
@@ -21,15 +15,8 @@ public class InvisibilityEffect implements PotionEffect{
 
     @Override
     public void applyPotionEffect() {
-        player.setInvisible(true);
-        //TODO CAN SET ALL ENEMY TO RANDOM MOVEMENT BEHAVIOUR assumption
-    }
+        getOwner().setInvisible(true);
+        //TODO set all enemy random movement behaviour
 
-    @Override
-    public void updateEffectDuration() {
-        effectLastFor--;
-        if (effectLastFor == 0){
-            player.removePotionEffect(potion);
-        }
     }
 }

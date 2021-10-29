@@ -17,8 +17,16 @@ import dungeonmania.util.FileLoader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Hashtable; 
 import java.util.List;
+import dungeonmania.game.*;
+import static dungeonmania.util.FileLoader.listFileNamesInResourceDirectory;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+<<<<<<< HEAD
 public class DungeonManiaController{
     //all entities from map, can move to other objects at later stage of development depending on how map is implemented
     private Player player;
@@ -107,7 +115,16 @@ public class DungeonManiaController{
         removeEntityFromMap(enemy);
     }
 
+=======
+public class DungeonManiaController {
+    
+    //key is the dungeonId -> use static variable for number of dungeons -> what happens if we finish a game?
+    private Map<String,GameAPI> games;
+    private GameAPI currentGame;
+>>>>>>> origin/Hugh_mapBuilder
     public DungeonManiaController() {
+
+        this.games = new Hashtable<>();
     }
 
     public String getSkin() {
@@ -136,19 +153,46 @@ public class DungeonManiaController{
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
-        return null;
+ 
+        try {    
+            if (!(getGameModes().contains(gameMode))) {
+                throw new IllegalArgumentException();
+            } else if (!FileLoader.listFileNamesInResourceDirectory("dungeons").contains(dungeonName)) {
+                throw new IllegalArgumentException();
+            } else {
+                GameAPI newGame = new Game(dungeonName, gameMode);
+                currentGame = newGame; 
+                return newGame.getInfo();
+            }
+        }
+        catch(IOException e) {
+            return null;
+        } 
     }
     
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        return null;
+        if (games.containsKey(name))
+            throw new IllegalArgumentException();
+        else
+            games.put(name, currentGame);
+            currentGame.setID(name);
+            DungeonResponse returnInfo = currentGame.getInfo();
+            currentGame = null;
+            return returnInfo;
     }
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
+        if(!games.containsKey(name))
+            throw new IllegalArgumentException();
+        else
+            currentGame = games.get(name);
+            return currentGame.getInfo();
     }
 
     public List<String> allGames() {
-        return new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+        games.entrySet().stream().forEach(e -> ids.add(e.getKey()));
+        return ids;
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {

@@ -1,19 +1,20 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.DungeonManiaController;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.interfaces.Usable;
 import dungeonmania.util.Position;
 
 public class Bomb extends Collectable implements Usable{
 
-    public Bomb(DungeonManiaController game, String id, String type, Position position, boolean isInteractable) {
-        super(game, id, type, position, isInteractable);
-        //TODO Auto-generated constructor stub
+    public Bomb(Position current, String type, DungeonMapAPI map) {
+        super(map, type, current, false);
     }
 
     @Override
     public void use() {
-        // TODO Auto-generated method stub
+        //deploy the bomb
+
+        //remove it
         removeFromInventory();
     }
 }

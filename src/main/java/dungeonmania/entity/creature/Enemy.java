@@ -1,6 +1,6 @@
 package dungeonmania.entity.creature;
 
-import dungeonmania.DungeonManiaController;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.entity.interfaces.CollideActionEntity;
 import dungeonmania.entity.interfaces.MovementNPC;
@@ -11,9 +11,9 @@ public class Enemy extends Creature implements CollideActionEntity, RegularActio
 
     private MovementNPC movement;
     
-    public Enemy(DungeonManiaController game, String id, String type, Position position, boolean isInteractable,
+    public Enemy(DungeonMapAPI game, String type, Position position, boolean isInteractable,
                  MovementNPC movement, BattleStat battleStat) {
-        super(game, id, type, position, isInteractable, battleStat);
+        super(game, type, position, isInteractable, battleStat);
         this.movement = movement;
     }
 
@@ -27,5 +27,10 @@ public class Enemy extends Creature implements CollideActionEntity, RegularActio
     @Override
     public void regularAction() {
         movement.move();
+    }
+
+    @Override
+    public void action(Player player){
+        collideAction(player);
     }
 }

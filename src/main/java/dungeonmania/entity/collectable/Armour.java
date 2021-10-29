@@ -1,6 +1,6 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.DungeonManiaController;
+import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.entity.interfaces.Guard;
@@ -11,16 +11,19 @@ public class Armour extends Collectable implements Guard{
     private int durability;
 
     //constructor for armour with an owner
-    public Armour(DungeonManiaController game, String id, String type, boolean isInteractable, Creature owner, int durability) {
-        super(game, id, type, isInteractable, owner);
-        this.durability = durability;
+    //rn durability is hard coded, should pass in as constructor argument
+    public Armour(String type, DungeonMapAPI map, Creature owner) {
+        super(map, type, false, owner);
+        this.durability = 5;
     }
 
+
     //constructor for armour on ground
-    public Armour(DungeonManiaController game, String id, String type, Position position, boolean isInteractable, int durability) {
-        super(game, id, type, position, isInteractable);
-        this.durability = durability;
+    public Armour(Position current, String type, DungeonMapAPI map) {
+        super(map, type, current, false);
+        this.durability = 5;
     }
+
     //TODO NOT MENTIONED (REMOVED OVERRIDING COLLIDEACTION)
 
     @Override

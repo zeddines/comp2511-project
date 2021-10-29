@@ -119,7 +119,7 @@ public class StandardBattleStat implements BattleStat{
     public void reduceHealth(int health){
         this.currentHealth -= health;
         //TODO NOT MENTIONED IN UML AND CHECK REVIVABLE ITEMS
-
+        
     }
 
     @Override
