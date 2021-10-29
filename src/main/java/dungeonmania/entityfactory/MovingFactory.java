@@ -15,11 +15,16 @@ public class MovingFactory extends PrimaryFactory {
     @Override
     public Entity build(JSONObject entityContents) {
         String type = entityContents.getString("type");
-        if (type.equals("spider"))
+        if (type.equals("spider")) {
+
+
+        }
             return new Spider(entityContents);
-        else if (type.equals("zombie_toast"))
+        else if (type.equals("zombie_toast")) {
+
             return new ZombieToast(entityContents);
-        else
+        }  
+        else 
             return new Mercenary(entityContents);
     }
     
