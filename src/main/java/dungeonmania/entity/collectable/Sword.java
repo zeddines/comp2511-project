@@ -1,10 +1,9 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.BattleStat;
-import dungeonmania.Collectable;
-import dungeonmania.Creature;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.Weapon;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.util.Position;
 
 public class Sword extends Collectable implements Weapon{

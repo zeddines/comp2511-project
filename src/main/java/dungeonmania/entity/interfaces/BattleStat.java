@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entity.interfaces;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ public interface BattleStat {
     public int getHealth();
     public void recoverToFull();
     public void reduceHealth(int health);
-    public void addWeapon(Weapon weapon);
+    public void addWeapon(Weapon newItem);
     public void addGuard(Guard guard);
     public void removeWeapon(Weapon weapon);
     public void removeGuard(Guard guard);

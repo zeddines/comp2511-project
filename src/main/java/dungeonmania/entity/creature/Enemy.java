@@ -1,11 +1,10 @@
-package dungeonmania.creatures;
+package dungeonmania.entity.creature;
 
-import dungeonmania.BattleStat;
-import dungeonmania.CollideActionEntity;
-import dungeonmania.Creature;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.MovementNPC;
-import dungeonmania.RegularActionEntity;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.CollideActionEntity;
+import dungeonmania.entity.interfaces.MovementNPC;
+import dungeonmania.entity.interfaces.RegularActionEntity;
 import dungeonmania.util.Position;
 
 public class Enemy extends Creature implements CollideActionEntity, RegularActionEntity{

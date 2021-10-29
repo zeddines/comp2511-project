@@ -1,7 +1,12 @@
-package dungeonmania;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.creatures.Player;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.interfaces.*;
+import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.util.Position;
+import dungeonmania.DungeonManiaController;
 
 public class Collectable extends Entity implements CollideActionEntity {
     private Creature owner = null;

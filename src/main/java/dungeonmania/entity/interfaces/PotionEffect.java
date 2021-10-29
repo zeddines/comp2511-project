@@ -1,4 +1,4 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.interfaces;
 
 
 public interface PotionEffect {

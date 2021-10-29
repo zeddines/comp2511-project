@@ -1,5 +1,6 @@
-package dungeonmania;
+package dungeonmania.entity;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Position;
 

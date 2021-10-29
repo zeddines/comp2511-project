@@ -1,7 +1,14 @@
 package dungeonmania;
 
-import dungeonmania.creatures.Enemy;
-import dungeonmania.creatures.Player;
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.creature.Enemy;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.CollideActionEntity;
+import dungeonmania.entity.interfaces.Guard;
+import dungeonmania.entity.interfaces.RegularActionEntity;
+import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;

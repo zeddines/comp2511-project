@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entity.interfaces;
 
 //TODO NOT MENTIONED IN UML
 public interface Usable {

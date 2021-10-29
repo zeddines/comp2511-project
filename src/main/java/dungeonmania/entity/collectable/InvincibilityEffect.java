@@ -1,6 +1,7 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.creatures.Player;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.PotionEffect;
 
 public class InvincibilityEffect implements PotionEffect{
     private Potion potion;

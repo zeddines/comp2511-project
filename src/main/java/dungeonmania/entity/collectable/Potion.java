@@ -1,11 +1,11 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.Collectable;
-import dungeonmania.Creature;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.Usable;
-import dungeonmania.creatures.Player;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.PotionEffect;
+import dungeonmania.entity.interfaces.Usable;
 import dungeonmania.util.Position;
+
 
 //TODO NOT MENTIONED IN UML
 public class Potion extends Collectable implements Usable{

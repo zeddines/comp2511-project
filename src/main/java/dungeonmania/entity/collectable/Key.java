@@ -1,6 +1,5 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.Collectable;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.util.Position;
 

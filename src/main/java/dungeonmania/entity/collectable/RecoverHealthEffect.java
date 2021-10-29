@@ -1,27 +1,27 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.creatures.Player;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.PotionEffect;
 
-public class InvisibilityEffect implements PotionEffect{
+public class RecoverHealthEffect implements PotionEffect{
     private Potion potion;
     private Player player;
     private int effectLastFor;
 
-    public InvisibilityEffect(Potion potion, Player player, int lastFor){
+    public RecoverHealthEffect(Potion potion, Player player){
         this.potion = potion;
         this.player = player;
-        this.effectLastFor = lastFor;
+        this.effectLastFor = 1;
     }
 
     @Override
     public String getType() {
-        return "invisibility_potion";
+        return "health_potion";
     }
 
     @Override
     public void applyPotionEffect() {
-        player.setInvisible(true);
-        //TODO CAN SET ALL ENEMY TO RANDOM MOVEMENT BEHAVIOUR assumption
+        player.getBattleStat().recoverToFull();
     }
 
     @Override
@@ -30,5 +30,5 @@ public class InvisibilityEffect implements PotionEffect{
         if (effectLastFor == 0){
             player.removePotionEffect(potion);
         }
-    }
+    }    
 }

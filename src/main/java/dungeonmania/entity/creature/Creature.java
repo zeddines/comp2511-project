@@ -1,7 +1,13 @@
-package dungeonmania;
+package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
 
+import dungeonmania.DungeonManiaController;
+import dungeonmania.entity.interfaces.Guard;
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.util.Position;
 
 public class Creature extends Entity{
@@ -41,9 +47,9 @@ public class Creature extends Entity{
     }
 
     //TODO NOT MENTIONED IN UML 
-    public ArrayList<Collectable> getAllOwned(){
+    // public ArrayList<Collectable> getAllOwned(){
         
-    }
+    // }
 
     //getter setters
     public BattleStat getBattleStat() {

@@ -1,17 +1,15 @@
-package dungeonmania.creatures;
+package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
 
-import dungeonmania.Creature;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.Entity;
-import dungeonmania.Guard;
-import dungeonmania.Usable;
-import dungeonmania.Weapon;
-import dungeonmania.collectables.Potion;
-import dungeonmania.BattleStat;
-import dungeonmania.Collectable;
-
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Potion;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.Guard;
+import dungeonmania.entity.interfaces.Usable;
+import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;

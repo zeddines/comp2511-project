@@ -1,11 +1,11 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.BattleStat;
-import dungeonmania.Collectable;
-import dungeonmania.Creature;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.Guard;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.Guard;
 import dungeonmania.util.Position;
+
 
 public class Armour extends Collectable implements Guard{
     private int durability;

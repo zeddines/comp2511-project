@@ -1,8 +1,7 @@
-package dungeonmania.collectables;
+package dungeonmania.entity.collectable;
 
-import dungeonmania.Collectable;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.Usable;
+import dungeonmania.entity.interfaces.Usable;
 import dungeonmania.util.Position;
 
 public class Bomb extends Collectable implements Usable{
