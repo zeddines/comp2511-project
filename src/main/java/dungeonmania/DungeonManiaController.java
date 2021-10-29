@@ -71,7 +71,6 @@ public class DungeonManiaController {
     }
     
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        System.out.println(name);
         if (games.containsKey(name))
             throw new IllegalArgumentException();
         else
