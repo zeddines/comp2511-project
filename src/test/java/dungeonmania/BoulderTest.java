@@ -85,8 +85,10 @@ public class BoulderTest {
 
         boolean isMovable = false;
         for (EntityResponse entity: newEntities){
-            if (entity.getType().equals("boulder")){
-
+            if (entity.getType().equals("boulder") && entity.getType().equals("player")){
+                if (entity.getPosition().isAdjacent(newPosition, playerPosition)){
+                    isMovable = true;
+                }
             }
         }
 
