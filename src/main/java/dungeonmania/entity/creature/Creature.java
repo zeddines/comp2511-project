@@ -2,10 +2,10 @@ package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
 
-import dungeonmania.entity.interfaces.Guard;
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.Guard;
 import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.Position;
