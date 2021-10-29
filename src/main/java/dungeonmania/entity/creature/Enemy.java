@@ -29,8 +29,4 @@ public class Enemy extends Creature implements CollideActionEntity, RegularActio
         movement.move();
     }
 
-    @Override
-    public void action(Player player){
-        collideAction(player);
-    }
 }

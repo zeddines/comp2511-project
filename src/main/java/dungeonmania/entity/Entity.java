@@ -9,7 +9,7 @@ import dungeonmania.util.Position;
 public abstract class Entity implements EntityAPI{
     public static Integer numEntities = 0;
 
-    private DungeonMapAPI game;
+    protected DungeonMapAPI game;
 
     private String id;
     private String type;
@@ -34,8 +34,12 @@ public abstract class Entity implements EntityAPI{
         return new EntityResponse(id, type, position, isInteractable);
     }
 
-    @Override
-    public void action(Player player) {
+    public void coExist(Player player, Position checkPosition) {
+        player.setPosition(checkPosition);
+    }
+    
+  
+    public void collideAction(Player player) {
         return;
     }
     
@@ -79,5 +83,10 @@ public abstract class Entity implements EntityAPI{
 
     public void setGame(DungeonMapAPI game) {
         this.game = game;
+    }
+
+    public void action(Player player, Position currentPosition) {
+        coExist(player, currentPosition);
+        collideAction(player);
     }
 }

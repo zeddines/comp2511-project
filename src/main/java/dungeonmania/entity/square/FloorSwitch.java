@@ -17,8 +17,4 @@ public class FloorSwitch extends Entity {
         this.triggered = false;
     }
 
-    @Override
-    public void action(Player player) {
-        return;
-    }
 }

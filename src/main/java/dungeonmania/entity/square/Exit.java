@@ -13,8 +13,4 @@ public class Exit extends Entity {
         super(map, current, type, false);
     }
 
-    @Override
-    public void action(Player player) {
-        return;
-    }
 }

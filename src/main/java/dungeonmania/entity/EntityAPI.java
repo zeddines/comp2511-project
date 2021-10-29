@@ -7,7 +7,7 @@ import dungeonmania.response.models.*;
 public interface EntityAPI {
 
     //public void action(EntityAPI creature); 
-    public void action(Player player); 
+    public void action(Player player, Position checkPosition); 
     //right now don't need this as enemy won't interact with other entities except player
     //public void action(Enemy enemy); 
     

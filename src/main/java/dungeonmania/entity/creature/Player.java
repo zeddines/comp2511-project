@@ -15,20 +15,22 @@ import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;
 
-public class Player extends Creature{
+public class Player extends Creature implements PlayerAPI {
 
     private boolean isInvisible;
     private boolean isInvincible;
 
     public ArrayList<Potion> potionsInEffect;
 
-    public Player(DungeonMapAPI game, String type, Position position, boolean isInteractable,
-            BattleStat battleStat) {
-        super(game, type, position, isInteractable, new StandardBattleStat(100, 10, 0));
+    public Player(DungeonMapAPI map, String type, Position position) {
+        super(map, type, position, true, new StandardBattleStat(100, 10, 0));
         potionsInEffect = new ArrayList<>();
         isInvisible = false;
         isInvincible = false; 
+        map.setPlayer(this);
+
     }
+    
 
     //methods about potion
     public void addPotionInEffect(Potion potion){
@@ -67,7 +69,7 @@ public class Player extends Creature{
         this.isInvincible = isInvincible;
     }
 
-    public ArrayList<ItemResponse> inventoryToItemResposne(){
+    public ArrayList<ItemResponse> inventoryToItemResponse(){
         ArrayList<ItemResponse> returnList = new ArrayList<>();
 
         for (Collectable item : getNonBattleItems()){
@@ -98,11 +100,5 @@ public class Player extends Creature{
         Usable item = (Usable)entity;       
         item.use();
     }
-
-    @Override
-    public void action(Player player) {
-        return;
-    }
-
 
 }

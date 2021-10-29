@@ -17,9 +17,4 @@ public class Door extends Entity {
         super(map, current, type, false);
         this.key = key;
     }
-
-    @Override
-    public void action(Player player) {
-        return;
-    }
 }

@@ -16,9 +16,4 @@ public class Boulder extends Entity {
         //you sure you want boulder to have interactable to be true? naming confusion will arise when calling interact method.
         super(map, current, type, false);
     }
-
-    @Override
-    public void action(Player player) {
-        return;
-    }
 }

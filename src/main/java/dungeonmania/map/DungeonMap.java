@@ -6,6 +6,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
+import java.util.Iterator;
+
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.collectable.Collectable;
@@ -47,7 +49,7 @@ public class DungeonMap implements DungeonMapAPI {
        return ret;
     }
 
-    public DungeonResponse tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
+   /* public DungeonResponse tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
 
         //all entitys preform player non dependent actions like moving and spawning
         for (EntityAPI entity : getAllEntityAPIs()){
@@ -66,7 +68,7 @@ public class DungeonMap implements DungeonMapAPI {
 
         //entity on the same cell as player perform action like initiating battle and items being picked up
         for (EntityAPI entity : entities.get(player.getPosition())){
-            entity.action(player);
+            entity.collideAction(player, );
         }
 
         //resolve battle numbers, reward and stuff
@@ -77,11 +79,12 @@ public class DungeonMap implements DungeonMapAPI {
 
         //return the dungeonresponse object
         return null;
-    }
+    }*/
 
-    public void removeEntityFromMap(Entity entity){
-        entities.get(entity.getPosition()).remove(entity);
-        battlingNPCs.remove(entity);
+    public void removeEntityFromMap(EntityAPI entity){
+        List<EntityAPI> checkList = entities.get(entity.getPosition());
+        checkList.remove(entity);
+        //battlingNPCs.remove(entity);
     }
 
     public void addToBattle(Enemy enemy){
@@ -157,8 +160,54 @@ public class DungeonMap implements DungeonMapAPI {
     public void setGoals(String goals) {
         this.goals = goals;
     }
-       
 
+    public void setPlayer(Player newPlayer) {
+        this.player = newPlayer;
+    }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean checkLocation(Position check) {
+        if (entities.containsKey(check))
+            return true;
+        return false;
+    }
     
+    public void collideAction(Player player, Position currentPosition) {
+
+        Iterator <EntityAPI> checkList = entities.get(currentPosition).iterator();
+        EntityAPI current;
+        while (checkList.hasNext()) {
+            current = checkList.next();
+            if (current instanceof Collectable) {
+                current.action(player, currentPosition);
+                checkList.remove();  
+            } else {
+                current.action(player, currentPosition); 
+            }
+        }
+    }
+
+        
+        
+        /*boolean stop = false;
+        while(!stop) {
+            stop = true;
+            for (EntityAPI diffEntities: checkList) {
+                //we will need to talk about how we avoid this concurrent modification problem
+                if (diffEntities instanceof Collectable) {
+                    stop = false;
+                    diffEntities.action(player, currentPosition);
+                    break;
+
+                }
+                diffEntities.action(player, currentPosition);
+            }  
+        }*/              
+
+    public List<ItemResponse> getItemInfoList() {
+        return player.inventoryToItemResponse();
+    }
 }

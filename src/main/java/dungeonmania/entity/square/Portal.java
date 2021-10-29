@@ -18,9 +18,5 @@ public class Portal extends Entity {
         this.colour = colour;
     }
 
-    @Override
-    public void action(Player player) {
-        //teleports player
-    }
     
 }

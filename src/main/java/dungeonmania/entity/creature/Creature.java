@@ -9,16 +9,18 @@ import dungeonmania.entity.interfaces.Guard;
 import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.Position;
+import java.util.List;
 
 public abstract class Creature extends Entity{
     //TODO NOT MENTIONED IN UML(CREATURE SHOULDN'T HAVE INVENTORY AND CHANGE BATTLESTAT NAME) 
     private BattleStat battleStat;
 
-    private ArrayList<Collectable> nonBattleItems; 
+    private List<Collectable> nonBattleItems; 
     
-    public Creature(DungeonMapAPI game, String type, Position position, boolean isInteractable, BattleStat battleStat) {
+    public Creature(DungeonMapAPI game, String type, Position position, boolean isInteractable , BattleStat battleStat) {
         super(game, position, type, isInteractable);
         this.battleStat = battleStat;
+        this.nonBattleItems = new ArrayList<>();
     }
 
     //TODO NOT MENTIONED IN UML
@@ -55,7 +57,7 @@ public abstract class Creature extends Entity{
         this.battleStat = battleStat;
     }
 
-    public ArrayList<Collectable> getNonBattleItems() {
+    public List<Collectable> getNonBattleItems() {
         return nonBattleItems;
     }
 

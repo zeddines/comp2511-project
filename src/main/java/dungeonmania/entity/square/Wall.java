@@ -12,10 +12,6 @@ public class Wall extends Entity {
         super(map, current, type, false); 
     }
 
-    @Override
-    public void action(Player player) {
-        return;
-    }
 
     /*/**
      *  Blocks the movement of the character, enemies and boulders 
@@ -24,4 +20,10 @@ public class Wall extends Entity {
     public void movement(String s) {
         return; 
     }*/
+
+    //nothing occurs 
+    @Override
+    public void coExist(Player player, Position currentPosition) {
+        return;
+    }
 }
