@@ -40,8 +40,5 @@ public class DungeonMap implements DungeonMapAPI {
     public void setGoals(String goals) {
         this.goals = goals;
     }
-       
-
-
-    
+           
 }

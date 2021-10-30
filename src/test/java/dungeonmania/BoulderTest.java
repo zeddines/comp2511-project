@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -72,11 +74,7 @@ public class BoulderTest {
         Position newPosition = new Position(3,2);
 
         //Position of the player
-        Position playerPosition = new Position(2,2);
-
-        List<Position> adjacentPositionList = new ArrayList<>();  
-        adjacentPositionList.add(newPosition);
-        adjacentPositionList.add(playerPosition);
+        Position playerPosition = new Position(2,2);                
 
         //Check if the player is next to the boulder
         //Then check if it is moved accordingly to the direction of the player that is moving        
@@ -84,16 +82,19 @@ public class BoulderTest {
         //Check also if boulder is next to a wall
 
         boolean isMovable = false;
-        for (EntityResponse entity: newEntities){
-            if (entity.getType().equals("boulder") && entity.getType().equals("player")){
-                if (entity.getPosition().isAdjacent(newPosition, playerPosition)){
-                    isMovable = true;
+        for (EntityResponse entity: newEntities){            
+            if ((entity.getType().equals("player")) || (entity.getType().equals("boulder"))){
+                if (){
+                    if (){
+                        
+                    }
                 }
             }
         }
 
         assertTrue(isMovable);        
-    }
+    }    
+    
 }
 
 

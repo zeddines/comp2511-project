@@ -7,6 +7,7 @@ public final class EntityResponse {
     private final String type;
     private final Position position;
     private final boolean isInteractable;
+    public Object stream;
 
     public EntityResponse(String id, String type, Position position, boolean isInteractable) {
         this.id = id;

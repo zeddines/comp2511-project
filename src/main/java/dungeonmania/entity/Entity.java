@@ -24,7 +24,6 @@ abstract public class Entity implements EntityAPI {
         this.isInteractable = interactable;
         this.dynamic = dynamic;
         this.dungeon = dungeon;
-
     }
 
     abstract public boolean action(EntityAPI creature);
