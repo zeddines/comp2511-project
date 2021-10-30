@@ -7,6 +7,8 @@ import dungeonmania.map.DungeonMap;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Position;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -94,6 +96,39 @@ public class BoulderTest {
 
         assertTrue(isMovable);        
     }    
+
+    @Test
+    public void testBoulderBlocked(){
+        DungeonManiaController newController = new DungeonManiaController();
+        DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
+        List<EntityResponse> newEntities = newResponse.getEntities();
+
+        //Position of the blocked boulder
+        Position newPosition = new Position(4,4);
+
+        //Position of the player
+        Position playerPosition = new Position(2,2);
+
+        //Check if the player is next to the boulder
+        //Then check if it is moved accordingly to the direction of the player that is moving        
+        //Check if boulder is next to the wall
+        //Return isMovable false since it is blocked
+
+        boolean isMovable = true;
+        for (EntityResponse entity: newEntities){            
+            if ((entity.getType().equals("player")) || (entity.getType().equals("boulder"))){
+                if (){
+                    if (){
+                        
+                    }
+                }
+            }
+        }
+
+        assertFalse(isMovable); 
+
+
+    }
     
 }
 
