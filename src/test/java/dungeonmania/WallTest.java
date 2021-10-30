@@ -42,6 +42,8 @@ public class WallTest {
         }
         assertTrue(notCoexisting);
         return; 
+
+        //TO DO: SPIDERS CAN MOVE ON WALLS
     }
 
     // testWallBasic for each game mode -- is this necessary? 
