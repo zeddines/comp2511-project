@@ -21,11 +21,11 @@ public class CollectibleFactory extends PrimaryFactory {
         else if (type.equals("key"))
             return new Key(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if(type.equals("health_potion"))
-            return new HealthPotion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"),map);
+            return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"),map, new RecoverHealthEffect());            
         else if(type.equals("invincibility_potion"))
-            return new InvincibilityPotion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
+            return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map, new InvincibilityEffect(30));
         else if (type.equals("invisibility_potion"))
-            return new InvisibilityPotion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
+            return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map, new InvisibilityEffect(30));
         else if (type.equals("wood"))
             return new Wood(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("arrow"))

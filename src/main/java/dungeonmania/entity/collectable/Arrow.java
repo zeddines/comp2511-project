@@ -4,16 +4,11 @@ import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
-public class Arrow extends Entity implements EntityAPI {
+public class Arrow extends Collectable{
     /**
      * can be picked up by player 
      */
     public Arrow(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, false, map); 
-    }
-
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
+        super(map, type, current, false);
     }
 }

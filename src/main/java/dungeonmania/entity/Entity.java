@@ -1,50 +1,92 @@
 package dungeonmania.entity;
-import dungeonmania.util.*;
-import org.json.JSONObject;
-import java.lang.Integer;
-import dungeonmania.response.models.*;
-import dungeonmania.map.*;
 
-abstract public class Entity implements EntityAPI {
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.RegularActionEntity;
+import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.response.models.EntityResponse;
+import dungeonmania.util.Position;
 
-    String iD;
-    String type; 
-    Position currentPosition;
+public abstract class Entity implements EntityAPI{
     public static Integer numEntities = 0;
-    Boolean isInteractable;
-    Boolean dynamic;
-    DungeonMapAPI dungeon;
 
-    public Entity(Position current, String type, boolean interactable, boolean dynamic, DungeonMapAPI dungeon) {
-        this.currentPosition = current;
-        this.type = type;
-        this.iD = numEntities.toString();
-        this.isInteractable = false;
+    protected DungeonMapAPI game;
+
+    private String id;
+    private String type;
+    private Position position;
+    private boolean isInteractable;
+    
+    public Entity(DungeonMapAPI dungeon, Position current, String type, boolean interactable) {
         numEntities++;
+        this.position = current;
+        this.type = type;
+        this.id = numEntities.toString();
         this.isInteractable = interactable;
-        this.dynamic = dynamic;
-        this.dungeon = dungeon;
+        this.game = dungeon;
     }
 
-    abstract public boolean action(EntityAPI creature);
+    public boolean isDynamic(){
+        return (this instanceof RegularActionEntity);
+    }
+
+    @Override
+    public EntityResponse getInfo(){
+        return new EntityResponse(id, type, position, isInteractable);
+    }
+
+    public void coExist(Player player, Position checkPosition) {
+        player.setPosition(checkPosition);
+    }
+    
+  
+    public void collideAction(Player player) {
+        return;
+    }
+    
+    //setter getters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getType() {
-        return this.getClass().getSimpleName();
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Position getPosition() {
-        return currentPosition;
+        return position;
     }
 
-    public EntityResponse getInfo() {
-        return new EntityResponse(iD, type, currentPosition, isInteractable);
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
-    public boolean checkDyanmic() {
-        if (dynamic)
-            return  true;
-        else 
-            return false;
+    public boolean isInteractable() {
+        return isInteractable;
     }
-    
+
+    public void setInteractable(boolean isInteractable) {
+        this.isInteractable = isInteractable;
+    }
+
+    public DungeonMapAPI getGame() {
+        return game;
+    }
+
+    public void setGame(DungeonMapAPI game) {
+        this.game = game;
+    }
+
+    public void action(Player player, Position currentPosition) {
+        coExist(player, currentPosition);
+        collideAction(player);
+    }
 }

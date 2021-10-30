@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
@@ -13,12 +14,7 @@ public class Door extends Entity {
      *  Remains open once opened 
      */
     public Door(Position current, String type, String key, DungeonMapAPI map) {
-        super(current, type, true, false, map); 
+        super(map, current, type, false);
         this.key = key;
-    }
-
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
     }
 }

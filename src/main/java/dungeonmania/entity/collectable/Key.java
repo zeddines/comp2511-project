@@ -4,7 +4,7 @@ import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
-public class Key extends Entity implements EntityAPI {
+public class Key extends Collectable{
    //private String door; 
 
     /**
@@ -14,13 +14,7 @@ public class Key extends Entity implements EntityAPI {
      * the key also disappears once it is used to open its corresponding door  
      */
     public Key(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, false, map); 
+        super(map, type, current, false);
         //this.do = entityContents.getString("key");
     }
-
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
-    }
-
 }

@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
@@ -13,13 +14,9 @@ public class Portal extends Entity {
      * colour refers to the corresponding portal -> will need to fix this
      */
     public Portal(Position current, String type, String colour, DungeonMapAPI map) {
-        super(current, type, false, false, map); 
+       super(map, current, type, false);
         this.colour = colour;
     }
 
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
-    }
     
 }

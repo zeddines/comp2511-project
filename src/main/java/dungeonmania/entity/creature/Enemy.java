@@ -1,34 +1,32 @@
 package dungeonmania.entity.creature;
-import dungeonmania.entity.*;
-import dungeonmania.map.DungeonMapAPI;
-import dungeonmania.util.*;
-import org.json.JSONObject;
 
-public class Enemy extends Entity {
+import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.CollideActionEntity;
+import dungeonmania.entity.interfaces.MovementNPC;
+import dungeonmania.entity.interfaces.RegularActionEntity;
+import dungeonmania.util.Position;
+
+public class Enemy extends Creature implements CollideActionEntity, RegularActionEntity{
+
+    private MovementNPC movement;
     
-    public Enemy(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, true, map); 
+    public Enemy(DungeonMapAPI game, String type, Position position, boolean isInteractable,
+                 MovementNPC movement, BattleStat battleStat) {
+        super(game, type, position, isInteractable, battleStat);
+        this.movement = movement;
     }
 
     @Override
-    public boolean action(EntityAPI creature) {
-        return false;
+    public void collideAction(Player player) {
+        if (!player.isInvisible()){
+            getGame().addToBattle(this);
+        }
     }
 
-    /**
-     * Initiate a battle in which it will remove
-     * itself from collide and action arrayList and 
-     * add to battling arrayList in game object 
-     * @param player - Player object 
-     */
-    /*public void collideAction(String player) {      // Player player 
-        return; 
-    }
-
+    @Override
     public void regularAction() {
-        return; 
-    }*/
-
-    // movement fn 
+        movement.move();
+    }
 
 }

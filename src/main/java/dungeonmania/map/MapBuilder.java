@@ -20,8 +20,9 @@ public class MapBuilder implements MapBuilderAPI {
             String mapString = FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json");
             JSONObject map = new JSONObject(mapString);
             JSONArray entities = map.getJSONArray("entities");  
-            for (int i = 0; i < entities.length(); i++)
+            for (int i = 0; i < entities.length(); i++) {
                 newGame.addEntity(entityFactory.build(entities.getJSONObject(i), newGame));
+            }         
             
             String goals = "";
             JSONObject goalConditions = map.getJSONObject("goal-condition");

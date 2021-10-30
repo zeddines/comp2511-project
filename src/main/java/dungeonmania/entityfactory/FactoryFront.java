@@ -18,9 +18,11 @@ public class FactoryFront implements FactoryAPI {
 
     public Entity build(JSONObject entityContents, DungeonMapAPI map) {
         String type = entityContents.getString("type");
-        if (bFac.checkType(type))
+        /*if (bFac.checkType(type))
             return bFac.build(entityContents, map);
-        else if (cFac.checkType(type))
+        else */
+        
+        if (cFac.checkType(type))
             return cFac.build(entityContents, map);
         else if (mFac.checkType(type))
             return mFac.build(entityContents, map);

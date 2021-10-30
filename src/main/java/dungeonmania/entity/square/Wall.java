@@ -1,6 +1,7 @@
 package dungeonmania.entity.square;
 
 import dungeonmania.entity.Entity;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
 import dungeonmania.util.*;
@@ -8,13 +9,9 @@ import org.json.JSONObject;
 
 public class Wall extends Entity {
     public Wall(Position current, String type, DungeonMapAPI map) {
-        super(current, type, false, false, map); 
+        super(map, current, type, false); 
     }
 
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
-    }
 
     /*/**
      *  Blocks the movement of the character, enemies and boulders 
@@ -23,4 +20,10 @@ public class Wall extends Entity {
     public void movement(String s) {
         return; 
     }*/
+
+    //nothing occurs 
+    @Override
+    public void coExist(Player player, Position currentPosition) {
+        return;
+    }
 }

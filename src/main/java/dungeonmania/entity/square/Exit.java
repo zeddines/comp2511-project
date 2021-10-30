@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
@@ -9,11 +10,7 @@ public class Exit extends Entity {
      *  Puzzle is complete if character goes through it 
      */
     public Exit(Position current, String type, DungeonMapAPI map) {
-        super(current, type, false, false, map); 
+        super(map, current, type, false);
     }
 
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
-    }
 }
