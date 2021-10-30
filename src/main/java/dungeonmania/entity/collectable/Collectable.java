@@ -23,11 +23,14 @@ public class Collectable extends Entity implements CollideActionEntity {
     }
 
     public void collideAction(Player player){
-        super.collideAction(player);
         player.addCollectable(this);
-        //TODO NOT MENTIONED IN UML
-        //game.removeEntityFromMap(this);
-        //setPosition(null);
+        setPosition(null);
+        owner = player;
+    }
+
+    @Override
+    public void action(Player player){
+        collideAction(player);
     }
 
     public void removeFromInventory(){

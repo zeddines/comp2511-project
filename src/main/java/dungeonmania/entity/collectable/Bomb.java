@@ -15,6 +15,5 @@ public class Bomb extends Collectable implements Usable{
         //deploy the bomb
 
         //remove it
-        removeFromInventory();
     }
 }

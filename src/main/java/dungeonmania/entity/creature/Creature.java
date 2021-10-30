@@ -37,15 +37,7 @@ public abstract class Creature extends Entity{
     }
 
     public void removeCollectable(Collectable item){
-        if (item instanceof Weapon){
-            battleStat.removeWeapon((Weapon)item);
-        }
-        else if(item instanceof Guard){
-            battleStat.removeGuard((Guard)item);
-        }
-        else{
-            nonBattleItems.remove(item);
-        }
+        nonBattleItems.remove(item);
     }
 
     //getter setters
@@ -75,7 +67,7 @@ public abstract class Creature extends Entity{
 
     public Collectable getNonBattleItemFromInventory(String id){
         for (Collectable collectable : nonBattleItems){
-            if (collectable.getId() == id){
+            if (collectable.getId().equals(id)){
                 return collectable;
             }
         }

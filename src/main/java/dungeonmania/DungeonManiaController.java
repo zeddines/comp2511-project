@@ -107,15 +107,9 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
-        Player player = currentGame.getPlayer();
-        Position checkPosition = player.getPosition();
-        checkPosition = checkPosition.translateBy(movementDirection);
-        if (currentGame.checkLocation(checkPosition)) {
-            currentGame.collideAction(player, checkPosition);
-        } else {
-            player.setPosition(checkPosition);
-        }
-        return currentGame.getInfo();    
+        System.out.println("tick");
+        System.out.println(currentGame);
+        return currentGame.tick(itemUsed, movementDirection);
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {

@@ -25,8 +25,10 @@ public class Bow extends Collectable implements Weapon{
     public void modifyAttack(BattleStat battleStat) {
         battleStat.multiplyAttack(2);
         durability --;
-        if (durability == 0){
-            getOwner().removeCollectable(this);
-        }
+    }
+
+    @Override
+    public int getDurability() {
+        return durability;
     } 
 }
