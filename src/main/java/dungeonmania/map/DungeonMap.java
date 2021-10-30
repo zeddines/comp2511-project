@@ -65,21 +65,17 @@ public class DungeonMap implements DungeonMapAPI {
 
         //player use items, may throw exception
          
-        System.out.println("0");
-        System.out.println("itemUsed is" + itemUsedId);
         if (itemUsedId != null){
             player.use(itemUsedId);
         }
         player.updatePotionEffects();
         
         //player moves
-        System.out.println("1");
         Position checkPosition = player.getPosition();
         checkPosition = checkPosition.translateBy(movementDirection);
         if (canMoveToPosition(checkPosition)) {
             player.setPosition(checkPosition);
         } 
-        System.out.println("11");
         //player moves end
         if (entities.get(player.getPosition()) != null && !(entities.get(player.getPosition()).isEmpty())){
             Iterator <EntityAPI> entityIterator = entities.get(player.getPosition()).iterator();
@@ -96,12 +92,10 @@ public class DungeonMap implements DungeonMapAPI {
                 }
             }
         }
-        System.out.println("111");
         //resolve battle numbers, reward and stuff
         while (!battlingNPCs.isEmpty()){
             roundBattle();
         }
-        System.out.println("1111");
         //TODO GOAL
         //goal.isSatisfied();
 
