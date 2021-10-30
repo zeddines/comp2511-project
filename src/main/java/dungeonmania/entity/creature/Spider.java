@@ -5,7 +5,7 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 import dungeonmania.util.*;
 
-public class Spider extends Entity {
+public class Spider extends Enemy {
     /**
      * Spiders spawn at random locations in the dungeon from the beginning of the game 
      * When the spider spawns, they immediately move the 1 square upwards (towards top of screen)
@@ -15,13 +15,8 @@ public class Spider extends Entity {
      * At least 4 spiders at a time 
      */
     public Spider(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, true, map); 
+        //missing movement strategy and battleStat as inputs
+        //BattleStat can definitely be an argumnet for constructor, (movment should be too, but rn it is null)
+        super(map, type, current, false, null, new StandardBattleStat(5, 5, 0));
     }
-
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
-    }
-    
-
 }

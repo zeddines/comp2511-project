@@ -7,7 +7,7 @@ import dungeonmania.util.*;
 
 public class MovingFactory extends PrimaryFactory {
 
-    public static final String[] movingEntites = {"spider", "zombie_toast", "mercenary"};
+    public static final String[] movingEntites = {"spider", "zombie_toast", "mercenary", "player"};
 
     public MovingFactory() {
         super(movingEntites);
@@ -20,7 +20,9 @@ public class MovingFactory extends PrimaryFactory {
         if (type.equals("spider"))
             return new Spider(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);     
         else if (type.equals("zombie_toast"))
-            return new ZombieToast(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);  
+            return new ZombieToast(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map); 
+        else if (type.equals("player"))
+            return new Player(map, type, new Position(entityContents.getInt("x"), entityContents.getInt("y")));    
         else 
             return new Mercenary(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);  
     }

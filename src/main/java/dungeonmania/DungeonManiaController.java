@@ -1,9 +1,19 @@
 package dungeonmania;
 
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.creature.Enemy;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.CollideActionEntity;
+import dungeonmania.entity.interfaces.Guard;
+import dungeonmania.entity.interfaces.RegularActionEntity;
+import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
+import dungeonmania.util.Position;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +72,7 @@ public class DungeonManiaController {
             } else {
                 GameAPI newGame = new Game(dungeonName, gameMode);
                 currentGame = newGame; 
+                
                 return newGame.getInfo();
             }
         }
@@ -96,7 +107,15 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Player player = currentGame.getPlayer();
+        Position checkPosition = player.getPosition();
+        checkPosition = checkPosition.translateBy(movementDirection);
+        if (currentGame.checkLocation(checkPosition)) {
+            currentGame.collideAction(player, checkPosition);
+        } else {
+            player.setPosition(checkPosition);
+        }
+        return currentGame.getInfo();    
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
