@@ -1,7 +1,10 @@
 package dungeonmania.game;
 
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.*;
 import dungeonmania.response.models.*;
+import dungeonmania.util.Position;
+
 import java.util.ArrayList;
 
 public class Game implements GameAPI {
@@ -27,7 +30,7 @@ public class Game implements GameAPI {
 
     public DungeonResponse getInfo() {
         map.getGoals();
-        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.getInfoList(), new ArrayList<ItemResponse>(), new ArrayList<String>(), map.getGoals());
+        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.getInfoList(), map.getItemInfoList() , new ArrayList<String>(), map.getGoals());
         return hello;
     }
 
@@ -37,5 +40,17 @@ public class Game implements GameAPI {
 
     public void setID(String name) {
         this.dungeonId = name;
+    }
+
+    public Player getPlayer() {
+        return map.getPlayer();
+    }
+
+    public boolean checkLocation(Position check) {
+        return map.checkLocation(check);
+    }
+
+    public void collideAction(Player player, Position currentPosition) {
+        map.collideAction(player, currentPosition);
     }
 }

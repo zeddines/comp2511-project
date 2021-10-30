@@ -1,33 +1,46 @@
 package dungeonmania.entity.collectable;
-import dungeonmania.entity.*;
+
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.Entity;
+import dungeonmania.entity.interfaces.*;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.util.Position;
 import dungeonmania.map.DungeonMapAPI;
-import dungeonmania.util.*;
-import org.json.JSONObject;
 
-public class Collectable extends Entity {
-    // private Player owner; 
-    private boolean inInventory; 
+public class Collectable extends Entity implements CollideActionEntity {
+    private Creature owner = null;
 
-    public Collectable(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, false, map); 
-        this.inInventory = false;
+    //use this when creating a collectable with an owner. does not have a position
+    public Collectable(DungeonMapAPI game, String type, boolean isInteractable, Creature owner) {
+        super(game, null, type, isInteractable);
+        this.owner = owner;
+    }
+    
+    //use this when creating a collectable at ground
+    public Collectable(DungeonMapAPI game, String type, Position position, boolean isInteractable) {
+        super(game, position, type, isInteractable);
     }
 
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
-    }
-   
-    /**
-     * remove the collectable from undeon
-     * set position to null and add to player inventory 
-     * @param player    Player player 
-     */
-    /*public void collideAction(String player) { // Player player 
-        return;
+    public void collideAction(Player player){
+        super.collideAction(player);
+        player.addCollectable(this);
+        //TODO NOT MENTIONED IN UML
+        //game.removeEntityFromMap(this);
+        //setPosition(null);
     }
 
-    public void removeFromInventory() {
-        return; 
-    }*/
+    public void removeFromInventory(){
+        owner.removeCollectable(this);
+    }
+
+    //getter setter
+    
+    public Creature getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Creature owner) {
+        this.owner = owner;
+    }
 }

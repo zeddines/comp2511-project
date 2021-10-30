@@ -1,5 +1,5 @@
-package dungeonmania.entity.interfaces;
+// package dungeonmania.entity.interfaces;
 
-public interface Rare {
-    // rare item 
-}
+// public interface Rare {
+//     // rare item 
+// }

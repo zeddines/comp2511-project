@@ -1,5 +1,6 @@
 package dungeonmania.entity.square;
 import dungeonmania.entity.*;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
@@ -12,11 +13,7 @@ public class Boulder extends Entity {
      *  Character can only push one boulder at a time 
      */
     public Boulder(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, false, map); 
-    }
-
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
+        //you sure you want boulder to have interactable to be true? naming confusion will arise when calling interact method.
+        super(map, current, type, false);
     }
 }

@@ -1,36 +1,34 @@
 package dungeonmania.entity.collectable;
-import dungeonmania.entity.*;
-import dungeonmania.util.*;
-import org.json.JSONObject;
 
-import dungeonmania.entity.interfaces.*;
 import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.entity.interfaces.BattleStat;
+import dungeonmania.entity.interfaces.Weapon;
+import dungeonmania.util.Position;
 
-public class Sword extends Entity implements EntityAPI {
-    private int durability; 
-    private int remainingUses; 
+public class Sword extends Collectable implements Weapon{
+    private int durability;
 
-    /**
-     * standard meelee weapon 
-     * can be collected y chr and used in battles
-     * each sword has a sp ecific durability that dictates the num 
-     * of times it can be used before it deteriorates 
-     */
-    public Sword(Position current, String type, DungeonMapAPI map) {
-        super(current, type, true, false, map); 
+    //constructor for sword with an owner
+    //TODO durability should be passed from the factory, rn it is hard coded
+    public Sword(String type, DungeonMapAPI map, Creature owner) {
+        super(map, type, false, owner);
+        this.durability = 5;
     }
 
-    @Override
-    public boolean action(EntityAPI creature) {
-        return false;
+
+    //constructor for sword on ground, rn the factory is using this one
+    public Sword(Position current, String type, DungeonMapAPI map) {
+        super(map, type, current, false);
+        this.durability = 5;
     }
     
-    /*public void modifyAttack() {
-        return; 
-    }
-
     @Override
-    public void collideAction(String player) { // Player player 
-        return;
-    }*/
+    public void modifyAttack(BattleStat battleStat) {
+        battleStat.addFlatAttack(2);
+        durability --;
+        if (durability == 0){
+            getOwner().removeCollectable(this);
+        }
+    } 
 }
