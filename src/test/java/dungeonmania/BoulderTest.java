@@ -6,6 +6,7 @@ import dungeonmania.game.Game;
 import dungeonmania.map.DungeonMap;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -73,34 +74,45 @@ public class BoulderTest {
         DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
         List<EntityResponse> newEntities = newResponse.getEntities();
 
-        //Position of the movable boulder
-        Position boulderPosition = new Position(3,2);
+        EntityResponse player = null;
+        ArrayList<EntityResponse> boulders = new ArrayList<>();
+        for (EntityResponse entity : newEntities){
+            if (entity.getType().equals("player"))
+                player = entity;
+            else if (entity.getType().equals("boulder")){
+                boulders.add(entity);
+            }
+        }
+        String boulderId = null;
+        for (EntityResponse boulder : boulders){
+            if (boulder.getPosition().equals(new Position(3, 2)))
+                boulderId = boulder.getId();
+        }
 
-        //Position of the player
-        Position playerPosition = new Position(2,2);                
+        assertTrue(player.getPosition().equals(new Position(2,2)));
 
         //Check if the player is next to the boulder
         //Then check if it is moved accordingly to the direction of the player that is moving        
         //Return true and move boulder if it is performed
         //Check also if boulder is next to a wall
 
-        //Get the position of the boulder and player
-        boolean canMove = false;
-        for (EntityResponse entity1: newEntities){            
-            if (entity1.getType().equals("player")){
-                playerPosition = entity1.getPosition();
-                newEntities.remove(entity1);
-                for (EntityResponse entity2: newEntities){            
-                    if(entity2.getType().equals("boulder")){
-                        boulderPosition = entity2.getPosition();
-                    }
-                }
+        Direction playerMovment = Direction.RIGHT;
+        newController.tick(null, playerMovment);
+        boulders.clear();
+
+        for (EntityResponse entity : newEntities){
+            if (entity.getType().equals("player"))
+                player = entity;
+            else if (entity.getType().equals("boulder")){
+                boulders.add(entity);
             }
         }
 
-
-
-        assertTrue(isMovable);        
+        assertTrue(player.getPosition().equals(new Position(3,2)));
+        for (EntityResponse boulder : boulders){
+            if (boulder.getId().equals(boulderId))
+                assertTrue(boulder.getPosition().equals(new Position(4,2)));
+        }     
     }    
 
     @Test
