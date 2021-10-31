@@ -20,15 +20,17 @@ public class Sword extends Collectable implements Weapon{
     //constructor for sword on ground, rn the factory is using this one
     public Sword(Position current, String type, DungeonMapAPI map) {
         super(map, type, current, false);
-        this.durability = 5;
+        this.durability = 1;
     }
     
     @Override
     public void modifyAttack(BattleStat battleStat) {
         battleStat.addFlatAttack(2);
         durability --;
-        if (durability == 0){
-            getOwner().removeCollectable(this);
-        }
+    } 
+
+    @Override
+    public int getDurability() {
+        return durability;
     } 
 }

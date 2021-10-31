@@ -1,6 +1,7 @@
 package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.entity.interfaces.Guard;
@@ -45,6 +46,12 @@ public class StandardBattleStat implements BattleStat{
         for (Weapon weapon : weapons){
             weapon.modifyAttack(this);
         }
+        Iterator<Weapon> weaponsIter = weapons.iterator();
+        while (weaponsIter.hasNext()){
+            Weapon curr = weaponsIter.next();
+            if (curr.getDurability() == 0)
+                weaponsIter.remove();
+        }
         totalAttack = (baseAttack + flatAttackIncrease) * multiplyAttackIncrease; 
         resetModifiers();
         return totalAttack;
@@ -56,6 +63,12 @@ public class StandardBattleStat implements BattleStat{
         for (Guard guard : guards){
             guard.modifyDefense(this);
         } 
+        Iterator<Guard> guardsIter = guards.iterator();
+        while (guardsIter.hasNext()){
+            Guard curr = guardsIter.next();
+            if (curr.getDurability() == 0)
+                guardsIter.remove();
+        }
         reducedDamage = (damage - baseDefense - flatDefenseIncrease) / multiplayDefenseIncrease;
         resetModifiers();
         return reducedDamage;        
@@ -98,16 +111,6 @@ public class StandardBattleStat implements BattleStat{
     public void addGuard(Guard guard){
         guards.add(guard);
     }    
-    
-    @Override
-    public void removeWeapon(Weapon weapon) {
-        weapons.remove(weapon);
-    }
-
-    @Override
-    public void removeGuard(Guard guard) {
-        guards.remove(guard);
-    }
 
     //getter setter
     @Override

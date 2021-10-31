@@ -1,8 +1,10 @@
 package dungeonmania.game;
 
 import dungeonmania.entity.creature.Player;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.map.*;
 import dungeonmania.response.models.*;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import java.util.ArrayList;
@@ -34,6 +36,11 @@ public class Game implements GameAPI {
         return hello;
     }
 
+    public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
+        map.tick(itemUsed, movementDirection);
+        return getInfo();
+    }
+
     public void setMap(DungeonMap map) {
         this.map = map;
     }
@@ -44,13 +51,5 @@ public class Game implements GameAPI {
 
     public Player getPlayer() {
         return map.getPlayer();
-    }
-
-    public boolean checkLocation(Position check) {
-        return map.checkLocation(check);
-    }
-
-    public void collideAction(Player player, Position currentPosition) {
-        map.collideAction(player, currentPosition);
     }
 }

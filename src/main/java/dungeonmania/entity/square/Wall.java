@@ -23,7 +23,7 @@ public class Wall extends Entity {
 
     //nothing occurs 
     @Override
-    public void coExist(Player player, Position currentPosition) {
-        return;
+    public boolean canCoExist() {
+        return false;
     }
 }

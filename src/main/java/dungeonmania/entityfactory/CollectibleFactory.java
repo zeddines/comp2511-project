@@ -32,8 +32,12 @@ public class CollectibleFactory extends PrimaryFactory {
             return new Arrow(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("bomb"))
             return new Bomb(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
+        else if (type.equals("armour"))
+            return new Armour(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);   
+        else if (type.equals("sword"))
+            return new Sword(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map); 
         else
-            return new Armour(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);       
+            return null;
     }
     
 }

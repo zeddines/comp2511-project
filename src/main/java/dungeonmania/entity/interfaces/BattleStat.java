@@ -11,8 +11,6 @@ public interface BattleStat {
     public void reduceHealth(int health);
     public void addWeapon(Weapon newItem);
     public void addGuard(Guard guard);
-    public void removeWeapon(Weapon weapon);
-    public void removeGuard(Guard guard);
     public ArrayList<Weapon> getWeapons();
     public ArrayList<Guard> getGuards();
 

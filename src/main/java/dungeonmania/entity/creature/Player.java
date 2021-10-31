@@ -1,6 +1,7 @@
 package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
@@ -28,29 +29,36 @@ public class Player extends Creature implements PlayerAPI {
         isInvisible = false;
         isInvincible = false; 
         map.setPlayer(this);
-
     }
     
-
-    //methods about potion
     public void addPotionInEffect(Potion potion){
         potionsInEffect.add(potion);
     }
 
-    public void removePotionEffect(Potion potion){
-        potionsInEffect.remove(potion);
+    private void resetBuffs(){
+        isInvincible = false;
+        isInvisible = false;
     }
 
     public void updatePotionEffects(){
-        for (Potion potion : potionsInEffect){
-            //will remove potions in potionsInEffect array if the effect has ended
+        Iterator<Potion> potionIte = potionsInEffect.iterator(); 
+        resetBuffs();
+        while (potionIte.hasNext()){
+            Potion potion = potionIte.next();
             potion.updateEffectDuration();
+            System.out.println(potion.getDurationLeft());
+            if (potion.getDurationLeft() == 0){
+                System.out.println("potionEffectRemoved");
+                potionIte.remove();
+            }   
         }
-        for (Potion potion : potionsInEffect){
-            potion.applyPotionEffect();
+        
+        for (Potion potionInEffect : potionsInEffect){
+            potionInEffect.applyPotionEffect();
+            System.out.println("appliedEffect");
         }
+        
     }
-    //
 
     //getter setters
     public boolean isInvisible() {
@@ -90,14 +98,13 @@ public class Player extends Creature implements PlayerAPI {
     }
 
     public void use(String id) throws IllegalArgumentException, InvalidActionException{
-        //Entity entity = getGame().getEntityFromId(id);
         Entity entity = getNonBattleItemFromInventory(id);
         if (entity == null){
             throw new InvalidActionException(id);
         }
         if (!(entity instanceof Usable))
             throw new IllegalArgumentException();
-        Usable item = (Usable)entity;       
+        Usable item = (Usable)entity;    
         item.use();
     }
 
