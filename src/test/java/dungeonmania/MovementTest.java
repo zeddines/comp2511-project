@@ -21,6 +21,11 @@ public class MovementTest {
     @Test
     public void simpleMove() {
         DungeonManiaController newController = new DungeonManiaController();
-//        DungeonResponse newResponse = newController.newGame()
+        DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
+
+        Position original = new Position(2,2);
+
+
+
     }
 }
