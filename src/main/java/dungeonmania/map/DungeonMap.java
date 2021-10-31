@@ -34,11 +34,8 @@ public class DungeonMap implements DungeonMapAPI {
     
     public DungeonMap() {
         entities = new Hashtable<>();
-        //inventory = new ArrayList<>();
+        battlingNPCs = new ArrayList<>();
     }
-    // private ArrayList<CollideActionEntity> collideActionEntities;
-    // private ArrayList<RegularActionEntity> regularActionEntities;
-    //private ArrayList<Entity> allEntities;
 
     public ArrayList<EntityAPI> getAllEntityAPIs(){
         ArrayList<EntityAPI> ret = new ArrayList<>();
@@ -49,62 +46,78 @@ public class DungeonMap implements DungeonMapAPI {
        return ret;
     }
 
-   /* public DungeonResponse tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
+    private boolean canMoveToPosition(Position newPos){
+        if (!entities.keySet().contains(newPos))
+            return true;
+        for (EntityAPI entity : entities.get(newPos)){
+            if (!entity.canCoExist())
+                return false;
+        }
+        return true;
+    }
+    public void tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
 
         //all entitys preform player non dependent actions like moving and spawning
-        for (EntityAPI entity : getAllEntityAPIs()){
-            if (entity.isDynamic())
-                ((RegularActionEntity)entity).regularAction();
-        }
+        // for (EntityAPI entity : getAllEntityAPIs()){
+        //     if (entity.isDynamic())
+        //         ((RegularActionEntity)entity).regularAction();
+        // }
 
-        //player use items, may throw exception 
-        player.use(itemUsedId);
+        //player use items, may throw exception
+         
+        if (itemUsedId != null){
+            player.use(itemUsedId);
+        }
         player.updatePotionEffects();
-
-
-        //TODO player moves here
-
-        //player moves here end
-
-        //entity on the same cell as player perform action like initiating battle and items being picked up
-        for (EntityAPI entity : entities.get(player.getPosition())){
-            entity.collideAction(player, );
+        
+        //player moves
+        Position checkPosition = player.getPosition();
+        checkPosition = checkPosition.translateBy(movementDirection);
+        if (canMoveToPosition(checkPosition)) {
+            player.setPosition(checkPosition);
+        } 
+        //player moves end
+        if (entities.get(player.getPosition()) != null && !(entities.get(player.getPosition()).isEmpty())){
+            Iterator <EntityAPI> entityIterator = entities.get(player.getPosition()).iterator();
+            EntityAPI current;
+            while (entityIterator.hasNext()) {
+                current = entityIterator.next();
+                if (!battlingNPCs.contains(current)){
+                    if (current instanceof Collectable) {
+                        current.action(player);
+                        entityIterator.remove();  
+                    } else {
+                        current.action(player); 
+                    }
+                }
+            }
         }
-
         //resolve battle numbers, reward and stuff
-        resolveBattle();
-
+        while (!battlingNPCs.isEmpty()){
+            roundBattle();
+        }
         //TODO GOAL
         //goal.isSatisfied();
 
         //return the dungeonresponse object
-        return null;
-    }*/
-
-    public void removeEntityFromMap(EntityAPI entity){
-        List<EntityAPI> checkList = entities.get(entity.getPosition());
-        checkList.remove(entity);
-        //battlingNPCs.remove(entity);
     }
 
     public void addToBattle(Enemy enemy){
         battlingNPCs.add(enemy);
     }
 
-    public void retreatFromBattle(Enemy enemy){
-        battlingNPCs.remove(enemy);        
-    }
-
-    public void resolveBattle(){
+    public void roundBattle(){
+        ArrayList<Enemy> defeatedEnemies = new ArrayList<>();
+        ArrayList<Enemy> retreatedEnemies = new ArrayList<>();
         BattleStat playerStat = player.getBattleStat();
         //now only allows character to battle, no allies
         for (Enemy enemy : battlingNPCs){
             BattleStat enemyStat = enemy.getBattleStat();
             if (player.isInvincible()){
-                playerDefeatsEnemy(enemy);
+                defeatedEnemies.add(enemy);
             }
             else if(player.isInvisible()){
-                retreatFromBattle(enemy);
+                retreatedEnemies.add(enemy);
             }
             else{
                 // resolve numbers for battling
@@ -117,27 +130,37 @@ public class DungeonMap implements DungeonMapAPI {
                     
                 }
                 else if(enemyStat.getHealth() <= 0){
-                    playerDefeatsEnemy(enemy);
+                    defeatedEnemies.add(enemy);
                 }
             }
         }
+        playerDefeatsEnemies(defeatedEnemies);
     }
 
-    private void playerDefeatsEnemy(Enemy enemy){
-        BattleStat enemyStat = enemy.getBattleStat();
+    public void enemiesRetreats(ArrayList<Enemy> enemies){
+        for (Enemy enemy : enemies){
+            battlingNPCs.remove(enemy); 
+        }       
+    }
 
-        for (Weapon weapon : enemyStat.getWeapons()){
-            player.addCollectable((Collectable)weapon);
+    private void playerDefeatsEnemies(ArrayList<Enemy> enemies){
+        for (Enemy enemy : enemies){
+            BattleStat enemyStat = enemy.getBattleStat();
+
+            for (Weapon weapon : enemyStat.getWeapons()){
+                player.addCollectable((Collectable)weapon);
+            }
+            for (Guard guard : enemyStat.getGuards()){
+                player.addCollectable((Collectable)guard);
+            }
+            boolean wonOneRing = (new Random().nextInt(20)==0);
+            if (wonOneRing){
+                player.addCollectable(new Ring("one_ring", this, player));
+            }
+                
+            entities.get(enemy.getPosition()).remove(enemy);
+            battlingNPCs.remove(enemy);
         }
-        for (Guard guard : enemyStat.getGuards()){
-            player.addCollectable((Collectable)guard);
-        }
-        boolean wonOneRing = (new Random().nextInt(20)==0);
-        if (wonOneRing){
-            player.addCollectable(new Ring("one_ring", this, player));
-        }
-              
-        removeEntityFromMap(enemy);
     }
 
     public void addEntity(EntityAPI newEntity) {
@@ -167,27 +190,6 @@ public class DungeonMap implements DungeonMapAPI {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public boolean checkLocation(Position check) {
-        if (entities.containsKey(check))
-            return true;
-        return false;
-    }
-    
-    public void collideAction(Player player, Position currentPosition) {
-
-        Iterator <EntityAPI> checkList = entities.get(currentPosition).iterator();
-        EntityAPI current;
-        while (checkList.hasNext()) {
-            current = checkList.next();
-            if (current instanceof Collectable) {
-                current.action(player, currentPosition);
-                checkList.remove();  
-            } else {
-                current.action(player, currentPosition); 
-            }
-        }
     }
 
         

@@ -2,6 +2,7 @@ package dungeonmania.game;
 
 import dungeonmania.entity.creature.Player;
 import dungeonmania.response.models.*;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 public interface GameAPI {
 
@@ -13,8 +14,5 @@ public interface GameAPI {
 
     public Player getPlayer();
 
-    public boolean checkLocation(Position check);
-
-    public void collideAction(Player player, Position currentPosition);
- 
+    public DungeonResponse tick(String itemUsed, Direction movementDirection);
 }

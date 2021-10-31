@@ -6,6 +6,7 @@ import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.response.models.*;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public interface DungeonMapAPI {
@@ -17,9 +18,8 @@ public interface DungeonMapAPI {
 
     //newly added
     public void addToBattle(Enemy enemy);
-    public void removeEntityFromMap(EntityAPI entity);
+    //public void removeEntityFromMap(EntityAPI entity);
     public void setPlayer(Player newPlayer);
     public Player getPlayer();
-    public boolean checkLocation(Position check);
-    public void collideAction(Player player, Position currentPosition);
+    public void tick(String itemUsedId, Direction movementDirection);
 }

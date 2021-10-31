@@ -28,8 +28,10 @@ public class Shield extends Collectable implements Guard{
     public void modifyDefense(BattleStat battleStat) {
         battleStat.multiplyDefense(4);
         durability--;
-        if (durability == 0){
-            getOwner().removeCollectable(this);
-        }
     }
+
+    @Override
+    public int getDurability() {
+        return durability;
+    } 
 }

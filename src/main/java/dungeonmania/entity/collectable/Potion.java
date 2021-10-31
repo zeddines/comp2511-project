@@ -14,7 +14,6 @@ public class Potion extends Collectable implements Usable{
     public Potion(Position position, String type, DungeonMapAPI game, PotionEffect effect) {
         super(game, type, position, false);
         this.effect = effect;
-        effect.setPotion(this);
     }
 
     @Override
@@ -35,5 +34,9 @@ public class Potion extends Collectable implements Usable{
 
     public void updateEffectDuration(){
         effect.updateEffectDuration();
+    }
+
+    public int getDurationLeft(){
+        return effect.getDurationLeft();
     }
 }

@@ -7,7 +7,7 @@ import dungeonmania.response.models.*;
 public interface EntityAPI {
 
     //public void action(EntityAPI creature); 
-    public void action(Player player, Position checkPosition); 
+    public void action(Player player); 
     //right now don't need this as enemy won't interact with other entities except player
     //public void action(Enemy enemy); 
     
@@ -15,6 +15,5 @@ public interface EntityAPI {
     public boolean isDynamic();
     public EntityResponse getInfo();
 
-    //TODO 
-    //public boolean canCoExist(Player player);
+    public boolean canCoExist();
 }

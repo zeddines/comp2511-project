@@ -3,19 +3,15 @@ package dungeonmania.entity.collectable;
 import dungeonmania.entity.creature.Player;
 
 abstract public class PotionEffect {
-    private int effectLastFor;
+    private int durationLeft;
     private Player player;
-    private Potion potion;
 
     public PotionEffect(int lastFor){
-        this.effectLastFor = lastFor;
+        this.durationLeft = lastFor;
     }
     
     public void updateEffectDuration() {
-        effectLastFor--;
-        if (effectLastFor == 0){
-            player.removePotionEffect(potion);
-        }
+        durationLeft--;
     }
 
     public void setOwner(Player player){
@@ -26,8 +22,8 @@ abstract public class PotionEffect {
         return player;
     }
 
-    public void setPotion(Potion potion){
-        this.potion = potion;
+    public int getDurationLeft(){
+        return durationLeft;
     }
 
     abstract public String getType();

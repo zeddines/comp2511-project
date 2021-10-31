@@ -34,14 +34,10 @@ public abstract class Entity implements EntityAPI{
         return new EntityResponse(id, type, position, isInteractable);
     }
 
-    public void coExist(Player player, Position checkPosition) {
-        player.setPosition(checkPosition);
+    public boolean canCoExist() {
+        return true;
     }
-    
-  
-    public void collideAction(Player player) {
-        return;
-    }
+
     
     //setter getters
 
@@ -85,8 +81,7 @@ public abstract class Entity implements EntityAPI{
         this.game = game;
     }
 
-    public void action(Player player, Position currentPosition) {
-        coExist(player, currentPosition);
-        collideAction(player);
+    public void action(Player player) {
+        return;
     }
 }
