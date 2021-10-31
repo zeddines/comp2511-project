@@ -48,6 +48,7 @@ public class BoulderTest {
         boulderPositionList.add(newPosition7);
 
         boolean positionCorrect = false;
+        int numBoulders = 0;
         for (EntityResponse entity: newEntities) {            
             if (entity.getType().equals("boulder")) {
                 if (boulderPositionList.contains(entity.getPosition())){
@@ -73,7 +74,7 @@ public class BoulderTest {
         List<EntityResponse> newEntities = newResponse.getEntities();
 
         //Position of the movable boulder
-        Position newPosition = new Position(3,2);
+        Position boulderPosition = new Position(3,2);
 
         //Position of the player
         Position playerPosition = new Position(2,2);                
@@ -83,16 +84,21 @@ public class BoulderTest {
         //Return true and move boulder if it is performed
         //Check also if boulder is next to a wall
 
-        boolean isMovable = false;
-        for (EntityResponse entity: newEntities){            
-            if ((entity.getType().equals("player")) || (entity.getType().equals("boulder"))){
-                if (){
-                    if (){
-                        
+        //Get the position of the boulder and player
+        boolean canMove = false;
+        for (EntityResponse entity1: newEntities){            
+            if (entity1.getType().equals("player")){
+                playerPosition = entity1.getPosition();
+                newEntities.remove(entity1);
+                for (EntityResponse entity2: newEntities){            
+                    if(entity2.getType().equals("boulder")){
+                        boulderPosition = entity2.getPosition();
                     }
                 }
             }
         }
+
+
 
         assertTrue(isMovable);        
     }    
