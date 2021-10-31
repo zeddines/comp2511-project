@@ -121,30 +121,40 @@ public class BoulderTest {
         DungeonResponse newResponse = newController.newGame("boulders", "Peaceful");
         List<EntityResponse> newEntities = newResponse.getEntities();
 
-        //Position of the blocked boulder
-        Position newPosition = new Position(4,4);
+        EntityResponse player = null;
+        ArrayList<EntityResponse> boulders = new ArrayList<>();
+        for (EntityResponse entity : newEntities){
+            if (entity.getType().equals("player"))
+                player = entity;
+            else if (entity.getType().equals("boulder")){
+                boulders.add(entity);
+            }
+        }
+        String boulderId = null;
+        for (EntityResponse boulder : boulders){
+            if (boulder.getPosition().equals(new Position(4, 4)))
+                boulderId = boulder.getId();
+        }
 
-        //Position of the player
-        Position playerPosition = new Position(2,2);
+        assertTrue(player.getPosition().equals(new Position(2,2)));
 
-        //Check if the player is next to the boulder
-        //Then check if it is moved accordingly to the direction of the player that is moving        
-        //Check if boulder is next to the wall
-        //Return isMovable false since it is blocked
+        Direction playerMovment = Direction.LEFT;
+        newController.tick(null, playerMovment);
+        boulders.clear();
 
-        boolean isMovable = true;
-        for (EntityResponse entity: newEntities){            
-            if ((entity.getType().equals("player")) || (entity.getType().equals("boulder"))){
-                if (){
-                    if (){
-                        
-                    }
-                }
+        for (EntityResponse entity : newEntities){
+            if (entity.getType().equals("player"))
+                player = entity;
+            else if (entity.getType().equals("boulder")){
+                boulders.add(entity);
             }
         }
 
-        assertFalse(isMovable); 
-
+        assertTrue(player.getPosition().equals(new Position(5,4)));
+        for (EntityResponse boulder : boulders){
+            if (boulder.getId().equals(boulderId))
+                assertTrue(boulder.getPosition().equals(new Position(4,4)));
+        }
 
     }
     
