@@ -88,4 +88,68 @@ public class MovementTest {
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), twoStep));
     }
+
+    @Test
+    public void itemPickAndMove() {
+        DungeonManiaController Controller = new DungeonManiaController();
+        DungeonResponse Response = Controller.newGame("advanced", "Peaceful");
+
+        Position itemLocation = new Position(6,1);
+
+        for (int i = 0; i < 6; i++) {
+            Response = Controller.tick("none", Direction.RIGHT);
+        }
+
+        List<EntityResponse> Entities = Response.getEntities();
+
+        Entities.stream()
+                .filter(e -> e.getType().equals("player"))
+                .forEach(e -> assertEquals(e.getPosition(), itemLocation));
+
+        Controller.tick("none", Direction.RIGHT);
+        Response = Controller.tick("none", Direction.LEFT);
+        Entities = Response.getEntities();
+
+        Entities.stream()
+                .filter(e -> e.getType().equals("player"))
+                .forEach(e -> assertEquals(e.getPosition(), itemLocation));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
