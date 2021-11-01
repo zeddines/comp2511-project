@@ -138,7 +138,12 @@ public class BoulderTest {
 
         assertTrue(player.getPosition().equals(new Position(2,2)));
 
-        Direction playerMovment = Direction.LEFT;
+        Direction playerMovment = Direction.RIGHT;
+        newController.tick(null, playerMovment);
+        newController.tick(null, playerMovment);
+        newController.tick(null, playerMovment);
+        playerMovment = Direction.DOWN;
+        newController.tick(null, playerMovment);
         newController.tick(null, playerMovment);
         boulders.clear();
 
