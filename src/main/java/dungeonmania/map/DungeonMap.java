@@ -97,7 +97,7 @@ public class DungeonMap implements DungeonMapAPI {
             roundBattle();
         }
         //TODO GOAL
-        //goal.isSatisfied();
+//        goal.isSatisfied();
 
         //return the dungeonresponse object
     }
@@ -180,8 +180,11 @@ public class DungeonMap implements DungeonMapAPI {
     public String getGoals() {
         return goals;
     }
+
     public void setGoals(String goals) {
         this.goals = goals;
+
+        //TODO: turn string into objects and add to composite class
     }
 
     public void setPlayer(Player newPlayer) {
