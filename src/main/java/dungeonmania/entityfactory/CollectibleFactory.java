@@ -1,7 +1,9 @@
 package dungeonmania.entityfactory;
 import org.json.JSONObject;
 import dungeonmania.entity.*;
+import dungeonmania.entity.buildable.Bow;
 import dungeonmania.entity.collectable.*;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 
@@ -36,6 +38,8 @@ public class CollectibleFactory extends PrimaryFactory {
             return new Armour(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);   
         else if (type.equals("sword"))
             return new Sword(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map); 
+        else if (type.equals("bow"))
+            return new Bow(entityContents.getString("type"), map, new Player(map, type, new Position(entityContents.getInt("x"), entityContents.getInt("y"))));             
         else
             return null;
     }
