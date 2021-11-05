@@ -1,4 +1,5 @@
 package dungeonmania.map;
+import dungeonmania.goal.Goals;
 import dungeonmania.util.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class DungeonMap implements DungeonMapAPI {
 
     private Map<Position,List<EntityAPI>> entities;
     private String goals;
+    private Goals AllGoals;
     private Player player;
     private ArrayList<Enemy> battlingNPCs;
     //includes entity in inventories
@@ -183,6 +185,7 @@ public class DungeonMap implements DungeonMapAPI {
 
     public void setGoals(String goals) {
         this.goals = goals;
+
 
         //TODO: turn string into objects and add to composite class
     }
