@@ -46,10 +46,7 @@ public class MapBuilder implements MapBuilderAPI {
         } catch (IOException e) {
             return null;
 
-        }
-
-        
-        
+        }                
 
     }
     
