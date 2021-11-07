@@ -39,5 +39,36 @@ public class CollectibleFactory extends PrimaryFactory {
         else
             return null;
     }
+
+    public makePotion(String type, DungeonMapAPI map){
+        switch(type){
+            case "health_potion":
+                if (difficulty.equals("hard"))
+                    return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"),map, new NoEffect());                       
+                else
+                    return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"),map, new RecoverHealthEffect()); 
+            case "invisibility_potion":
+                return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map, new InvisibilityEffect(30));
+            case "invincibility_potion":
+                return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map, new InvincibilityEffect(30));
+        }
+    }
+
+    public makeCollectable(String type, Position current, DungeonMapAPI map){
+        switch(type){
+            case "treasure":
+                return new Treasure(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+            case "key":
+                return new Key(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+            case "wood":
+                return new Wood(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+            case "arrow":
+                return new Arrow(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+            case "sword":
+                return new Sword(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map); 
+            case "armour":
+                return new Armour(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map); 
+        }
+    }
     
 }

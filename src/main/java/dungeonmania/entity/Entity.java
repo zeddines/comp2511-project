@@ -37,10 +37,8 @@ public abstract class Entity implements EntityAPI{
     public boolean canCoExist() {
         return true;
     }
-
     
     //setter getters
-
     public String getId() {
         return id;
     }

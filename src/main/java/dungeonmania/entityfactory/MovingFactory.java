@@ -26,5 +26,16 @@ public class MovingFactory extends PrimaryFactory {
         else 
             return new Mercenary(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);  
     }
+
+    public makeEnemy(String type, DungeonMapAPI map){
+        switch(type){
+            case "spider":
+                return new Spider(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map); 
+            case "zombie_toast":
+                return new ZombieToast(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+            default:
+                return new Mercenary(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+        }
+    }
     
 }

@@ -30,4 +30,5 @@ public class StaticFactory extends PrimaryFactory {
         else
             return new ZombieToastSpawner(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
     }
+    
 }

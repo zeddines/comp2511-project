@@ -1,6 +1,11 @@
 package dungeonmania.entityfactory;
 import dungeonmania.entity.*;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.util.Position;
+import dungeonmania.entityfactory.*;
+import dungeonmania.entityfactory.CollectibleFactory;
 
 import org.json.JSONObject;
 
@@ -31,5 +36,26 @@ public class FactoryFront implements FactoryAPI {
         else
             return rFac.build(entityContents, map);
     }
+
+    public Collectable makeCollectable(String type, Position current, DungeonMapAPI map){
+        if(type.equals("health_potion") || type.equals("invisibility_potion") || type.equals("invincibility_potion")){
+            cFac.makePotion(type, map);
+        }
+        if (type.equals("treasure") || type.equals("key") || type.equals("wood") || type.equals("arrow")){
+            cFac.makeCollectable(type, map);
+        }
+    }
+
+    public Creature makeCreature(String type, Position current, DungeonMapAPI map){
+        if(type.equals("zombie_toast") || type.equals("spider") || type.equals("mercenary")){
+            mFac.makeEnemy(type, map);
+        }
+    }
+
+    
+
+     
+
+
    
 }

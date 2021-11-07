@@ -8,15 +8,15 @@ import dungeonmania.util.*;
 
 
 
-public class BuildableFactory /*extends PrimaryFactory*/ {
+public class BuildableFactory extends PrimaryFactory {
 
     public static final String[] buildables = {"bow", "shield"};
 
     public BuildableFactory() {
-        //super(buildables);
+        super(buildables);
     }
 
-    /*@Override
+    @Override
     public Entity build(JSONObject entityContents, DungeonMapAPI map) {
         String type = entityContents.getString("type");
         if (type.equals("bow"))
@@ -25,6 +25,6 @@ public class BuildableFactory /*extends PrimaryFactory*/ {
         else
             return new Shield(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
 
-    }*/
+    }
     
 }
