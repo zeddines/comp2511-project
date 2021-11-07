@@ -52,6 +52,22 @@ public class FactoryFront implements FactoryAPI {
         }
     }
 
+    public Static makeStatic(String type, Position current, DungeonMapAPI map){
+        if(type.equals("wall") || type.equals("exit") || type.equals("boulder") || type.equals("switch") || type.equals("door") || type.equals("zombie_toast_spawner")){
+            sFac.makeStatic(type, current, map);
+        }
+    }
+
+    public Rare makeRare(String type, Position current, DungeonMapAPI map){
+        rFac.makeOneRing(type, current, map);
+    }
+
+
+
+
+
+
+
     
 
      
