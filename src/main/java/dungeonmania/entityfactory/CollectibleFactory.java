@@ -54,7 +54,7 @@ public class CollectibleFactory extends PrimaryFactory {
         }
     }
 
-    public makeCollectable(String type, Position current, DungeonMapAPI map){
+    public makeCollectables(String type, Position current, DungeonMapAPI map){
         switch(type){
             case "treasure":
                 return new Treasure(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);

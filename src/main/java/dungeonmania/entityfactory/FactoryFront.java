@@ -42,7 +42,7 @@ public class FactoryFront implements FactoryAPI {
             cFac.makePotion(type, map);
         }
         if (type.equals("treasure") || type.equals("key") || type.equals("wood") || type.equals("arrow")){
-            cFac.makeCollectable(type, map);
+            cFac.makeCollectables(type, map);
         }
     }
 
@@ -54,24 +54,14 @@ public class FactoryFront implements FactoryAPI {
 
     public Static makeStatic(String type, Position current, DungeonMapAPI map){
         if(type.equals("wall") || type.equals("exit") || type.equals("boulder") || type.equals("switch") || type.equals("door") || type.equals("zombie_toast_spawner")){
-            sFac.makeStatic(type, current, map);
+            sFac.makeStatics(type, current, map);
         }
     }
 
     public Rare makeRare(String type, Position current, DungeonMapAPI map){
         rFac.makeOneRing(type, current, map);
     }
-
-
-
-
-
-
-
-    
-
      
-
 
    
 }

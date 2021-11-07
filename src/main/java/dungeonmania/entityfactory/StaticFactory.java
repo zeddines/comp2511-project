@@ -31,7 +31,7 @@ public class StaticFactory extends PrimaryFactory {
             return new ZombieToastSpawner(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
     }
     
-    public makeStatic(String type, Position current, DungeonMapAPI map){
+    public makeStatics(String type, Position current, DungeonMapAPI map){
         if (type.equals("wall"))
             return new Wall(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
         else if (type.equals("exit"))
