@@ -4,15 +4,14 @@ import java.util.ArrayList;
 
 public interface BattleStat {
     public int getAttack();
-    //TODO NOT MENTIONED UML(changed name and all modifier methods)
     public int getReducedAttack(int damage);
     public int getHealth();
     public void recoverToFull();
     public void reduceHealth(int health);
-    public void addWeapon(Weapon newItem);
-    public void addGuard(Guard guard);
-    public ArrayList<Weapon> getWeapons();
-    public ArrayList<Guard> getGuards();
+    public void addBattleGear(BattleGear newItem);
+    public ArrayList<BattleGear> getBattleGears();
+    public void reduceAllDurability();
+    public void removeAllDeteriorated();
 
     //modifiers
     public void addFlatAttack(int flatAttack);

@@ -6,17 +6,17 @@ import java.util.Iterator;
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Key;
 import dungeonmania.entity.collectable.Potion;
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.Guard;
+import dungeonmania.entity.interfaces.BattleGear;
 import dungeonmania.entity.interfaces.Usable;
-import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;
 
-public class Player extends Creature implements PlayerAPI {
+public class Player extends Creature{
 
     private boolean isInvisible;
     private boolean isInvincible;
@@ -24,7 +24,7 @@ public class Player extends Creature implements PlayerAPI {
     public ArrayList<Potion> potionsInEffect;
 
     public Player(DungeonMapAPI map, String type, Position position) {
-        super(map, type, position, true, new StandardBattleStat(100, 10, 0));
+        super(map, type, position, new StandardBattleStat(100, 10, 0));
         potionsInEffect = new ArrayList<>();
         isInvisible = false;
         isInvincible = false; 
@@ -46,16 +46,13 @@ public class Player extends Creature implements PlayerAPI {
         while (potionIte.hasNext()){
             Potion potion = potionIte.next();
             potion.updateEffectDuration();
-            System.out.println(potion.getDurationLeft());
             if (potion.getDurationLeft() == 0){
-                System.out.println("potionEffectRemoved");
                 potionIte.remove();
             }   
         }
         
         for (Potion potionInEffect : potionsInEffect){
             potionInEffect.applyPotionEffect();
-            System.out.println("appliedEffect");
         }
         
     }
@@ -77,21 +74,16 @@ public class Player extends Creature implements PlayerAPI {
         this.isInvincible = isInvincible;
     }
 
-    public ArrayList<ItemResponse> inventoryToItemResponse(){
+    public ArrayList<ItemResponse> inventoryToItemResponseList(){
         ArrayList<ItemResponse> returnList = new ArrayList<>();
 
         for (Collectable item : getNonBattleItems()){
             returnList.add(new ItemResponse(item.getId(), item.getType()));
         }
 
-        for (Weapon weapon : getOwnedWeapons()){
-            Entity weaponAsEntity = (Entity)weapon;
-            returnList.add(new ItemResponse(weaponAsEntity.getId(), weaponAsEntity.getType()));
-        }
-
-        for (Guard guard : getOwnedGuards()){
-            Entity guardAsEntity = (Entity)guard;
-            returnList.add(new ItemResponse(guardAsEntity.getId(), guardAsEntity.getType()));
+        for (BattleGear battleGear : getBattleGears()){
+            Entity battleGearAsEntity = (Entity)battleGear;
+            returnList.add(new ItemResponse(battleGearAsEntity.getId(), battleGearAsEntity.getType()));
         }
 
         return returnList;
@@ -103,7 +95,7 @@ public class Player extends Creature implements PlayerAPI {
             throw new InvalidActionException(id);
         }
         if (!(entity instanceof Usable))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("item is not usable");
         Usable item = (Usable)entity;    
         item.use();
     }

@@ -6,11 +6,29 @@ import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Exit extends Entity {    
+    private boolean playerIsOnTop;
     /**
      *  Puzzle is complete if character goes through it 
      */
     public Exit(Position current, String type, DungeonMapAPI map) {
-        super(map, current, type, false);
+        super(map, current, type);
+        playerIsOnTop = false;
     }
 
+    public boolean getPlayerIsOnTop(){
+        return playerIsOnTop;
+    }
+
+    @Override
+    public void leaveAction(Player player){
+        System.out.println("playerLeaveExit");
+        playerIsOnTop = false;
+    }
+
+    @Override
+    public void collideAction(Player player){
+        System.out.println("playerOnTopExit");
+        playerIsOnTop = true;
+    }
+    
 }

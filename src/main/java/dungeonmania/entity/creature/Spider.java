@@ -17,6 +17,6 @@ public class Spider extends Enemy {
     public Spider(Position current, String type, DungeonMapAPI map) {
         //missing movement strategy and battleStat as inputs
         //BattleStat can definitely be an argumnet for constructor, (movment should be too, but rn it is null)
-        super(map, type, current, false, null, new StandardBattleStat(5, 5, 0));
+        super(map, type, current, null, new StandardBattleStat(5, 5, 0));
     }
 }

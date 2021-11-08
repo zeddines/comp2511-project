@@ -30,15 +30,21 @@ public class Game implements GameAPI {
         return dungeonId;
     }
 
-    public DungeonResponse getInfo() {
+    @Override
+    public DungeonResponse toDungeonResponse() {
         map.getGoals();
-        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.getInfoList(), map.getItemInfoList() , new ArrayList<String>(), map.getGoals());
+        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.toEntityResponseList(), map.toItemResponseList() , new ArrayList<String>(), map.getGoals());
         return hello;
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         map.tick(itemUsed, movementDirection);
-        return getInfo();
+        return toDungeonResponse();
+    }
+
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException{
+        map.interact(entityId);
+        return toDungeonResponse();
     }
 
     public void setMap(DungeonMap map) {

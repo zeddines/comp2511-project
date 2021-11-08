@@ -2,11 +2,11 @@ package dungeonmania.entity.collectable;
 
 import dungeonmania.entity.creature.Player;
 
-abstract public class PotionEffect {
+abstract public class Effect {
     private int durationLeft;
     private Player player;
 
-    public PotionEffect(int lastFor){
+    public Effect(int lastFor){
         this.durationLeft = lastFor;
     }
     
@@ -26,6 +26,6 @@ abstract public class PotionEffect {
         return durationLeft;
     }
 
-    abstract public String getType();
+    //abstract public String getType();
     abstract public void applyPotionEffect();
 }

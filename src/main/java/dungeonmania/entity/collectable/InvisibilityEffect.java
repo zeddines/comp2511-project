@@ -2,15 +2,10 @@ package dungeonmania.entity.collectable;
 
 import dungeonmania.entity.creature.Player;
 
-public class InvisibilityEffect extends PotionEffect{
+public class InvisibilityEffect extends Effect{
 
     public InvisibilityEffect(int lastFor){
         super(lastFor);
-    }
-
-    @Override
-    public String getType() {
-        return "invisibility_potion";
     }
 
     @Override

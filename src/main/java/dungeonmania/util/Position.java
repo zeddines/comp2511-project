@@ -77,10 +77,23 @@ public final class Position {
         return new Position(b.x - a.x, b.y - a.y);
     }
 
+    public static final int calculateCardinalDistanceBetween(Position a, Position b){
+        Position ref = calculatePositionBetween(a, b);
+        return Math.abs(ref.getX()) + Math.abs(ref.getY());
+    }
+
     public  static final boolean isAdjacent(Position a, Position b) {
         int x = a.x - b.x;
         int y = a.y - b.y;
-        return x + y == 1;
+        return Math.abs(x) + Math.abs(y) == 1;
+    }
+
+    public static final boolean isInRadius(Position a, Position b, int radius){
+        Position pos = calculatePositionBetween(a, b);
+        if (Math.max(Math.abs(pos.getX()), Math.abs(pos.getY())) <= radius){
+            return true;
+        }
+        return false;
     }
 
     // (Note: doesn't include z)

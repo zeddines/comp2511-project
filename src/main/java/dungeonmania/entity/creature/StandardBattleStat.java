@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.Guard;
-import dungeonmania.entity.interfaces.Weapon;
+import dungeonmania.map.DungeonMap;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Ring;
+import dungeonmania.entity.interfaces.BattleGear;
+
 
 public class StandardBattleStat implements BattleStat{
+    private Creature owner;
+
     private int maxHealth;
     private int currentHealth;
     private int baseAttack;
     private int baseDefense;
-    private ArrayList<Weapon> weapons;
-    private ArrayList<Guard> guards;
+    private ArrayList<BattleGear> battleGears;
 
     //modifiers
     private int flatAttackIncrease = 0;
@@ -26,32 +30,29 @@ public class StandardBattleStat implements BattleStat{
         currentHealth = maxHealth;
         this.baseAttack = attack;
         this.baseDefense = defense;
-        weapons = new ArrayList<>();
-        guards = new ArrayList<>();
+        battleGears = new ArrayList<>();
+    }
+
+    public void setOwner(){
+        this.owner = owner;
     }
 
     //initialize with weapons and guards
-    public StandardBattleStat(int maxHealth, int attack, int defense, ArrayList<Weapon> weapons, ArrayList<Guard> guards){
+    public StandardBattleStat(int maxHealth, int attack, int defense, ArrayList<BattleGear> battleGears){
         this.maxHealth = maxHealth;
         currentHealth = maxHealth;
         this.baseAttack = attack;
         this.baseDefense = defense;
-        this.weapons = weapons;
-        this.guards = guards;
+        this.battleGears = battleGears;
     }
 
     @Override
     public int getAttack() {
         int totalAttack;
-        for (Weapon weapon : weapons){
-            weapon.modifyAttack(this);
+        for (BattleGear battleGear : battleGears){
+            battleGear.modifyStates(this);
         }
-        Iterator<Weapon> weaponsIter = weapons.iterator();
-        while (weaponsIter.hasNext()){
-            Weapon curr = weaponsIter.next();
-            if (curr.getDurability() == 0)
-                weaponsIter.remove();
-        }
+
         totalAttack = (baseAttack + flatAttackIncrease) * multiplyAttackIncrease; 
         resetModifiers();
         return totalAttack;
@@ -60,18 +61,27 @@ public class StandardBattleStat implements BattleStat{
     @Override
     public int getReducedAttack(int damage) {
         int reducedDamage;
-        for (Guard guard : guards){
-            guard.modifyDefense(this);
+        for (BattleGear battleGear : battleGears){
+            battleGear.modifyStates(this);
         } 
-        Iterator<Guard> guardsIter = guards.iterator();
-        while (guardsIter.hasNext()){
-            Guard curr = guardsIter.next();
-            if (curr.getDurability() == 0)
-                guardsIter.remove();
-        }
         reducedDamage = (damage - baseDefense - flatDefenseIncrease) / multiplayDefenseIncrease;
         resetModifiers();
         return reducedDamage;        
+    }
+
+    @Override
+    public void reduceAllDurability(){
+        for (BattleGear battleGear : battleGears){
+            battleGear.reduceDurability();
+        }
+    }
+
+    @Override
+    public void removeAllDeteriorated(){
+        for (BattleGear battleGear : DungeonMap.shallowClone(battleGears)){
+            if (battleGear.getDurability() == 0)
+                battleGears.remove(battleGear);
+        }
     }
     
     //TODO NOT MENTIONED IN UML (resets and modifiers methods)
@@ -102,14 +112,9 @@ public class StandardBattleStat implements BattleStat{
         multiplayDefenseIncrease *= defenseMultipliedBy;
     }
 
-    @Override
-    public void addWeapon(Weapon weapon){
-        weapons.add(weapon);
-    }
-
     @Override 
-    public void addGuard(Guard guard){
-        guards.add(guard);
+    public void addBattleGear(BattleGear battleGear){
+        battleGears.add(battleGear);
     }    
 
     //getter setter
@@ -122,7 +127,14 @@ public class StandardBattleStat implements BattleStat{
     public void reduceHealth(int health){
         this.currentHealth -= health;
         //TODO NOT MENTIONED IN UML AND CHECK REVIVABLE ITEMS
-        
+        // if (currentHealth <= 0 && owner instanceof Player){
+        //     for (Collectable collectable : ((Player)owner).getNonBattleItems()){
+        //         if (collectable instanceof Ring){
+        //             currentHealth = maxHealth;
+        //             collectable.removeFromInventory();
+        //         }
+        //     }
+        // }
     }
 
     @Override
@@ -131,13 +143,9 @@ public class StandardBattleStat implements BattleStat{
     }
 
     @Override
-    public ArrayList<Weapon> getWeapons() {
-        return weapons;
+    public ArrayList<BattleGear> getBattleGears() {
+        return battleGears;
     }
 
-    @Override
-    public ArrayList<Guard> getGuards() {
-        return guards;
-    }
 
 }

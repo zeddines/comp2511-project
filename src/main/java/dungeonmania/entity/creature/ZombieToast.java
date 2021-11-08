@@ -11,6 +11,6 @@ public class ZombieToast extends Enemy {
      */
     public ZombieToast(Position current, String type, DungeonMapAPI map) {
 
-        super(map, type, current, false, null, new StandardBattleStat(5, 5, 0));
+        super(map, type, current, null, new StandardBattleStat(5, 5, 0));
     }
 }

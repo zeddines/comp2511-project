@@ -9,6 +9,6 @@ public class Arrow extends Collectable{
      * can be picked up by player 
      */
     public Arrow(Position current, String type, DungeonMapAPI map) {
-        super(map, type, current, false);
+        super(map, type, current);
     }
 }

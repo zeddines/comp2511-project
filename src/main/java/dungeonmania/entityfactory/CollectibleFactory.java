@@ -19,9 +19,9 @@ public class CollectibleFactory extends PrimaryFactory {
         if (type.equals("treasure"))
             return new Treasure(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if (type.equals("key"))
-            return new Key(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
+            return new Key(new Position(entityContents.getInt("x"), entityContents.getInt("y")), entityContents.getString("type"),  entityContents.getInt("key"), map);
         else if(type.equals("health_potion"))
-            return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"),map, new RecoverHealthEffect());            
+                return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"),map, new RecoverHealthEffect());   
         else if(type.equals("invincibility_potion"))
             return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map, new InvincibilityEffect(30));
         else if (type.equals("invisibility_potion"))
@@ -37,7 +37,7 @@ public class CollectibleFactory extends PrimaryFactory {
         else if (type.equals("sword"))
             return new Sword(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map); 
         else
-            return null;
+            return   null;
     }
     
 }

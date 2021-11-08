@@ -7,6 +7,6 @@ public class Treasure extends Collectable{
      * can be collect ed by the character 
      */
     public Treasure(Position current, String type, DungeonMapAPI map) {
-        super(map, type, current, false);
+        super(map, type, current);
     }
 }

@@ -10,7 +10,7 @@ public class FactoryFront implements FactoryAPI {
     private CollectibleFactory cFac = new CollectibleFactory();
     private MovingFactory mFac = new MovingFactory();
     private StaticFactory sFac = new StaticFactory();
-    private RareFactory rFac = new RareFactory();
+    //private RareFactory rFac = new RareFactory();
 
     public FactoryFront() {
 
@@ -26,10 +26,11 @@ public class FactoryFront implements FactoryAPI {
             return cFac.build(entityContents, map);
         else if (mFac.checkType(type))
             return mFac.build(entityContents, map);
-        else if (sFac.checkType(type))
-            return sFac.build(entityContents, map);
+        //else if (sFac.checkType(type))
         else
-            return rFac.build(entityContents, map);
+            return sFac.build(entityContents, map);
+        // else
+        //     return rFac.build(entityContents, map);
     }
    
 }

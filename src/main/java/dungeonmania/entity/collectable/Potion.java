@@ -8,11 +8,11 @@ import dungeonmania.util.Position;
 
 //TODO NOT MENTIONED IN UML
 public class Potion extends Collectable implements Usable{
-    PotionEffect effect;
+    Effect effect;
 
 
-    public Potion(Position position, String type, DungeonMapAPI game, PotionEffect effect) {
-        super(game, type, position, false);
+    public Potion(Position position, String type, DungeonMapAPI game, Effect effect) {
+        super(game, type, position);
         this.effect = effect;
     }
 
