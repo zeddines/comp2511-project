@@ -10,8 +10,8 @@ public class StaticFactory extends PrimaryFactory {
 
     public static String[] staticEntities = {"wall", "exit", "boulder", "switch", "door", "portal", "zombie_toast_spawner"}; 
     
-    public StaticFactory() {
-        super(staticEntities);
+    public StaticFactory(String difficulty) {
+        super(staticEntities, difficulty);
     }
 
     @Override
@@ -31,20 +31,14 @@ public class StaticFactory extends PrimaryFactory {
             return new ZombieToastSpawner(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
     }
     
-    public makeStatics(String type, Position current, DungeonMapAPI map){
-        if (type.equals("wall"))
-            return new Wall(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
-        else if (type.equals("exit"))
-            return new Exit(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
-        else if(type.equals("boulder"))
-            return new Boulder(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
-        else if(type.equals("switch"))
-            return new FloorSwitch(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
-        else if(type.equals("door"))
-            return new Door(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), type.getString("key"), map);
-        else if (type.equals("portal"))
-            return new Portal(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
-        else 
-            return new ZombieToastSpawner(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+    public Square makeStatics(String type, Position current, DungeonMapAPI map){
+        switch(type){
+            case "wall":
+                return new Wall(current, type, map);
+            case "exit":
+                return new Exit(current, type, map);
+                
+        }
+
     }
 }

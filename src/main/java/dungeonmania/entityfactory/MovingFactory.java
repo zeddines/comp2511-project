@@ -1,16 +1,19 @@
 package dungeonmania.entityfactory;
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 import dungeonmania.entity.creature.*;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
+import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.util.*;
 
 public class MovingFactory extends PrimaryFactory {
 
     public static final String[] movingEntites = {"spider", "zombie_toast", "mercenary", "player"};
 
-    public MovingFactory() {
-        super(movingEntites);
+    public MovingFactory(String difficulty) {
+        super(movingEntites, difficulty);
 
     }
 
@@ -27,15 +30,26 @@ public class MovingFactory extends PrimaryFactory {
             return new Mercenary(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);  
     }
 
-    public makeEnemy(String type, DungeonMapAPI map){
+    public Enemy makeEnemy(String type, Position current, DungeonMapAPI map, ArrayList<Object> enemies){
         switch(type){
             case "spider":
-                return new Spider(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map); 
+                Spider spider = new Spider(current, type, map); 
+                enemies.add(spider);
+                return spider;
             case "zombie_toast":
-                return new ZombieToast(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+                ZombieToast zombieToast = new ZombieToast(current, type, map);
+                enemies.add(zombieToast); 
+                return zombieToast;
             default:
-                return new Mercenary(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
+                Mercenary mercenary = new Mercenary(current, type, map);
+                enemies.add(mercenary);
+                return mercenary;
         }
+    }
+
+    public Player makePlayer(String type, Position current, DungeonMapAPI map){
+        Player player = new Player(map, type, current);
+        return player;
     }
     
 }
