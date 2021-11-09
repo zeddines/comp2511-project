@@ -2,20 +2,25 @@ package dungeonmania.entity.interfaces;
 
 import java.util.ArrayList;
 
+import dungeonmania.entity.creature.Creature;
+
 public interface BattleStat {
-    public int getAttack();
-    public int getReducedAttack(int damage);
-    public int getHealth();
+    public double getAttack();
+    public double getReducedAttack(double damage);
+    public double getHealth();
+    public void recover(double health);
     public void recoverToFull();
-    public void reduceHealth(int health);
+    public void reduceHealth(double damageReceived, Creature enemy);
     public void addBattleGear(BattleGear newItem);
     public ArrayList<BattleGear> getBattleGears();
     public void reduceAllDurability();
     public void removeAllDeteriorated();
+    public Creature getOwner();
+    public boolean hasBossSlayer();
 
     //modifiers
-    public void addFlatAttack(int flatAttack);
-    public void addFlatDefense(int flatDefense);
-    public void multiplyAttack(int attackMultipliedBy);
-    public void multiplyDefense(int defenseMultipliedBy);
+    public void addFlatAttack(double flatAttack);
+    public void addFlatDefense(double flatDefense);
+    public void multiplyAttack(double attackMultipliedBy);
+    public void multiplyDefense(double defenseMultipliedBy);
 }

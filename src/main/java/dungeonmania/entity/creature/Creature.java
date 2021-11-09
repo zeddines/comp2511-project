@@ -15,20 +15,12 @@ public abstract class Creature extends Entity{
     private BattleStat battleStat;
     private List<Collectable> nonBattleItems; 
     
-    public Creature(DungeonMapAPI game, String type, Position position, BattleStat battleStat) {
+    public Creature(DungeonMapAPI game, String type, Position position) {
         super(game, position, type);
-        this.battleStat = battleStat;
         this.nonBattleItems = new ArrayList<>();
     } 
 
-    //TODO NOT MENTIONED IN UML
     public void addCollectable(Collectable newItem){
-        // if (newItem instanceof Weapon){
-        //     battleStat.addWeapon((Weapon)newItem);
-        // }
-        // else if(newItem instanceof Guard){
-        //     battleStat.addGuard((Guard)newItem);
-        // }
         if (newItem instanceof BattleGear)
             battleStat.addBattleGear((BattleGear)newItem);
         else{

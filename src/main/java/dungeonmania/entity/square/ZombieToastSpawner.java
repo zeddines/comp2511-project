@@ -2,7 +2,7 @@ package dungeonmania.entity.square;
 import dungeonmania.entity.*;
 import dungeonmania.entity.collectable.Armour;
 import dungeonmania.entity.creature.Player;
-import dungeonmania.entity.creature.ZombieToast;
+import dungeonmania.entity.creature.NonInteractableEnemy;
 import dungeonmania.entity.interfaces.BattleGear;
 import dungeonmania.entity.interfaces.Interactable;
 import dungeonmania.entity.interfaces.MovableNPC;
@@ -41,6 +41,4 @@ public class ZombieToastSpawner extends Entity implements Interactable{
         }
         throw new InvalidActionException("player does not have a weapon and attempts to destroy a spawner");
     }
-
-    
 }

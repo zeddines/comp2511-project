@@ -25,7 +25,6 @@ public class FloorSwitch extends Entity {
 
     @Override
     public void collideAction(Boulder boulder){
-        System.out.println("switchTriggered");
         triggered = true;
         for (EntityAPI entity : getGame().getAllEntitiesInMap()){
             if (entity instanceof Bomb && Position.isAdjacent(entity.getPosition(), getPosition())){
@@ -36,7 +35,6 @@ public class FloorSwitch extends Entity {
 
     @Override
     public void leaveAction(Boulder boulder){
-        System.out.println("switchDeactivated");
         triggered = false;
     }
 }

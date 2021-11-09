@@ -16,27 +16,27 @@ public class Potion extends Collectable implements Usable{
         this.effect = effect;
     }
 
-    @Override
-    public void collideAction(Player player){
-        super.collideAction(player);
-        effect.setOwner(player);
-    }
+    // @Override
+    // public void collideAction(Player player){
+    //     super.collideAction(player);
+    //     effect.setOwner(player);
+    // }
 
     @Override
     public void use() {
         removeFromInventory();
-        ((Player)getOwner()).addPotionInEffect(this);
+        effect.apply();
     }
 
-    public void applyPotionEffect(){
-        effect.applyPotionEffect();
-    }
+    // public void applyPotionEffect(){
+    //     effect.applyPotionEffect();
+    // }
 
-    public void updateEffectDuration(){
-        effect.updateEffectDuration();
-    }
+    // public void updateEffectDuration(){
+    //     effect.updateEffectDuration();
+    // }
 
-    public int getDurationLeft(){
-        return effect.getDurationLeft();
-    }
+    // public int getDurationLeft(){
+    //     return effect.getDurationLeft();
+    // }
 }

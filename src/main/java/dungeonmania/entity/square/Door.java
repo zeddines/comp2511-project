@@ -4,7 +4,6 @@ import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.collectable.Key;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
-import dungeonmania.entity.creature.Spider;
 import dungeonmania.map.DungeonMap;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
@@ -40,7 +39,7 @@ public class Door extends Entity {
 
     @Override
     public boolean canBeOnSamePosition(Enemy enemy){
-        if (enemy instanceof Spider)
+        if ("spider".equals(enemy.getType()))
             return true;
         return false;
     }

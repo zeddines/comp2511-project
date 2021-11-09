@@ -34,10 +34,9 @@ public class Bomb extends Collectable implements Usable{
     public void detonate(){
         if (hasBeenDeployed){
             for (EntityAPI entity : getGame().getAllEntitiesInMap()){
-                if (entity.isHostile() && Position.isInRadius(getPosition(), entity.getPosition(), radius))
+                if (Position.isInRadius(getPosition(), entity.getPosition(), radius) && !"player".equals(entity.getType()))
                     getGame().removeEntity(entity);
             }
         }
-        getGame().removeEntity(this);
     }
 }

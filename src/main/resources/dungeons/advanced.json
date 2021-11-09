@@ -216,7 +216,7 @@
       {
         "x": 0,
         "y": 5,
-        "type": "wall"
+        "type": "mercenary"
       },
       {
         "x": 3,
@@ -231,7 +231,7 @@
       {
         "x": 17,
         "y": 5,
-        "type": "wall"
+        "type": "health_potion"
       },
       {
         "x": 0,
@@ -381,7 +381,7 @@
       {
         "x": 6,
         "y": 10,
-        "type": "wall"
+        "type": "treasure"
       },
       {
         "x": 7,

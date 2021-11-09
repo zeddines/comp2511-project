@@ -9,11 +9,9 @@ import dungeonmania.util.Position;
 public class Enemy extends Creature implements MovableNPC{
 
     private MovementNPC movement;
-    
-    public Enemy(DungeonMapAPI game, String type, Position position,
-                 MovementNPC movement, BattleStat battleStat) {
-        super(game, type, position, battleStat);
-        this.movement = movement;
+
+    public Enemy(DungeonMapAPI game, String type, Position position) {
+        super(game, type, position);
     }
 
     @Override
@@ -26,6 +24,15 @@ public class Enemy extends Creature implements MovableNPC{
     @Override
     public void move() {
         movement.move();
+    }
+
+    //getter setter
+    public MovementNPC getMovement() {
+        return movement;
+    }
+
+    public void setMovement(MovementNPC movement) {
+        this.movement = movement;
     }
 
 }

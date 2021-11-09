@@ -3,7 +3,6 @@ package dungeonmania.entity.square;
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
-import dungeonmania.entity.creature.Spider;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
 import dungeonmania.util.*;
@@ -31,7 +30,7 @@ public class Wall extends Entity {
 
     @Override 
     public boolean canBeOnSamePosition(Enemy enemy){
-        if (enemy instanceof Spider)
+        if ("spider".equals(enemy.getType()))
             return true;
         return false;
     }

@@ -2,6 +2,7 @@ package dungeonmania.map;
 import dungeonmania.util.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
@@ -12,6 +13,7 @@ import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.collectable.Ring;
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.entity.interfaces.BattleStat;
@@ -31,12 +33,12 @@ public class DungeonMap implements DungeonMapAPI {
     private Map<Position,List<EntityAPI>> entities;
     private String goals;
     private Player player;
-    private ArrayList<Enemy> battlingNPCs;
+    private ArrayList<Enemy> enemyFaction;
     private ArrayList<Enemy> allies;
     
     public DungeonMap() {
         entities = new Hashtable<>();
-        battlingNPCs = new ArrayList<>();
+        enemyFaction = new ArrayList<>();
         allies = new ArrayList<>();
     }
 
@@ -48,8 +50,8 @@ public class DungeonMap implements DungeonMapAPI {
         return retList;
     }  
 
-    public static <E> List<E> shallowClone(List<E> list){
-        List<E> retList = new ArrayList<>();
+    public static <E> ArrayList<E> shallowClone(List<E> list){
+        ArrayList<E> retList = new ArrayList<>();
         for (E entity : list){
             retList.add(entity);
         }
@@ -135,15 +137,12 @@ public class DungeonMap implements DungeonMapAPI {
             playerMove(movementDirection);
         }
         doCollideAction(player);
-        player.updatePotionEffects();
+        player.updateEffects();
         
 
         //resolve battle numbers, reward and stuff
-        while (!battlingNPCs.isEmpty()){
-            roundBattle();
-        }
-        //TODO GOAL
-        //goal.isSatisfied();
+        if (!enemyFaction.isEmpty())
+            battle();
     }
 
     public void interact(String entityId) throws IllegalArgumentException, InvalidActionException{
@@ -159,8 +158,7 @@ public class DungeonMap implements DungeonMapAPI {
     // public <T extends Entity> void doCollideAction(T entity){
     //     if (entities.get(entity.getPosition()) != null){
     //         for (EntityAPI arrayEntity : shallowClone(entities.get(entity.getPosition()))){
-    //             if (!battlingNPCs.contains(arrayEntity))
-    //                 arrayEntity.collideAction(entity);
+    //             arrayEntity.collideAction(entity);
     //         }
     //     }
     // }  
@@ -168,8 +166,7 @@ public class DungeonMap implements DungeonMapAPI {
     public void doCollideAction(Boulder boulder){
         if (entities.get(boulder.getPosition()) != null){
             for (EntityAPI entity : shallowClone(entities.get(boulder.getPosition()))){
-                if (!battlingNPCs.contains(entity))
-                    entity.collideAction(boulder);
+                entity.collideAction(boulder);
             }
         }
     }  
@@ -177,8 +174,7 @@ public class DungeonMap implements DungeonMapAPI {
     public void doCollideAction(Player player){
         if (entities.get(player.getPosition()) != null){
             for (EntityAPI entity : shallowClone(entities.get(player.getPosition()))){
-                if (!battlingNPCs.contains(entity))
-                    entity.collideAction(player);
+                entity.collideAction(player);
             }
         }
     }  
@@ -186,8 +182,7 @@ public class DungeonMap implements DungeonMapAPI {
     public void doLeaveAction(Boulder boulder){
         if (entities.get(boulder.getPosition()) != null){
             for (EntityAPI entity : shallowClone(entities.get(boulder.getPosition()))){
-                if (!battlingNPCs.contains(entity))
-                    entity.leaveAction(boulder);
+                entity.leaveAction(boulder);
             }
         }
     }  
@@ -195,68 +190,99 @@ public class DungeonMap implements DungeonMapAPI {
     public void doLeaveAction(Player player){
         if (entities.get(player.getPosition()) != null){
             for (EntityAPI entity : shallowClone(entities.get(player.getPosition()))){
-                if (!battlingNPCs.contains(entity))
-                    entity.leaveAction(player);
+                entity.leaveAction(player);
             }
         }
     }  
 
     public void addToBattle(Enemy enemy){
-        battlingNPCs.add(enemy);
+        enemyFaction.add(enemy);
     }
 
-    public void roundBattle(){
+    public void addToAlly(Enemy enemy){
+        allies.add(enemy);
+    }
+
+    public void battle(){
         ArrayList<Enemy> defeatedEnemies = new ArrayList<>();
-        ArrayList<Enemy> retreatedEnemies = new ArrayList<>();
-        BattleStat playerStat = player.getBattleStat();
-        //now only allows character to battle, no allies
-        for (Enemy enemy : battlingNPCs){
-            BattleStat enemyStat = enemy.getBattleStat();
-            if (player.isInvincible()){
+        ArrayList<Creature> defeatedAllies = new ArrayList<>();
+
+        if (player.isInvincible()){
+            for (Enemy enemy : enemyFaction)
                 defeatedEnemies.add(enemy);
-            }
-            // else if(player.isInvisible()){
-            //     retreatedEnemies.add(enemy);
-            // }
-            else{
-                // resolve numbers for battling
-                int playerReceivedDamage = (playerStat.getReducedAttack(enemyStat.getAttack()) * enemyStat.getHealth()) / 10;
-                int enemyReceivedDamage = (enemyStat.getReducedAttack(playerStat.getAttack()) * playerStat.getHealth()) / 5;
-                playerStat.reduceHealth(playerReceivedDamage);
-                enemyStat.reduceHealth(enemyReceivedDamage);
-                playerStat.reduceAllDurability();
-                playerStat.removeAllDeteriorated();
-                enemyStat.reduceAllDurability();
-                enemyStat.removeAllDeteriorated();
-                if (playerStat.getHealth() <= 0){
-                    //TODO player loses and game ends
-                    
-                }
-                else if(enemyStat.getHealth() <= 0){
-                    defeatedEnemies.add(enemy);
+            playerDefeatsEnemies(defeatedEnemies);
+            return;
+        }
+        
+        ArrayList<Creature> playerFaction = new ArrayList<>();
+        playerFaction.add(player);
+        playerFaction.addAll(allies);
+
+        while (defeatedEnemies.size() != enemyFaction.size()){
+            for (int j = 0; j < enemyFaction.size() && !defeatedEnemies.contains(enemyFaction.get(j)); j++){
+                Enemy enemy = enemyFaction.get(j);
+                BattleStat enemyStat = enemy.getBattleStat();
+                for (int i = 0; i < playerFaction.size() && !defeatedAllies.contains(playerFaction.get(i)) && !defeatedEnemies.contains(enemy); i++){
+                    Creature ally = playerFaction.get(i);
+                    BattleStat allyStat = ally.getBattleStat();
+                    System.out.println("-----------------------------------------------------");
+                    displayBattleInfo(ally, enemy);
+                    double allyReceivedDamage = (allyStat.getReducedAttack(enemyStat.getAttack()) * enemyStat.getHealth()) / 10;
+                    double enemyReceivedDamage = (enemyStat.getReducedAttack(allyStat.getAttack()) * allyStat.getHealth()) / 5;
+                    allyStat.reduceHealth(allyReceivedDamage, enemy);
+                    enemyStat.reduceHealth(enemyReceivedDamage, ally);
+                    allyStat.reduceAllDurability();
+                    allyStat.removeAllDeteriorated();
+                    enemyStat.reduceAllDurability();
+                    enemyStat.removeAllDeteriorated();
+                    if (allyStat.getHealth() <= 0){
+                        defeatedAllies.add(ally);
+                    }
+                    if(enemyStat.getHealth() <= 0){
+                        defeatedEnemies.add(enemy);
+                    }
+                    displayBattleInfo(ally, enemy);
+                    System.out.println("defeatedEnemies" + defeatedEnemies);
+                    System.out.println("defeatedAllies" + defeatedAllies);
+                    System.out.println("-----------------------------------------------------");
+                    if(defeatedAllies.contains(player)){
+                        removeEntity(player);
+                        return;
+                    }
                 }
             }
         }
+
+        System.out.println("BattleEnded");
+
+        //playerFaction won
         playerDefeatsEnemies(defeatedEnemies);
+
+        for (Creature ally : defeatedAllies){
+            removeEntity(ally);
+        }
+
     }
 
-    public void enemiesRetreats(ArrayList<Enemy> enemies){
-        for (Enemy enemy : enemies){
-            battlingNPCs.remove(enemy); 
-        }       
+    public void displayBattleInfo(Creature ally, Enemy enemy){
+        BattleStat allyBattleStat = ally.getBattleStat();
+        BattleStat enemyBattleStat = enemy.getBattleStat();
+        System.out.println(ally.getType() + "vs" + enemy.getType());
+        System.out.println(String.format("ally  health: %f  attack: %f", allyBattleStat.getHealth(), allyBattleStat.getAttack()));
+        System.out.println(String.format("enemy  health: %f  attack: %f", enemyBattleStat.getHealth(), enemyBattleStat.getAttack()));
     }
 
-    private void playerDefeatsEnemies(ArrayList<Enemy> enemies){
-        for (Enemy enemy : enemies){
+    public void playerDefeatsEnemies(ArrayList<Enemy> defeatedEnemies){
+        for (Enemy enemy : defeatedEnemies){
             BattleStat enemyStat = enemy.getBattleStat();
             for (BattleGear battleGear : enemyStat.getBattleGears()){
                 player.addCollectable((Collectable)battleGear);
             }
-            boolean wonOneRing = (new Random().nextInt(1)==0);
-            if (wonOneRing){
-                player.addCollectable(new Ring("one_ring", this, player));
-            }
             removeEntity(enemy);
+        }
+        boolean wonOneRing = (new Random().nextInt(1)==0);
+        if (wonOneRing){
+            player.addCollectable(new Ring("one_ring", this, player));
         }
     }
 
@@ -269,7 +295,8 @@ public class DungeonMap implements DungeonMapAPI {
 
     public void removeEntity(EntityAPI entity){
         entities.get(entity.getPosition()).remove(entity);
-        battlingNPCs.remove(entity);
+        enemyFaction.remove(entity);
+        allies.remove(entity);
     }
 
     public ArrayList<Enemy> getAllies(){

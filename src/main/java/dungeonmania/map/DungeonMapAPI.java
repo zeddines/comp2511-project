@@ -20,7 +20,7 @@ public interface DungeonMapAPI {
 
     //newly added
     public void addToBattle(Enemy enemy);
-    //public void removeEntityFromMap(EntityAPI entity);
+    public void addToAlly(Enemy enemy);
     public void setPlayer(Player newPlayer);
     public Player getPlayer();
     public void tick(String itemUsedId, Direction movementDirection);

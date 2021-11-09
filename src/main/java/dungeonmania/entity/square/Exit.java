@@ -21,13 +21,11 @@ public class Exit extends Entity {
 
     @Override
     public void leaveAction(Player player){
-        System.out.println("playerLeaveExit");
         playerIsOnTop = false;
     }
 
     @Override
     public void collideAction(Player player){
-        System.out.println("playerOnTopExit");
         playerIsOnTop = true;
     }
     
