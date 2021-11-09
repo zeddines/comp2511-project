@@ -4,6 +4,8 @@ import java.util.List;
 
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
+import dungeonmania.entity.collectable.Effect;
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.entity.square.Boulder;
@@ -20,7 +22,8 @@ public interface DungeonMapAPI {
 
     //newly added
     public void addToBattle(Enemy enemy);
-    public void addToAlly(Enemy enemy);
+    public void addToAlly(Creature enemy);
+    public void removeFromAlly(Creature enemy);
     public void setPlayer(Player newPlayer);
     public Player getPlayer();
     public void tick(String itemUsedId, Direction movementDirection);
@@ -30,6 +33,8 @@ public interface DungeonMapAPI {
     public boolean playerCanMoveToward(Direction direction);
     public void moveFromPositionTo(EntityAPI entity, Position to);
     public void removeEntity(EntityAPI entity);
+    public void addEffectInAction(Effect effect);
+    public void removeEffectInAction(Effect effect);
     public ArrayList<EntityAPI> getAllEntitiesInMap();
-    public ArrayList<Enemy> getAllies();
+    public ArrayList<Creature> getAllies();
 }

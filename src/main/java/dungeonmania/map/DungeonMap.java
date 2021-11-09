@@ -12,6 +12,7 @@ import java.util.Iterator;
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Effect;
 import dungeonmania.entity.collectable.Ring;
 import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.creature.Enemy;
@@ -34,12 +35,15 @@ public class DungeonMap implements DungeonMapAPI {
     private String goals;
     private Player player;
     private ArrayList<Enemy> enemyFaction;
-    private ArrayList<Enemy> allies;
+    private ArrayList<Creature> allies;
+
+    private ArrayList<Effect> effectsInAction;
     
     public DungeonMap() {
         entities = new Hashtable<>();
         enemyFaction = new ArrayList<>();
         allies = new ArrayList<>();
+        effectsInAction = new ArrayList<>();
     }
 
     public ArrayList<EntityAPI> getAllEntitiesInMap(){
@@ -56,6 +60,20 @@ public class DungeonMap implements DungeonMapAPI {
             retList.add(entity);
         }
         return retList;
+    }
+
+    public void addEffectInAction(Effect effect){
+        effectsInAction.add(effect);
+    }
+
+    public void removeEffectInAction(Effect effect){
+        effectsInAction.remove(effect);
+    }
+
+    private void updateEffects(){
+        for (Effect effect : DungeonMap.shallowClone(effectsInAction)){
+            effect.updateEffectDuration();    
+        }
     }
 
     public boolean playerCanMoveToward(Direction direction){
@@ -137,7 +155,7 @@ public class DungeonMap implements DungeonMapAPI {
             playerMove(movementDirection);
         }
         doCollideAction(player);
-        player.updateEffects();
+        updateEffects();
         
 
         //resolve battle numbers, reward and stuff
@@ -199,8 +217,12 @@ public class DungeonMap implements DungeonMapAPI {
         enemyFaction.add(enemy);
     }
 
-    public void addToAlly(Enemy enemy){
-        allies.add(enemy);
+    public void addToAlly(Creature ally){
+        allies.add(ally);
+    }
+
+    public void removeFromAlly(Creature enemy){
+        allies.remove(enemy);
     }
 
     public void battle(){
@@ -242,9 +264,9 @@ public class DungeonMap implements DungeonMapAPI {
                         defeatedEnemies.add(enemy);
                     }
                     displayBattleInfo(ally, enemy);
-                    System.out.println("defeatedEnemies" + defeatedEnemies);
-                    System.out.println("defeatedAllies" + defeatedAllies);
-                    System.out.println("-----------------------------------------------------");
+                   System.out.println("defeatedEnemies" + defeatedEnemies);
+                   System.out.println("defeatedAllies" + defeatedAllies);
+                   System.out.println("-----------------------------------------------------");
                     if(defeatedAllies.contains(player)){
                         removeEntity(player);
                         return;
@@ -299,9 +321,10 @@ public class DungeonMap implements DungeonMapAPI {
         allies.remove(entity);
     }
 
-    public ArrayList<Enemy> getAllies(){
+    public ArrayList<Creature> getAllies(){
         return allies;
     }
+    
 
     @Override
     public List<EntityResponse> toEntityResponseList() {

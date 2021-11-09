@@ -2,6 +2,7 @@ package dungeonmania.entity.creature;
 import java.util.ArrayList;
 import java.util.List;
 
+import dungeonmania.entity.buildable.Sceptre;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.interfaces.Interactable;
 import dungeonmania.exceptions.InvalidActionException;
@@ -27,12 +28,19 @@ public class InteractableEnemy extends Enemy implements Interactable{
 
     @Override
     public void interact() throws InvalidActionException{
+        if (getGame().getAllies().contains(this))
+            throw new InvalidActionException("trying to bribe an ally");
         Player player = getGame().getPlayer();
         if (Position.calculateCardinalDistanceBetween(player.getPosition(), getPosition()) > 2)
-            throw new InvalidActionException("not cardinally adjacent to the spawner");
+            throw new InvalidActionException("player is not within 2 cardinal tiles to " + getType());
+        for (Collectable collectable : player.getNonBattleItems()){
+            if (collectable instanceof Sceptre){
+                ((Sceptre)collectable).mindControl(this);
+            }
+        }
         ArrayList<Collectable> collectablesReceived = player.give(itemsRequiredToBribe);
         if (collectablesReceived == null)
-            throw new InvalidActionException("does not have any gold/sun stones/a sceptre");
+            throw new InvalidActionException("does not have items to bribe");
         getGame().addToAlly(this);
     }
 

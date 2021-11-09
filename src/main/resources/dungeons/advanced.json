@@ -241,12 +241,12 @@
       {
         "x": 6,
         "y": 6,
-        "type": "wall"
+        "type": "assassin"
       },
       {
         "x": 8,
         "y": 6,
-        "type": "wall"
+        "type": "anduril"
       },
       {
         "x": 9,

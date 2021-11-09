@@ -7,5 +7,4 @@ import org.json.JSONObject;
 public interface FactoryAPI {
 
     public Entity build(JSONObject entityContents, DungeonMapAPI map);
-    
 }

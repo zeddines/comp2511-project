@@ -1,36 +1,36 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.map.DungeonMapAPI;
 
 abstract public class Effect {
+    private Creature target;
     private int effectDuration;
     private int durationLeft;
     private DungeonMapAPI game;
 
-    public Effect(int lastFor, DungeonMapAPI game){
+    public Effect(Creature target, int lastFor, DungeonMapAPI game){
+        this.target = target;
         this.effectDuration = lastFor;
         this.durationLeft = lastFor;
         this.game = game;
     }
 
-    public Effect(DungeonMapAPI game){
-        this.effectDuration = 0;
-        this.durationLeft = 0;
-        this.game = game;
+    public Effect(Creature target, DungeonMapAPI game){
+        this(target, 0, game);
     }
     
     public void updateEffectDuration() {
         durationLeft--;
         if (durationLeft == 0){
             endEffect();
-            game.getPlayer().removeEffectInAction(this);
+            game.removeEffectInAction(this);
         }
     }
 
     public void apply(){
         if (effectDuration > 0)
-            game.getPlayer().addEffectInAction(this);
+            game.addEffectInAction(this);
         applyEffect();
     }
 
@@ -44,7 +44,11 @@ abstract public class Effect {
         return game;
     }
 
-    public Player getPlayer(){
-        return game.getPlayer();
+    public Creature getTarget(){
+        return target;
+    }
+
+    public void setTarget(Creature target){
+        this.target = target;
     }
 }

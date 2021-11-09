@@ -1,35 +1,34 @@
 package dungeonmania.entity.buildable;
+
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.interfaces.BattleGear;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.map.DungeonMapAPI;
 
-public class Bow extends Collectable implements BattleGear{
+public class MidnightArmour extends Collectable implements BattleGear{
     private int durability; 
-    
-    /**
-     * crafted with 1 wood and 3 arrows 
-     * allows char to attack twice in a single round 
-     */
-    public Bow(String type, DungeonMapAPI map, Creature owner) {
-        super(map, type, owner);
-        this.durability = 4;
+
+    public MidnightArmour(DungeonMapAPI game, String type, Creature owner) {
+        super(game, type, owner);
+        //TODO Auto-generated constructor stub
+        this.durability = 5;
+    }
+
+    @Override
+    public void modifyStates(BattleStat battleStat) {
+        battleStat.addFlatAttack(5);
+        battleStat.addFlatDefense(4);
+    }
+
+    @Override
+    public void reduceDurability() {
+        durability--;
     }
 
     @Override
     public int getDurability() {
         return durability;
-    }
-
-    @Override
-    public void modifyStates(BattleStat battleStat) {
-        battleStat.multiplyAttack(2);
-    }
-
-    @Override
-    public void reduceDurability() {
-        durability --;
     }
 
     @Override
@@ -39,6 +38,7 @@ public class Bow extends Collectable implements BattleGear{
 
     @Override
     public boolean isDefense() {
-        return false;
-    } 
+        return true;
+    }
+    
 }

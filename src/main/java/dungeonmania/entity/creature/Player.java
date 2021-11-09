@@ -23,16 +23,8 @@ import dungeonmania.util.Position;
 
 public class Player extends Creature{
 
-    Map<String, Integer> buffs;
-
-    private ArrayList<Effect> effectsInAction;
-
     public Player(DungeonMapAPI map, String type, Position position) {
         super(map, type, position);
-        effectsInAction = new ArrayList<>();
-        buffs = new HashMap<>();
-        buffs.put("invisibility", 0);
-        buffs.put("invincibility", 0);
         map.setPlayer(this);
     }
 
@@ -75,7 +67,6 @@ public class Player extends Creature{
                 }
             }
             if (itemIsMissing){
-
                 return null;
             }
         }
@@ -87,49 +78,6 @@ public class Player extends Creature{
             getNonBattleItems().remove(collectableToRemove);
         }
         return collectablesToGive;
-    }
-    
-    public void addEffectInAction(Effect effect){
-        effectsInAction.add(effect);
-    }
-
-    public void removeEffectInAction(Effect effect){
-        effectsInAction.remove(effect);
-    }
-
-    public void updateEffects(){
-        for (Effect effect : DungeonMap.shallowClone(effectsInAction)){
-            effect.updateEffectDuration();    
-        }
-    }
-    
-    public void applyInvisibleBuff() {
-        buffs.put("invisibility", buffs.get("invisibility").intValue() + 1);
-    }
-
-
-    public void applyInvincibleBuff() {
-        buffs.put("invincibility", buffs.get("invincibility").intValue() + 1);
-    }
-
-    public void revertInvisibleBuff() {
-        buffs.put("invisibility", buffs.get("invisibility").intValue() - 1);
-    }
-
-
-    public void revertInvincibleBuff() {
-        buffs.put("invincibility", buffs.get("invincibility").intValue() - 1);
-    }
-
-
-
-    //getter setters
-    public boolean isInvisible() {
-        return buffs.get("invisibility") > 0;
-    }
-
-    public boolean isInvincible() {
-        return buffs.get("invincibility") > 0;
     }
 
 }

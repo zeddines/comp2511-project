@@ -1,6 +1,7 @@
 package dungeonmania.map;
 
 import dungeonmania.entity.collectable.Armour;
+import dungeonmania.entity.creature.BossBattleStat;
 import dungeonmania.entity.creature.InteractableEnemy;
 import dungeonmania.entity.square.Portal;
 import dungeonmania.entityfactory.FactoryAPI;
@@ -27,8 +28,10 @@ public class MapBuilder implements MapBuilderAPI {
                 newGame.addEntity(entityFactory.build(entities.getJSONObject(i), newGame));
             }         
 
-            // InteractableEnemy mercenary = new InteractableEnemy(new Position(5, 5), "mercenary", newGame);
-            
+            // InteractableEnemy assassin = new InteractableEnemy(new Position(6, 5), "assassin", newGame);
+            // assassin.setBattleStat(new BossBattleStat(assassin, 5, 5, 0));
+            // assassin.setMovement(null);
+            // newGame.addEntity(assassin);
             // mercenary.addCollectable(new Armour("armour", newGame, mercenary));
             // newGame.addEntity(mercenary);
             //TESTING !!!!!!!!!!!!!!!a

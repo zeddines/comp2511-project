@@ -1,15 +1,16 @@
 package dungeonmania.entity.collectable;
 
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.map.DungeonMapAPI;
 
 public class RecoverHealthEffect extends Effect{
-    public RecoverHealthEffect(DungeonMapAPI game){
-        super(game);
+    public RecoverHealthEffect(Creature target, DungeonMapAPI game){
+        super(target, game);
     }
     
     @Override
     public void applyEffect() {
-        getPlayer().getBattleStat().recoverToFull();
+        getTarget().getBattleStat().recoverToFull();
     }
 
     @Override
