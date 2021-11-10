@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import dungeonmania.entity.creature.*;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
+import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.util.*;
 
 public class MovingFactory extends PrimaryFactory {
@@ -62,6 +63,28 @@ public class MovingFactory extends PrimaryFactory {
             return player;
         }
         return null;
+    }
+
+    public Enemy makeEnemy(String type, Position current, DungeonMapAPI map, ArrayList<Object> enemies){
+        switch(type){
+            case "spider":
+                Spider spider = new Spider(current, type, map); 
+                enemies.add(spider);
+                return spider;
+            case "zombie_toast":
+                ZombieToast zombieToast = new ZombieToast(current, type, map);
+                enemies.add(zombieToast); 
+                return zombieToast;
+            default:
+                Mercenary mercenary = new Mercenary(current, type, map);
+                enemies.add(mercenary);
+                return mercenary;
+        }
+    }
+
+    public Player makePlayer(String type, Position current, DungeonMapAPI map){
+        Player player = new Player(map, type, current);
+        return player;
     }
     
 }
