@@ -5,10 +5,7 @@ import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.CollideActionEntity;
-import dungeonmania.entity.interfaces.Guard;
-import dungeonmania.entity.interfaces.RegularActionEntity;
-import dungeonmania.entity.interfaces.Weapon;
+import dungeonmania.entity.interfaces.MovableNPC;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -73,7 +70,7 @@ public class DungeonManiaController {
                 GameAPI newGame = new Game(dungeonName, gameMode);
                 currentGame = newGame; 
                 
-                return newGame.getInfo();
+                return newGame.toDungeonResponse();
             }
         }
         catch(IOException e) {
@@ -87,7 +84,7 @@ public class DungeonManiaController {
         else
             games.put(name, currentGame);
             currentGame.setID(name);
-            DungeonResponse returnInfo = currentGame.getInfo();
+            DungeonResponse returnInfo = currentGame.toDungeonResponse();
             currentGame = null;
             return returnInfo;
     }
@@ -97,7 +94,7 @@ public class DungeonManiaController {
             throw new IllegalArgumentException();
         else
             currentGame = games.get(name);
-            return currentGame.getInfo();
+            return currentGame.toDungeonResponse();
     }
 
     public List<String> allGames() {
@@ -111,7 +108,8 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        System.out.println("interact called");
+        return currentGame.interact(entityId);
     }
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {

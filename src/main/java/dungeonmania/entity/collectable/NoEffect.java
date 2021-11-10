@@ -1,23 +1,20 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.map.DungeonMapAPI;
 
-public class NoEffect extends PotionEffect{
-
-    public NoEffect(){
-        super(0);
+public class NoEffect extends Effect{
+    public NoEffect(Creature target, int lastFor, DungeonMapAPI game) {
+        super(target, game);
     }
 
     @Override
-    public String getType() {
-        return "no_effect";
-    }
-
-    @Override
-    public void applyPotionEffect() {
+    public void applyEffect() {
         return;
-        //TODO set all enemy random movement behaviour
-
     }
-    
+
+    @Override
+    public void endEffect() {
+        return;
+    }
 }

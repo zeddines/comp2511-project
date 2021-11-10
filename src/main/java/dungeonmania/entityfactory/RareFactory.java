@@ -14,14 +14,10 @@
 //         super(rare);
 //     }
 
-//     @Override
-//     public Entity build(JSONObject entityContents, DungeonMapAPI map) {
-//         return new Ring(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-//     }
-
-//     public makeOneRing(String type, Position current, DungeonMapAPI map){
-//         return new Ring(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map);
-//     }
+//     // @Override
+//     // public Entity build(JSONObject entityContents, DungeonMapAPI map) {
+//     //     return new Ring(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
+//     // }
 
     
 // }

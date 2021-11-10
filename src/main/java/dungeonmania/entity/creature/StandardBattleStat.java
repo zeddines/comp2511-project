@@ -4,74 +4,79 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.Guard;
-import dungeonmania.entity.interfaces.Weapon;
+import dungeonmania.map.DungeonMap;
+import dungeonmania.entity.collectable.Anduril;
+import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Ring;
+import dungeonmania.entity.interfaces.BattleGear;
+
 
 public class StandardBattleStat implements BattleStat{
-    private int maxHealth;
-    private int currentHealth;
-    private int baseAttack;
-    private int baseDefense;
-    private ArrayList<Weapon> weapons;
-    private ArrayList<Guard> guards;
+    private Creature owner;
+
+    private double maxHealth;
+    private double currentHealth;
+    private double baseAttack;
+    private double baseDefense;
+    private ArrayList<BattleGear> battleGears;
 
     //modifiers
-    private int flatAttackIncrease = 0;
-    private int flatDefenseIncrease = 0;
-    private int multiplyAttackIncrease = 1;
-    private int multiplayDefenseIncrease = 1;
+    private double flatAttackIncrease = 0;
+    private double flatDefenseIncrease = 0;
+    private double multiplyAttackIncrease = 1;
+    private double multiplayDefenseIncrease = 1;
 
-    public StandardBattleStat(int maxHealth, int attack, int defense){
+    public StandardBattleStat(Creature owner, double maxHealth, double attack, double defense){
+        this.owner = owner;
         this.maxHealth = maxHealth;
         currentHealth = maxHealth;
         this.baseAttack = attack;
         this.baseDefense = defense;
-        weapons = new ArrayList<>();
-        guards = new ArrayList<>();
+        battleGears = new ArrayList<>();
     }
 
     //initialize with weapons and guards
-    public StandardBattleStat(int maxHealth, int attack, int defense, ArrayList<Weapon> weapons, ArrayList<Guard> guards){
-        this.maxHealth = maxHealth;
-        currentHealth = maxHealth;
-        this.baseAttack = attack;
-        this.baseDefense = defense;
-        this.weapons = weapons;
-        this.guards = guards;
+    public StandardBattleStat(Creature owner, double maxHealth, double attack, double defense, ArrayList<BattleGear> battleGears){
+        this(owner, maxHealth, attack, defense);
+        this.battleGears = battleGears;
     }
 
     @Override
-    public int getAttack() {
-        int totalAttack;
-        for (Weapon weapon : weapons){
-            weapon.modifyAttack(this);
+    public double getAttack() {
+        double totalAttack;
+        for (BattleGear battleGear : battleGears){
+            battleGear.modifyStates(this);
         }
-        Iterator<Weapon> weaponsIter = weapons.iterator();
-        while (weaponsIter.hasNext()){
-            Weapon curr = weaponsIter.next();
-            if (curr.getDurability() == 0)
-                weaponsIter.remove();
-        }
+
         totalAttack = (baseAttack + flatAttackIncrease) * multiplyAttackIncrease; 
         resetModifiers();
-        return totalAttack;
+        return totalAttack >= 0 ? totalAttack : 0;
     }
 
     @Override
-    public int getReducedAttack(int damage) {
-        int reducedDamage;
-        for (Guard guard : guards){
-            guard.modifyDefense(this);
+    public double getReducedAttack(double damage) {
+        double reducedDamage;
+        for (BattleGear battleGear : battleGears){
+            battleGear.modifyStates(this);
         } 
-        Iterator<Guard> guardsIter = guards.iterator();
-        while (guardsIter.hasNext()){
-            Guard curr = guardsIter.next();
-            if (curr.getDurability() == 0)
-                guardsIter.remove();
-        }
         reducedDamage = (damage - baseDefense - flatDefenseIncrease) / multiplayDefenseIncrease;
         resetModifiers();
-        return reducedDamage;        
+        return reducedDamage >= 0 ? reducedDamage : 0;        
+    }
+
+    @Override
+    public void reduceAllDurability(){
+        for (BattleGear battleGear : battleGears){
+            battleGear.reduceDurability();
+        }
+    }
+
+    @Override
+    public void removeAllDeteriorated(){
+        for (BattleGear battleGear : DungeonMap.shallowClone(battleGears)){
+            if (battleGear.getDurability() == 0)
+                battleGears.remove(battleGear);
+        }
     }
     
     //TODO NOT MENTIONED IN UML (resets and modifiers methods)
@@ -83,46 +88,44 @@ public class StandardBattleStat implements BattleStat{
     }
     
     @Override
-    public void addFlatAttack(int flatAttack) {
+    public void addFlatAttack(double flatAttack) {
         flatAttackIncrease += flatAttack; 
     }
 
     @Override
-    public void addFlatDefense(int flatDefense) {
+    public void addFlatDefense(double flatDefense) {
         flatDefenseIncrease += flatDefense;
     }
 
     @Override
-    public void multiplyAttack(int attackMultipliedBy) {
+    public void multiplyAttack(double attackMultipliedBy) {
         multiplyAttackIncrease *= attackMultipliedBy;
     }
 
     @Override
-    public void multiplyDefense(int defenseMultipliedBy) {
+    public void multiplyDefense(double defenseMultipliedBy) {
         multiplayDefenseIncrease *= defenseMultipliedBy;
     }
 
-    @Override
-    public void addWeapon(Weapon weapon){
-        weapons.add(weapon);
-    }
-
     @Override 
-    public void addGuard(Guard guard){
-        guards.add(guard);
+    public void addBattleGear(BattleGear battleGear){
+        battleGears.add(battleGear);
     }    
 
     //getter setter
     @Override
-    public int getHealth() {
+    public double getHealth() {
         return currentHealth;
     }
 
     @Override
-    public void reduceHealth(int health){
-        this.currentHealth -= health;
-        //TODO NOT MENTIONED IN UML AND CHECK REVIVABLE ITEMS
-        
+    public void reduceHealth(double damageReceived, Creature enemy){
+        currentHealth = (currentHealth - damageReceived) > 0 ? currentHealth - damageReceived :  0;
+    }
+
+    @Override
+    public void recover(double health){
+        currentHealth = (currentHealth + health) <= maxHealth ? currentHealth + health : maxHealth;
     }
 
     @Override
@@ -131,13 +134,21 @@ public class StandardBattleStat implements BattleStat{
     }
 
     @Override
-    public ArrayList<Weapon> getWeapons() {
-        return weapons;
+    public ArrayList<BattleGear> getBattleGears() {
+        return battleGears;
     }
 
     @Override
-    public ArrayList<Guard> getGuards() {
-        return guards;
+    public Creature getOwner(){
+        return owner;
     }
 
+    @Override
+    public boolean hasBossSlayer(){
+        for (BattleGear battleGear : battleGears){
+            if (battleGear instanceof Anduril)
+                return true;
+        }
+        return false;
+    }
 }

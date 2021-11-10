@@ -26,7 +26,9 @@ public class StaticFactory extends PrimaryFactory {
         else if(type.equals("switch"))
             return new FloorSwitch(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
         else if(type.equals("door"))
-            return new Door(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), entityContents.getString("key"), map);
+            return new Door(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), entityContents.getInt("key"), map);
+        else if(type.equals("portal"))
+            return new Portal(new Position(entityContents.getInt("x"), entityContents.getInt("y")), entityContents.getString("type"), entityContents.getString("colour"), map);
         else
             return new ZombieToastSpawner(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
     }
