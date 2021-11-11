@@ -1,4 +1,6 @@
 package dungeonmania.entityfactory;
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 import dungeonmania.entity.*;
 import dungeonmania.entity.collectable.*;
@@ -9,8 +11,10 @@ public class CollectibleFactory extends PrimaryFactory {
 
     public static final String[] collectibles = {"treasure", "key", "health_potion", "invincibility_potion", "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour", "anduril", "sceptre", "midnight_armour"};
 
-    public CollectibleFactory(String difficulty) {
-        super(collectibles, difficulty);
+    ArrayList<Collectable> collectables = new ArrayList<>();
+
+    public CollectibleFactory(String difficulty, DungeonMapAPI game) {
+        super(collectibles, difficulty, game);
     }
     
     @Override
@@ -40,7 +44,7 @@ public class CollectibleFactory extends PrimaryFactory {
             return new Anduril(new Position(entityContents.getInt("x"), entityContents.getInt("y")), entityContents.getString("type"), map);
         }
         else
-            return   null;
+            return null;
     }
     
 
@@ -62,47 +66,57 @@ public class CollectibleFactory extends PrimaryFactory {
         switch(type){
             case "treasure":
                 Treasure treasure = new Treasure(current, type, map);
+                collectables.add(treasure);
                 return treasure;                
             case "key":
-                Key key = new Key(current, type, map);
-                return key;                
+                //Key key = new Key(current, type, map);
+                //return key;                
+                return null;
             case "wood":
                 Wood wood = new Wood(current, type, map);
+                collectables.add(wood);
                 return wood;                
             case "arrow":
                 Arrow arrow = new Arrow(current, type, map);
+                collectables.add(arrow);
                 return arrow;                
             case "sword":
                 Sword sword = new Sword(current, type, map); 
+                collectables.add(sword);
                 return sword;                
             case "armour":
                 Armour armour = new Armour(current, type, map); 
+                collectables.add(armour);
                 return armour;                
             case "health_potion":
-                Potion healthPotion = new Potion(current, type, map, makeEffect("RecoverHealthEffect"));
-                return healthPotion;                
+                // Potion healthPotion = new Potion(current, type, map, makeEffect("RecoverHealthEffect"));
+                // return healthPotion;                
             case "invisibility_potion":
-                Potion invisiblePotion = new Potion(current, type, map, makeEffect("InvisibilityEffect"));
-                return invisiblePotion;                
+                // Potion invisiblePotion = new Potion(current, type, map, makeEffect("InvisibilityEffect"));
+                // return invisiblePotion;                
             case "invincibility_potion":
-                Potion invinciblePotion = new Potion(current, type, map, makeEffect("InvincibilityEffect"));
-                return invinciblePotion;                
+                // Potion invinciblePotion = new Potion(current, type, map, makeEffect("InvincibilityEffect"));
+                // return invinciblePotion;                
             default:
                 return null;                
         }
     }
 
-    public PotionEffect makeEffect(String effect){
-        switch(effect){
-            case "RecoverHealthEffect":
-                return getDifficulty().equals("hard") ? new NoEffect() : new RecoverHealthEffect();                
-            case "InvisibilityEffect":
-                return getDifficulty().equals("hard") ? new InvisibilityEffect(3) : new InvisibilityEffect(15);                
-            case "InvincibilityEffect":
-                return new InvincibilityEffect(30);
-            default: 
-                return null;
-        }
+    public ArrayList<Collectable> getCollectables(){
+        return collectables;
     }
+
+    // public PotionEffect makeEffect(String effect){
+    //     switch(effect){
+    //         case "RecoverHealthEffect":
+    //             return getDifficulty().equals("hard") ? new NoEffect() : new RecoverHealthEffect();                
+    //         case "InvisibilityEffect":
+    //             return getDifficulty().equals("hard") ? new InvisibilityEffect(3) : new InvisibilityEffect(15);                
+    //         case "InvincibilityEffect":
+    //             return new InvincibilityEffect(30);
+    //         default: 
+    //             return null;
+    //     }
+    // }
     
 }

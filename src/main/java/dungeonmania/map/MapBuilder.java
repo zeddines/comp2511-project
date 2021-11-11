@@ -16,10 +16,11 @@ import org.json.*;
 
 public class MapBuilder implements MapBuilderAPI {
 
-    private FactoryAPI entityFactory = new FactoryFront();
+    private FactoryAPI entityFactory;
 
     public DungeonMap build(String dungeonName, String gameMode) {
         DungeonMap newGame = new DungeonMap();
+        entityFactory = new FactoryFront(gameMode, newGame);
         try {
             String mapString = FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json");
             JSONObject map = new JSONObject(mapString);

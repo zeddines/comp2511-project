@@ -55,6 +55,7 @@ public class Player extends Creature{
         return returnList;
     }
 
+    //PLEASE LOOK
     public ArrayList<Collectable> give(ArrayList<String> itemsRequired){
         ArrayList<Integer> positionOfItems = new ArrayList<>();
         for (String itemRequired : itemsRequired){
