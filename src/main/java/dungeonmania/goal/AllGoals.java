@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllGoals implements Goals{
-    private List<Goals> children = new ArrayList<>();
+    private List<Goals> children;
+
+    public AllGoals() {
+        children = new ArrayList<>();
+    }
 
     public void addGoal(Goals g) {
         children.add(g);
@@ -19,13 +23,26 @@ public class AllGoals implements Goals{
     }
 
     @Override
-    public boolean goalSatisfied(DungeonResponse d) {
-        for (Goals g: children) {
-            if (!g.goalSatisfied(d)){
-                return false;
+    public String goalSatisfied(DungeonResponse d) {
+        if (children.get(0).toString().equals("And")) {
+            for (Goals g: children) {
+                if (!g.goalSatisfied(d).equals("")){
+                    return d.getGoals();
+                }
             }
+
+            return "";
+        } else if (children.get(0).toString().equals("Or")) {
+            for (Goals g: children) {
+                if (g.goalSatisfied(d).equals("")){
+                    return "";
+                }
+
+            }
+
+            return d.getGoals();
         }
 
-        return true;
+        return "";
     }
 }

@@ -1,5 +1,5 @@
 package dungeonmania.map;
-import dungeonmania.goal.Goals;
+import dungeonmania.goal.*;
 import dungeonmania.util.*;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class DungeonMap implements DungeonMapAPI {
 
     private Map<Position,List<EntityAPI>> entities;
     private String goals;
-    private Goals AllGoals;
+    private AllGoals allGoals = new AllGoals();
     private Player player;
     private ArrayList<Enemy> battlingNPCs;
     //includes entity in inventories
@@ -57,7 +57,7 @@ public class DungeonMap implements DungeonMapAPI {
         }
         return true;
     }
-    public void tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
+    public void tick(String itemUsedId, Direction movementDirection, DungeonResponse d) throws IllegalArgumentException, InvalidActionException{
 
         //all entitys preform player non dependent actions like moving and spawning
         // for (EntityAPI entity : getAllEntityAPIs()){
@@ -98,8 +98,9 @@ public class DungeonMap implements DungeonMapAPI {
         while (!battlingNPCs.isEmpty()){
             roundBattle();
         }
+
         //TODO GOAL
-//        goal.isSatisfied();
+        goals = allGoals.goalSatisfied(d);
 
         //return the dungeonresponse object
     }
@@ -186,7 +187,53 @@ public class DungeonMap implements DungeonMapAPI {
     public void setGoals(String goals) {
         this.goals = goals;
 
+        System.out.println(goals);
 
+
+        String[] parts;
+
+        if (goals.contains("AND")) {
+            parts = goals.split("AND");
+
+            allGoals.addGoal(new And());
+
+            for (String s: parts) {
+                System.out.println(s);
+                System.out.println("hello");
+
+                if (s.equals("boulders")) {
+                    allGoals.addGoal(new BoulderGoal());
+                } else if (s.equals("enemies")) {
+    //                allGoals.addGoal(new);
+                } else if (s.equals("treasure")) {
+                    allGoals.addGoal(new TreasureGoal());
+                } else if (s.equals("exit")) {
+                    allGoals.addGoal(new ExitGoal());
+                }
+            }
+        } else if (goals.contains("OR")) {
+            parts = goals.split("OR");
+
+            allGoals.addGoal(new Or());
+
+            for (String s: parts) {
+                System.out.println(s);
+                System.out.println("hello");
+
+                if (s.equals("boulders")) {
+                    allGoals.addGoal(new BoulderGoal());
+                } else if (s.equals("enemies")) {
+                    //                allGoals.addGoal(new);
+                } else if (s.equals("treasure")) {
+                    allGoals.addGoal(new TreasureGoal());
+                } else if (s.equals("exit")) {
+                    allGoals.addGoal(new ExitGoal());
+                }
+            }
+        }
+
+
+//        allGoals.addGoal(new ExitGoal());
         //TODO: turn string into objects and add to composite class
     }
 

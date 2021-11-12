@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoulderGoal implements Goals{
+    public BoulderGoal() {
+    }
+
     @Override
-    public boolean goalSatisfied(DungeonResponse d) {
+    public String goalSatisfied(DungeonResponse d) {
         List<Position> boulderPositions = new ArrayList<>();
         List<Position> switchPositions = new ArrayList<>();
         List<EntityResponse> listOfEntities = d.getEntities();
@@ -32,9 +35,9 @@ public class BoulderGoal implements Goals{
         }
 
         if (count == boulderPositions.size()) {
-            return true;
+            return "";
         } else {
-            return false;
+            return d.getGoals();
         }
     }
 }

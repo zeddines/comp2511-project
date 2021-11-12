@@ -6,16 +6,19 @@ import dungeonmania.response.models.EntityResponse;
 import java.util.List;
 
 public class TreasureGoal implements Goals {
+    public TreasureGoal() {
+    }
+
     @Override
-    public boolean goalSatisfied(DungeonResponse d) {
+    public String goalSatisfied(DungeonResponse d) {
         List<EntityResponse> listOfEntities = d.getEntities();
 
         for (EntityResponse e: listOfEntities) {
             if (e.getType().equals("treasure")) {
-                return false;
+                return d.getGoals();
             }
         }
 
-        return true;
+        return "";
     }
 }

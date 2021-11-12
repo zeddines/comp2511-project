@@ -21,5 +21,5 @@ public interface DungeonMapAPI {
     //public void removeEntityFromMap(EntityAPI entity);
     public void setPlayer(Player newPlayer);
     public Player getPlayer();
-    public void tick(String itemUsedId, Direction movementDirection);
+    public void tick(String itemUsedId, Direction movementDirection, DungeonResponse d);
 }

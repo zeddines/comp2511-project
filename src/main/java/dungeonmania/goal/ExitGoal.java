@@ -9,8 +9,11 @@ import dungeonmania.util.Position;
 import java.util.List;
 
 public class ExitGoal implements Goals{
+    public ExitGoal() {
+    }
+
     @Override
-    public boolean goalSatisfied(DungeonResponse d) {
+    public String goalSatisfied(DungeonResponse d) {
         List<EntityResponse> listOfEntities = d.getEntities();
 
         Position player = null;
@@ -25,9 +28,9 @@ public class ExitGoal implements Goals{
         }
 
         if (player.equals(exit)) {
-            return true;
+            return "";
         } else {
-            return false;
+            return d.getGoals();
         }
     }
 }

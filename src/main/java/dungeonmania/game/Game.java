@@ -37,7 +37,7 @@ public class Game implements GameAPI {
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
-        map.tick(itemUsed, movementDirection);
+        map.tick(itemUsed, movementDirection, getInfo());
 
         return getInfo();
     }
