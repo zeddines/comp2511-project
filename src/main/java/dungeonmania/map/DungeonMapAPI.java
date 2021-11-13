@@ -37,4 +37,5 @@ public interface DungeonMapAPI {
     public void removeEffectInAction(Effect effect);
     public ArrayList<EntityAPI> getAllEntitiesInMap();
     public ArrayList<Creature> getAllies();
+    public void build(String buildable);
 }

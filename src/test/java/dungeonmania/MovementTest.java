@@ -26,7 +26,7 @@ public class MovementTest {
         List<EntityResponse>  Entities = Response.getEntities();
 
         Position original = new Position(1,1);
-        Position oneStep = new Position(2, 1);
+        Position oneStep = new Position(2,1);
 
         Entities.stream()
                 .filter(e -> e.getType().equals("player"))

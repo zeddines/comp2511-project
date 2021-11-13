@@ -1,5 +1,6 @@
 package dungeonmania;
 import dungeonmania.*;
+import dungeonmania.entity.buildable.Bow;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.entity.square.Boulder;
 import dungeonmania.game.Game;
@@ -27,7 +28,7 @@ public class BuildableTest {
     public void testBow(){
         DungeonManiaController Controller = new DungeonManiaController();
         DungeonResponse Response = Controller.newGame("advanced", "Peaceful");
-        List<EntityResponse>  Entities = Response.getEntities();
+        List<EntityResponse> Entities = Response.getEntities();
         
         Position player = new Position(1,1);
 
@@ -72,15 +73,144 @@ public class BuildableTest {
 
         // Build the bow
         DungeonResponse newResponse = Controller.build("bow");
+        boolean bowBuilt = false;
 
         List<EntityResponse> newEntities = newResponse.getEntities();
 
-        newEntities.stream()
+        for (EntityResponse entity: newEntities) {
+            if (entity.getType().equals("bow")) {
+                bowBuilt = true;
+                break;
+            }  
+        }
+        assertTrue(bowBuilt);        
+    }
+
+    @Test
+    public void testShield(){
+        DungeonManiaController Controller = new DungeonManiaController();
+        DungeonResponse Response = Controller.newGame("advanced", "Peaceful");
+        List<EntityResponse> Entities = Response.getEntities();
+        
+        Position player = new Position(1,1);
+
+        Entities.stream()
                 .filter(e -> e.getType().equals("player"))
-                .forEach(e -> assertEquals(e.getPosition(), twoStep));
+                .forEach(e -> assertEquals(e.getPosition(), player));
         
+                 // Moving down 13 tiles
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+
+        // Moving to the right 9 tiles
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
         
+        Controller.tick("player", Direction.UP);
+        Controller.tick("player", Direction.UP);
+        Controller.tick("player", Direction.UP);
+
+        // Picking up the first treasure
+        Controller.tick("player", Direction.UP);
+
+        // Picking up the second arrow
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+
+        // Picking up two woods
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
         
+        // Build the shield
+        DungeonResponse newResponse = Controller.build("shield");
+        boolean shieldBuilt = false;
+
+        List<EntityResponse> newEntities = newResponse.getEntities();
+
+        for (EntityResponse entity: newEntities) {
+            if (entity.getType().equals("shield")) {
+                shieldBuilt = true;
+                break;
+            }  
+        }
+        assertTrue(shieldBuilt);    
+    }
+
+    @Test
+    public void testShieldTwo(){
+        DungeonManiaController Controller = new DungeonManiaController();
+        DungeonResponse Response = Controller.newGame("advanced", "Peaceful");
+        List<EntityResponse> Entities = Response.getEntities();
+        
+        Position player = new Position(1,1);
+
+        Entities.stream()
+                .filter(e -> e.getType().equals("player"))
+                .forEach(e -> assertEquals(e.getPosition(), player));
+        
+        // Moving down 8 tiles
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        
+        // Moving to the right 7 tiles
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+
+        // Moving down a tile
+        Controller.tick("player", Direction.DOWN);
+
+        // Moving to the right 2 tiles
+        Controller.tick("player", Direction.RIGHT);
+        Controller.tick("player", Direction.RIGHT);
+
+        // Picking up the first key 
+        Controller.tick("player", Direction.RIGHT);                 
+
+        // Picking up two woods
+        Controller.tick("player", Direction.DOWN);
+        Controller.tick("player", Direction.DOWN);
+        
+        // Build the shield
+        DungeonResponse newResponse = Controller.build("shield");
+        boolean shieldBuilt = false;
+
+        List<EntityResponse> newEntities = newResponse.getEntities();
+
+        for (EntityResponse entity: newEntities) {
+            if (entity.getType().equals("shield")) {
+                shieldBuilt = true;
+                break;
+            }  
+        }
+        assertTrue(shieldBuilt);    
     }
     
 }

@@ -58,4 +58,9 @@ public class Game implements GameAPI {
     public Player getPlayer() {
         return map.getPlayer();
     }
+
+    public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
+        map.build(buildable);
+        return toDungeonResponse();
+    }
 }
