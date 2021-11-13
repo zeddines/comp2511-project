@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 import dungeonmania.entity.buildable.*;
 import dungeonmania.entity.collectable.Collectable;
-import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.response.models.DungeonResponse;

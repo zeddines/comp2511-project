@@ -16,4 +16,5 @@ public interface GameAPI {
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection);
     public DungeonResponse interact(String entityId);
+    public DungeonResponse build(String buildable);
 }

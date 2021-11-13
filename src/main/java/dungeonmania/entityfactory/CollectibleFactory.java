@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import dungeonmania.entity.*;
 import dungeonmania.entity.collectable.*;
 import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.*;
 
 public class CollectibleFactory extends PrimaryFactory {
@@ -62,7 +63,7 @@ public class CollectibleFactory extends PrimaryFactory {
     //    }
     //}
 
-    public Collectable makeCollectables(String type, Position current, DungeonMapAPI map){
+    public Collectable makeCollectables(String type, Position current, DungeonMapAPI map, DungeonResponse dungeonResponse){
         switch(type){
             case "treasure":
                 Treasure treasure = new Treasure(current, type, map);
@@ -73,7 +74,7 @@ public class CollectibleFactory extends PrimaryFactory {
                 //return key;                
                 return null;
             case "wood":
-                Wood wood = new Wood(current, type, map);
+                Wood wood = new Wood(current, type, map);                
                 collectables.add(wood);
                 return wood;                
             case "arrow":

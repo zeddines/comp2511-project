@@ -113,6 +113,6 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        return currentGame.build(buildable);
     }
 }
