@@ -199,7 +199,6 @@ public class DungeonMap implements DungeonMapAPI {
 
             for (String s: parts) {
                 System.out.println(s);
-                System.out.println("hello");
 
                 if (s.equals("boulders")) {
                     allGoals.addGoal(new BoulderGoal());

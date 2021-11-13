@@ -8,7 +8,7 @@ public class Or implements Goals{
 
     @Override
     public String goalSatisfied(DungeonResponse d) {
-        return null;
+        return "";
     }
 
     @Override

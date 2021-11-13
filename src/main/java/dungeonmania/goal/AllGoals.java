@@ -24,7 +24,11 @@ public class AllGoals implements Goals{
 
     @Override
     public String goalSatisfied(DungeonResponse d) {
-        if (children.get(0).toString().equals("And")) {
+        for (Goals l: children) {
+            System.out.println(l);
+        }
+
+        if (children.contains("And")) {
             for (Goals g: children) {
                 if (!g.goalSatisfied(d).equals("")){
                     return d.getGoals();
@@ -32,7 +36,7 @@ public class AllGoals implements Goals{
             }
 
             return "";
-        } else if (children.get(0).toString().equals("Or")) {
+        } else if (children.contains("Or")) {
             for (Goals g: children) {
                 if (g.goalSatisfied(d).equals("")){
                     return "";
@@ -41,6 +45,12 @@ public class AllGoals implements Goals{
             }
 
             return d.getGoals();
+        } else {
+            for (Goals g: children) {
+                if (!g.goalSatisfied(d).equals("")){
+                    return d.getGoals();
+                }
+            }
         }
 
         return "";
