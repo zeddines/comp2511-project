@@ -185,6 +185,7 @@ public class DungeonMap implements DungeonMapAPI {
     }
 
     public void setGoals(String goals) {
+//        System.out.println("Hello");
         this.goals = goals;
 
         System.out.println(goals);
