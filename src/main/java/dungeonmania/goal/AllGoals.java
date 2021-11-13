@@ -1,6 +1,7 @@
 package dungeonmania.goal;
 
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,27 @@ public class AllGoals implements Goals{
 
     @Override
     public String goalSatisfied(DungeonResponse d) {
+        String check = "";
+
         for (Goals l: children) {
-            System.out.println(l);
+            if (l.toString().equals("And")) {
+                check = "And";
+            } else if (l.toString().equals("Or")) {
+                check = "Or";
+            }
         }
 
-        if (children.contains("And")) {
+        System.out.println(check);
+
+        if (check.equals("And")) {
+
+//            for (EntityResponse e: d.getEntities()) {
+//                if (!e.getType().equals("wall")) {
+//                    System.out.println(e.getType());
+//
+//                }
+//            }
+
             for (Goals g: children) {
                 if (!g.goalSatisfied(d).equals("")){
                     return d.getGoals();
@@ -36,7 +53,7 @@ public class AllGoals implements Goals{
             }
 
             return "";
-        } else if (children.contains("Or")) {
+        } else if (check.equals("Or")) {
             for (Goals g: children) {
                 if (g.goalSatisfied(d).equals("")){
                     return "";
@@ -51,8 +68,9 @@ public class AllGoals implements Goals{
                     return d.getGoals();
                 }
             }
+
+            return "";
         }
 
-        return "";
     }
 }

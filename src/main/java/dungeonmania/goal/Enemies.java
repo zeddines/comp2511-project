@@ -15,7 +15,7 @@ public class Enemies implements Goals{
     public String goalSatisfied(DungeonResponse d) {
         // TODO: PLEASE FINISH
         for (EntityResponse e: d.getEntities()) {
-            if (!e.getType().equals("mercenary") || !e.getType().equals("spider") || !e.getType().equals("zombie_toast")) {
+            if (e.getType().equals("mercenary") || e.getType().equals("spider") || e.getType().equals("zombie_toast")) {
                 return d.getGoals();
             }
         }

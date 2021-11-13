@@ -189,51 +189,46 @@ public class DungeonMap implements DungeonMapAPI {
 
         System.out.println(goals);
 
-
         String[] parts;
 
         if (goals.contains("AND")) {
             parts = goals.split("AND");
 
-            allGoals.addGoal(new And());
-
             for (String s: parts) {
                 System.out.println(s);
 
                 if (s.equals("boulders")) {
                     allGoals.addGoal(new BoulderGoal());
                 } else if (s.equals("enemies")) {
-    //                allGoals.addGoal(new);
+                    allGoals.addGoal(new Enemies());
                 } else if (s.equals("treasure")) {
                     allGoals.addGoal(new TreasureGoal());
                 } else if (s.equals("exit")) {
                     allGoals.addGoal(new ExitGoal());
                 }
             }
+
+            allGoals.addGoal(new And());
         } else if (goals.contains("OR")) {
             parts = goals.split("OR");
 
-            allGoals.addGoal(new Or());
-
             for (String s: parts) {
                 System.out.println(s);
-                System.out.println("hello");
 
                 if (s.equals("boulders")) {
                     allGoals.addGoal(new BoulderGoal());
                 } else if (s.equals("enemies")) {
-                    //                allGoals.addGoal(new);
+                    allGoals.addGoal(new Enemies());
                 } else if (s.equals("treasure")) {
                     allGoals.addGoal(new TreasureGoal());
                 } else if (s.equals("exit")) {
                     allGoals.addGoal(new ExitGoal());
                 }
             }
+
+            allGoals.addGoal(new Or());
         }
 
-
-//        allGoals.addGoal(new ExitGoal());
-        //TODO: turn string into objects and add to composite class
     }
 
     public void setPlayer(Player newPlayer) {
@@ -243,23 +238,6 @@ public class DungeonMap implements DungeonMapAPI {
     public Player getPlayer() {
         return player;
     }
-
-        
-        
-        /*boolean stop = false;
-        while(!stop) {
-            stop = true;
-            for (EntityAPI diffEntities: checkList) {
-                //we will need to talk about how we avoid this concurrent modification problem
-                if (diffEntities instanceof Collectable) {
-                    stop = false;
-                    diffEntities.action(player, currentPosition);
-                    break;
-
-                }
-                diffEntities.action(player, currentPosition);
-            }  
-        }*/              
 
     public List<ItemResponse> getItemInfoList() {
         return player.inventoryToItemResponse();
