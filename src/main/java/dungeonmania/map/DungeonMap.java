@@ -1,4 +1,5 @@
 package dungeonmania.map;
+import dungeonmania.goal.*;
 import dungeonmania.util.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class DungeonMap implements DungeonMapAPI {
 
     private Map<Position,List<EntityAPI>> entities;
     private String goals;
+    private AllGoals allGoals = new AllGoals();
     private Player player;
     private ArrayList<Enemy> battlingNPCs;
     //includes entity in inventories
@@ -55,7 +57,7 @@ public class DungeonMap implements DungeonMapAPI {
         }
         return true;
     }
-    public void tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
+    public void tick(String itemUsedId, Direction movementDirection, DungeonResponse d) throws IllegalArgumentException, InvalidActionException{
 
         //all entitys preform player non dependent actions like moving and spawning
         // for (EntityAPI entity : getAllEntityAPIs()){
@@ -96,8 +98,9 @@ public class DungeonMap implements DungeonMapAPI {
         while (!battlingNPCs.isEmpty()){
             roundBattle();
         }
+
         //TODO GOAL
-        //goal.isSatisfied();
+        goals = allGoals.goalSatisfied(d);
 
         //return the dungeonresponse object
     }
@@ -180,8 +183,63 @@ public class DungeonMap implements DungeonMapAPI {
     public String getGoals() {
         return goals;
     }
+
     public void setGoals(String goals) {
+//        System.out.println("Hello");
         this.goals = goals;
+
+//        System.out.println(goals);
+
+        String[] parts;
+
+        if (goals.contains("AND")) {
+            parts = goals.split("AND");
+
+            for (String s: parts) {
+//                System.out.println(s);
+
+                if (s.equals("boulders")) {
+                    allGoals.addGoal(new BoulderGoal());
+                } else if (s.equals("enemies")) {
+                    allGoals.addGoal(new Enemies());
+                } else if (s.equals("treasure")) {
+                    allGoals.addGoal(new TreasureGoal());
+                } else if (s.equals("exit")) {
+                    allGoals.addGoal(new ExitGoal());
+                }
+            }
+
+            allGoals.addGoal(new And());
+        } else if (goals.contains("OR")) {
+            parts = goals.split("OR");
+
+            for (String s: parts) {
+//                System.out.println(s);
+
+                if (s.equals("boulders")) {
+                    allGoals.addGoal(new BoulderGoal());
+                } else if (s.equals("enemies")) {
+                    allGoals.addGoal(new Enemies());
+                } else if (s.equals("treasure")) {
+                    allGoals.addGoal(new TreasureGoal());
+                } else if (s.equals("exit")) {
+                    allGoals.addGoal(new ExitGoal());
+                }
+            }
+
+            allGoals.addGoal(new Or());
+        } else {
+            if (goals.equals("boulders")) {
+                allGoals.addGoal(new BoulderGoal());
+            } else if (goals.equals("enemies")) {
+                allGoals.addGoal(new Enemies());
+            } else if (goals.equals("treasure")) {
+                allGoals.addGoal(new TreasureGoal());
+            } else if (goals.equals("exit")) {
+                allGoals.addGoal(new ExitGoal());
+            }
+        }
+
     }
 
     public void setPlayer(Player newPlayer) {
@@ -191,23 +249,6 @@ public class DungeonMap implements DungeonMapAPI {
     public Player getPlayer() {
         return player;
     }
-
-        
-        
-        /*boolean stop = false;
-        while(!stop) {
-            stop = true;
-            for (EntityAPI diffEntities: checkList) {
-                //we will need to talk about how we avoid this concurrent modification problem
-                if (diffEntities instanceof Collectable) {
-                    stop = false;
-                    diffEntities.action(player, currentPosition);
-                    break;
-
-                }
-                diffEntities.action(player, currentPosition);
-            }  
-        }*/              
 
     public List<ItemResponse> getItemInfoList() {
         return player.inventoryToItemResponse();

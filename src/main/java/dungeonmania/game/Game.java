@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Game implements GameAPI {
 
     private String dungeonName;
-    private String dungeonId = "";
+    private String dungeonId;
     public static Integer numGames = 0;
     private String gameMode;
     private DungeonMapAPI map;
@@ -31,13 +31,12 @@ public class Game implements GameAPI {
     }
 
     public DungeonResponse getInfo() {
-        map.getGoals();
-        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.getInfoList(), map.getItemInfoList() , new ArrayList<String>(), map.getGoals());
-        return hello;
+//        map.getGoals();
+        return new DungeonResponse(dungeonId, dungeonName, map.getInfoList(), map.getItemInfoList() , new ArrayList<>(), map.getGoals());
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
-        map.tick(itemUsed, movementDirection);
+        map.tick(itemUsed, movementDirection, getInfo());
         return getInfo();
     }
 
