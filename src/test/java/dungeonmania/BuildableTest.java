@@ -98,7 +98,7 @@ public class BuildableTest {
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), player));
         
-                 // Moving down 13 tiles
+        // Moving down 13 tiles
         Controller.tick("player", Direction.DOWN);
         Controller.tick("player", Direction.DOWN);
         Controller.tick("player", Direction.DOWN);
