@@ -6,15 +6,14 @@ import org.json.JSONObject;
 import dungeonmania.entity.creature.*;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
-import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.util.*;
 
 public class MovingFactory extends PrimaryFactory {
 
     public static final String[] movingEntites = {"spider", "zombie_toast", "mercenary", "player", "hydra", "assassin"};
 
-    public MovingFactory() {
-        super(movingEntites);
+    public MovingFactory(String difficulty, DungeonMapAPI game) {
+        super(movingEntites, difficulty, game);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class MovingFactory extends PrimaryFactory {
         else if (type.equals("player")){
             Player player = new Player(map, type, new Position(entityContents.getInt("x"), entityContents.getInt("y")));    
             player.setBattleStat(new RevivableBattleStat(player, 10, 10, 2));
-            return player;
+            return player;            
         }
         return null;
     }
@@ -68,18 +67,28 @@ public class MovingFactory extends PrimaryFactory {
     public Enemy makeEnemy(String type, Position current, DungeonMapAPI map, ArrayList<Object> enemies){
         switch(type){
             case "spider":
-                Spider spider = new Spider(current, type, map); 
+                NonInteractableEnemy spider = new NonInteractableEnemy(current, type, map); 
                 enemies.add(spider);
                 return spider;
             case "zombie_toast":
-                ZombieToast zombieToast = new ZombieToast(current, type, map);
+                NonInteractableEnemy zombieToast = new NonInteractableEnemy(current, type, map);
                 enemies.add(zombieToast); 
                 return zombieToast;
-            default:
-                Mercenary mercenary = new Mercenary(current, type, map);
+            case "mercenary":
+                InteractableEnemy mercenary = new InteractableEnemy(current, type, map);
                 enemies.add(mercenary);
                 return mercenary;
-        }
+            case "assassin":
+                InteractableEnemy assassin = new InteractableEnemy(current, type, map);
+                enemies.add(assassin);
+                return assassin;
+            case "hydra":
+                NonInteractableEnemy hydra = new NonInteractableEnemy(current, type, map);
+                enemies.add(hydra); 
+                return hydra;
+            default:
+                return null;   
+        }        
     }
 
     public Player makePlayer(String type, Position current, DungeonMapAPI map){

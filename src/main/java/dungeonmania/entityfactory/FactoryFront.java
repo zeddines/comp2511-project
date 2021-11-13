@@ -13,24 +13,24 @@ import org.json.JSONObject;
 
 public class FactoryFront implements FactoryAPI {
 
-    private BuildableFactory bFac = new BuildableFactory();
-    private CollectibleFactory cFac = new CollectibleFactory();
-    private MovingFactory mFac = new MovingFactory();
-    private StaticFactory sFac = new StaticFactory();
+    // private BuildableFactory bFac = new BuildableFactory();
+    // private CollectibleFactory cFac = new CollectibleFactory();
+    // private MovingFactory mFac = new MovingFactory();
+    // private StaticFactory sFac = new StaticFactory();
     //private RareFactory rFac = new RareFactory();
 
     private BuildableFactory bFac;
     private CollectibleFactory cFac;
     private MovingFactory mFac;
     private StaticFactory sFac;
-    private RareFactory rFac;
+    //private RareFactory rFac;
 
     public FactoryFront(String difficulty, DungeonMapAPI map) {
         bFac = new BuildableFactory(difficulty, map);
         cFac = new CollectibleFactory(difficulty, map);
         mFac = new MovingFactory(difficulty, map);
         sFac = new StaticFactory(difficulty, map);
-        rFac = new RareFactory(difficulty, map);
+        //rFac = new RareFactory(difficulty, map);
     }
 
     public Entity build(JSONObject entityContents, DungeonMapAPI map) {
@@ -50,21 +50,21 @@ public class FactoryFront implements FactoryAPI {
         //     return rFac.build(entityContents, map);
     }
 
-    public Collectable makeCollectable(String type, Position current){
-        // if(type.equals("health_potion") || type.equals("invisibility_potion") || type.equals("invincibility_potion")){
-        //     cFac.makePotion(type, map);
-        // }
-        // if (type.equals("treasure") || type.equals("key") || type.equals("wood") || type.equals("arrow")){
-        //     cFac.makeCollectables(type, map);
-        // }
-        cFac.makeCollectables(type, current);
-    }
+    // public Collectable makeCollectable(String type, Position current){
+    //     // if(type.equals("health_potion") || type.equals("invisibility_potion") || type.equals("invincibility_potion")){
+    //     //     cFac.makePotion(type, map);
+    //     // }
+    //     // if (type.equals("treasure") || type.equals("key") || type.equals("wood") || type.equals("arrow")){
+    //     //     cFac.makeCollectables(type, map);
+    //     // }
+    //     cFac.makeCollectables(type, current);
+    // }
 
-    public Collectable makeBuildable(String type, ArrayList<Collectable> nonBattleItems){
-        if  (type.equals("Bow") || type.equals("Shield")){
+    // public Collectable makeBuildable(String type, ArrayList<Collectable> nonBattleItems){
+    //     if  (type.equals("Bow") || type.equals("Shield")){
             
-        }
-    }
+    //     }
+    // }
 
     public Creature makeCreature(String type, Position current, DungeonMapAPI map, ArrayList<String>collectables){
         // if(type.equals("zombie_toast") || type.equals("spider") || type.equals("mercenary")){
@@ -72,7 +72,7 @@ public class FactoryFront implements FactoryAPI {
         // }
         Creature newCreature =  mFac.makeEnemy(type, current, map);
         for ( ){
-            newCreature.addCollectable(cFac.makeCollectables(, current, map););
+            newCreature.addCollectable(cFac.makeCollectables(type, current, map);
         }
         return newCreautre;
     }

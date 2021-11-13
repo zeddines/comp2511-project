@@ -11,10 +11,12 @@ abstract public class PrimaryFactory implements FactoryExtendAPI {
 
     private List<String> entities;
     private String difficulty;
+    private DungeonMapAPI game;
 
-    public PrimaryFactory(String[] entities, String difficulty) {
+    public PrimaryFactory(String[] entities, String difficulty, DungeonMapAPI game) {
         this.entities = Arrays.asList(entities);
         this.difficulty = difficulty;
+        this.game = game;
     }
 
     public boolean checkType(String type) {

@@ -10,8 +10,8 @@ public class StaticFactory extends PrimaryFactory {
 
     public static String[] staticEntities = {"wall", "exit", "boulder", "switch", "door", "portal", "zombie_toast_spawner"}; 
     
-    public StaticFactory(String difficulty) {
-        super(staticEntities, difficulty);
+    public StaticFactory(String difficulty, DungeonMapAPI game) {
+        super(staticEntities, difficulty, game);
     }
 
     @Override
@@ -33,6 +33,7 @@ public class StaticFactory extends PrimaryFactory {
             return new ZombieToastSpawner(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
     }
     
+    /*
     public Square makeStatics(String type, Position current, DungeonMapAPI map){
         switch(type){
             case "wall":
@@ -43,4 +44,5 @@ public class StaticFactory extends PrimaryFactory {
         }
 
     }
+    */
 }
