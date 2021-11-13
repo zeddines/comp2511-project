@@ -188,7 +188,7 @@ public class DungeonMap implements DungeonMapAPI {
 //        System.out.println("Hello");
         this.goals = goals;
 
-        System.out.println(goals);
+//        System.out.println(goals);
 
         String[] parts;
 
@@ -196,7 +196,7 @@ public class DungeonMap implements DungeonMapAPI {
             parts = goals.split("AND");
 
             for (String s: parts) {
-                System.out.println(s);
+//                System.out.println(s);
 
                 if (s.equals("boulders")) {
                     allGoals.addGoal(new BoulderGoal());
@@ -214,7 +214,7 @@ public class DungeonMap implements DungeonMapAPI {
             parts = goals.split("OR");
 
             for (String s: parts) {
-                System.out.println(s);
+//                System.out.println(s);
 
                 if (s.equals("boulders")) {
                     allGoals.addGoal(new BoulderGoal());
@@ -228,6 +228,16 @@ public class DungeonMap implements DungeonMapAPI {
             }
 
             allGoals.addGoal(new Or());
+        } else {
+            if (goals.equals("boulders")) {
+                allGoals.addGoal(new BoulderGoal());
+            } else if (goals.equals("enemies")) {
+                allGoals.addGoal(new Enemies());
+            } else if (goals.equals("treasure")) {
+                allGoals.addGoal(new TreasureGoal());
+            } else if (goals.equals("exit")) {
+                allGoals.addGoal(new ExitGoal());
+            }
         }
 
     }

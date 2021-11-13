@@ -63,6 +63,7 @@ public class AllGoals implements Goals{
 
             return d.getGoals();
         } else {
+            System.out.println("Herlro");
             for (Goals g: children) {
                 if (!g.goalSatisfied(d).equals("")){
                     return d.getGoals();
