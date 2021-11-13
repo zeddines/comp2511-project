@@ -16,10 +16,19 @@ public class BuildableFactory extends PrimaryFactory {
 
     public static final String[] buildables = {"bow", "shield"};    
 
+<<<<<<< HEAD
     ArrayList<Collectable> builtItems = new ArrayList<>();
 
     public BuildableFactory(String difficulty, DungeonMapAPI map) {
         super(buildables, difficulty, map);
+=======
+public class BuildableFactory extends PrimaryFactory {
+
+    public static final String[] buildables = {"bow", "shield"};
+
+    public BuildableFactory() {
+        super(buildables);
+>>>>>>> master
     }
 
     @Override
@@ -34,6 +43,7 @@ public class BuildableFactory extends PrimaryFactory {
 
     }
 
+<<<<<<< HEAD
     public Collectable makeBuildable(String type, DungeonMapAPI map, DungeonResponse dungeonResponse, Player player){
         
         //Collectable buildables = new ArrayList<>();
@@ -86,6 +96,9 @@ public class BuildableFactory extends PrimaryFactory {
         }
         return null;
     }  
+=======
+    }   
+>>>>>>> master
     
     public int countBuildableItems(String type, DungeonResponse dungeonResponse){  
         int count = 0;
