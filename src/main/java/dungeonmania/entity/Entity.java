@@ -27,11 +27,6 @@ public abstract class Entity implements EntityAPI{
     }
 
     @Override
-    public boolean isMovableNPC(){
-        return (this instanceof MovableNPC);
-    }
-
-    @Override
     public boolean isHostile(){
         return (this instanceof Enemy) && !(getGame().getAllies().contains(this));
     }

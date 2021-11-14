@@ -15,7 +15,6 @@ public interface EntityAPI {
     public String getId();
     public void setPosition(Position position);
     public String getType();
-    public boolean isMovableNPC();
     public boolean isHostile();
     public boolean isInteractable();
     public EntityResponse toEntityResponse();

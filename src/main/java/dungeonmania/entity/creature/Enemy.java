@@ -7,7 +7,6 @@ import dungeonmania.entity.interfaces.MovableNPC;
 import dungeonmania.util.Position;
 
 public class Enemy extends Creature implements MovableNPC{
-
     private MovementNPC movement;
 
     public Enemy(DungeonMapAPI game, String type, Position position) {
@@ -21,9 +20,11 @@ public class Enemy extends Creature implements MovableNPC{
         }
     }
 
+    //TODO DELETE THE CONDITIONAL AFTER IMPLEMENTATION, CUZ NOW MOVEMENT IS NULL
     @Override
     public void move() {
-        movement.move();
+        if (movement != null)
+            movement.move();
     }
 
     //getter setter

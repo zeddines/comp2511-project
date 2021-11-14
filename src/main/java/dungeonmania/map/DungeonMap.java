@@ -199,9 +199,18 @@ public class DungeonMap implements DungeonMapAPI {
         else{
             playerMove(movementDirection);
         }
-        //TODO ADD YOUR MOVE ALL ENTITY FUNCTION HERE
 
-        //-----//
+        //NPC MOVEMENT, TODO INCORPORATE THE LOGIC OF SWAMP
+        //MY SUGGESTION IS MAKE A HASHMAP WHICH STORES WHICH NPC
+        //AND NOW LONG THEY ARE STUCK, THEN SIMPLY DON'T CALL THEM TO 
+        //MOVE() WHEN THEY ARE STUCK
+        //UPDATE THE HASHMAP EVERY TICK
+        for (EntityAPI entity : getAllEntitiesInMap()){
+            if (entity.isHostile())
+                ((Enemy)entity).move();
+        }
+        //NPC MOVEMENT ENDS HERE//
+        
         doCollideAction(player);
         updateEffects();
 
