@@ -399,10 +399,6 @@ public class DungeonMap implements DungeonMapAPI {
         }
     }
 
-    public void build(String buildable){
-        
-    }
-
     public void addEntity(EntityAPI newEntity) {
         if (!entities.containsKey(newEntity.getPosition())) {
             entities.put(newEntity.getPosition(), new ArrayList<EntityAPI>());

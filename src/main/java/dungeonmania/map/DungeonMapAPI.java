@@ -28,8 +28,7 @@ public interface DungeonMapAPI {
     public Player getPlayer();
 
     public void tick(String itemUsedId, Direction movementDirection, DungeonResponse d);
-    public void interact(String entityId);
-    public void build(String buildable);
+    public void interact(String entityId);    
     public List<String> buildableItems();
     public boolean canBeInPosition(Enemy enemy, Position newPos);
     public boolean canBeInPosition(Boulder boulder, Position newPos);
@@ -40,9 +39,5 @@ public interface DungeonMapAPI {
     public void removeEffectInAction(Effect effect);
     public ArrayList<EntityAPI> getAllEntitiesInMap();
     public ArrayList<Creature> getAllies();
-<<<<<<< HEAD
-    public void build(String buildable);
-=======
     public FactoryFront getFactory();
->>>>>>> M2M3Bertram
 }

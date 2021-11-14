@@ -59,12 +59,8 @@ public class Game implements GameAPI {
         return map.getPlayer();
     }
 
-<<<<<<< HEAD
-    public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-=======
     @Override
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException{
->>>>>>> M2M3Bertram
         map.build(buildable);
         return toDungeonResponse();
     }

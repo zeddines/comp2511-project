@@ -5,12 +5,8 @@ import org.json.JSONObject;
 import dungeonmania.entity.*;
 import dungeonmania.entity.buildable.Bow;
 import dungeonmania.entity.collectable.*;
-<<<<<<< HEAD
-import dungeonmania.entity.creature.Player;
-=======
 import dungeonmania.entity.creature.Creature;
 import dungeonmania.map.DungeonMap;
->>>>>>> M2M3Bertram
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 
