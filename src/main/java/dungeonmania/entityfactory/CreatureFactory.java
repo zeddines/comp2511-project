@@ -80,13 +80,13 @@ public class CreatureFactory extends PrimaryFactory {
                 case "spider":
                     return new StandardBattleStat(creature, 5, 5, 0);
                 case "zombie_toast":
-                    return new StandardBattleStat(creature, 10, 0.5, 0);
+                    return new StandardBattleStat(creature, 10, 2, 0);
                 case "mercenary":
-                    return new StandardBattleStat(creature, 10, 0.1, 0);
+                    return new StandardBattleStat(creature, 10, 2, 0);
                 case "assassin":
-                    return new BossBattleStat(creature, 10, 0.1, 0);
+                    return new BossBattleStat(creature, 10, 4, 0);
                 case "hydra":
-                    return new HydraBattleStat(creature, 10, 0.5, 0);  
+                    return new HydraBattleStat(creature, 20, 2, 0);  
                 case "player":
                     if (getDifficulty().equals("Hard")) 
                         return new RevivableBattleStat(creature, 5, 5, 1);

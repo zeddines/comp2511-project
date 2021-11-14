@@ -32,7 +32,7 @@ public class MovementTest {
 //        }
 
         Position original = new Position(1,1);
-        Position oneStep = new Position(2, 1);
+        Position oneStep = new Position(2,1);
 
         Entities.stream()
                 .filter(e -> e.getType().equals("player"))
@@ -119,6 +119,8 @@ public class MovementTest {
         Entities.stream()
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), itemLocation));
+
+                
     }
 
 

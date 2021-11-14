@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 import dungeonmania.entity.*;
+import dungeonmania.entity.buildable.Bow;
 import dungeonmania.entity.collectable.*;
 import dungeonmania.entity.creature.Creature;
 import dungeonmania.map.DungeonMap;
