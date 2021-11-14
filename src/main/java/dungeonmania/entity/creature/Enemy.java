@@ -24,7 +24,7 @@ public class Enemy extends Creature implements MovableNPC{
     @Override
     public void move() {
         if (movement != null)
-            movement.move();
+            movement.move(); 
     }
 
     //getter setter
