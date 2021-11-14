@@ -40,4 +40,5 @@ public interface DungeonMapAPI {
     public ArrayList<EntityAPI> getAllEntitiesInMap();
     public ArrayList<Creature> getAllies();
     public FactoryFront getFactory();
+    public void build(String buildable);
 }
