@@ -216,7 +216,7 @@
       {
         "x": 0,
         "y": 5,
-        "type": "mercenary"
+        "type": "wall"
       },
       {
         "x": 3,
@@ -231,7 +231,7 @@
       {
         "x": 17,
         "y": 5,
-        "type": "invisibility_potion"
+        "type": "wall"
       },
       {
         "x": 0,
@@ -241,12 +241,12 @@
       {
         "x": 6,
         "y": 6,
-        "type": "assassin"
+        "type": "wall"
       },
       {
         "x": 8,
         "y": 6,
-        "type": "anduril"
+        "type": "wall"
       },
       {
         "x": 9,
@@ -261,7 +261,7 @@
       {
         "x": 17,
         "y": 6,
-        "type": "wall"
+        "type": "sun_stone"
       },
       {
         "x": 0,
@@ -317,6 +317,16 @@
         "x": 8,
         "y": 8,
         "type": "wall"
+      },
+      {
+        "x": 5,
+        "y": 5,
+        "type": "switch"
+      },
+      {
+        "x": 7,
+        "y": 6,
+        "type": "boulder"
       },
       {
         "x": 9,
@@ -381,7 +391,7 @@
       {
         "x": 6,
         "y": 10,
-        "type": "treasure"
+        "type": "wall"
       },
       {
         "x": 7,
@@ -389,14 +399,58 @@
         "type": "treasure"
       },
       {
-        "x": 11,
+        "x": 15,
+        "y": 9,
+        "type": "door",
+        "key": 1
+      },
+      {
+        "x": 4,
         "y": 10,
-        "type": "invisibility_potion"
+        "type": "door",
+        "key": 2
       },
       {
         "x": 11,
         "y": 10,
-        "type": "zombie_toast_spawner"
+        "type": "key",
+        "key": 1
+      },
+      {
+        "x": 12,
+        "y": 10,
+        "type": "key",
+        "key": 2
+      },
+      {
+        "x": 11,
+        "y": 11,
+        "type": "wood"
+      },
+      {
+        "x": 11,
+        "y": 12,
+        "type": "wood"
+      },
+      {
+        "x": 11,
+        "y": 13,
+        "type": "arrow"
+      },
+      {
+        "x": 11,
+        "y": 14,
+        "type": "arrow"
+      },
+      {
+        "x": 12,
+        "y": 14,
+        "type": "arrow"
+      },
+      {
+        "x": 13,
+        "y": 14,
+        "type": "wood"
       },
       {
         "x": 17,

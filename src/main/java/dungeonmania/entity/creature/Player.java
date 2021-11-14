@@ -1,111 +1,90 @@
 package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.EntityAPI;
 import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Effect;
+import dungeonmania.entity.collectable.Key;
 import dungeonmania.entity.collectable.Potion;
+import dungeonmania.entity.collectable.SunStone;
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.Guard;
+import dungeonmania.entity.interfaces.BattleGear;
 import dungeonmania.entity.interfaces.Usable;
-import dungeonmania.entity.interfaces.Weapon;
 import dungeonmania.exceptions.InvalidActionException;
+import dungeonmania.map.DungeonMap;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;
 
-public class Player extends Creature implements PlayerAPI {
+public class Player extends Creature{
 
-    private boolean isInvisible;
-    private boolean isInvincible;
-
-    public ArrayList<Potion> potionsInEffect;
-
-    public Player(DungeonMapAPI map, String type, Position position) {
-        super(map, type, position, true, new StandardBattleStat(100, 10, 0));
-        potionsInEffect = new ArrayList<>();
-        isInvisible = false;
-        isInvincible = false; 
+    public Player(Position position, String type, DungeonMapAPI map) {
+        super(map, type, position);
         map.setPlayer(this);
     }
+
     
-    public void addPotionInEffect(Potion potion){
-        potionsInEffect.add(potion);
-    }
-
-    private void resetBuffs(){
-        isInvincible = false;
-        isInvisible = false;
-    }
-
-    public void updatePotionEffects(){
-        Iterator<Potion> potionIte = potionsInEffect.iterator(); 
-        resetBuffs();
-        while (potionIte.hasNext()){
-            Potion potion = potionIte.next();
-            potion.updateEffectDuration();
-            System.out.println(potion.getDurationLeft());
-            if (potion.getDurationLeft() == 0){
-                System.out.println("potionEffectRemoved");
-                potionIte.remove();
-            }   
+    public void use(String id) throws IllegalArgumentException, InvalidActionException{
+        for (Collectable collectable : getAllCollectables()){
+            if (id.equals(collectable.getId())){
+                if (!(collectable instanceof Usable)){
+                    throw new IllegalArgumentException("item is not usable");
+                }
+                else{
+                    Usable item = (Usable)collectable;    
+                    item.use();
+                    return;
+                }
+            }
         }
-        
-        for (Potion potionInEffect : potionsInEffect){
-            potionInEffect.applyPotionEffect();
-            System.out.println("appliedEffect");
-        }
-        
+        throw new InvalidActionException("item is not in player's inventory");
     }
 
-    //getter setters
-    public boolean isInvisible() {
-        return isInvisible;
-    }
-
-    public void setInvisible(boolean isInvisible) {
-        this.isInvisible = isInvisible;
-    }
-
-    public boolean isInvincible() {
-        return isInvincible;
-    }
-
-    public void setInvincible(boolean isInvincible) {
-        this.isInvincible = isInvincible;
-    }
-
-    public ArrayList<ItemResponse> inventoryToItemResponse(){
+    public ArrayList<ItemResponse> inventoryToItemResponseList(){
         ArrayList<ItemResponse> returnList = new ArrayList<>();
 
         for (Collectable item : getNonBattleItems()){
             returnList.add(new ItemResponse(item.getId(), item.getType()));
         }
 
-        for (Weapon weapon : getOwnedWeapons()){
-            Entity weaponAsEntity = (Entity)weapon;
-            returnList.add(new ItemResponse(weaponAsEntity.getId(), weaponAsEntity.getType()));
-        }
-
-        for (Guard guard : getOwnedGuards()){
-            Entity guardAsEntity = (Entity)guard;
-            returnList.add(new ItemResponse(guardAsEntity.getId(), guardAsEntity.getType()));
+        for (BattleGear battleGear : getBattleGears()){
+            Entity battleGearAsEntity = (Entity)battleGear;
+            returnList.add(new ItemResponse(battleGearAsEntity.getId(), battleGearAsEntity.getType()));
         }
 
         return returnList;
     }
 
-    public void use(String id) throws IllegalArgumentException, InvalidActionException{
-        Entity entity = getNonBattleItemFromInventory(id);
-        if (entity == null){
-            throw new InvalidActionException(id);
+    public ArrayList<Collectable> give(List<String> itemsRequired){
+        ArrayList<Integer> positionOfItems = new ArrayList<>();
+        for (String itemRequired : itemsRequired){
+            boolean itemIsMissing = true;
+            for (int i = 0; i < getNonBattleItems().size() && itemIsMissing; i++){
+                Collectable itemAvailable = getNonBattleItems().get(i);
+                if (itemRequired.equals(itemAvailable.getType()) && !positionOfItems.contains(i)){
+                    itemIsMissing = false;
+                    positionOfItems.add(i);
+                }
+            }
+            if (itemIsMissing){
+                return null;
+            }
         }
-        if (!(entity instanceof Usable))
-            throw new IllegalArgumentException();
-        Usable item = (Usable)entity;    
-        item.use();
+        ArrayList<Collectable> collectablesToGive = new ArrayList<>();
+        for (int i : positionOfItems){
+            if (!(getNonBattleItems().get(i) instanceof SunStone)){
+                collectablesToGive.add(getNonBattleItems().get(i));
+            }
+        }
+        for (Collectable collectableToRemove : collectablesToGive){
+            getNonBattleItems().remove(collectableToRemove);
+        }
+        return collectablesToGive;
     }
-
 }

@@ -1,42 +1,38 @@
 package dungeonmania.entity.collectable;
 
 import dungeonmania.map.DungeonMapAPI;
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.entity.interfaces.Usable;
 import dungeonmania.util.Position;
 
-
-//TODO NOT MENTIONED IN UML
 public class Potion extends Collectable implements Usable{
-    PotionEffect effect;
+    Effect effect;
 
 
-    public Potion(Position position, String type, DungeonMapAPI game, PotionEffect effect) {
-        super(game, type, position, false);
+    public Potion(Position position, String type, DungeonMapAPI game, Effect effect) {
+        super(game, type, position);
         this.effect = effect;
     }
+
+    
+
+    public Potion(Creature owner, String type,  DungeonMapAPI game, Effect effect) {
+        super(game, type, owner);
+        this.effect = effect;
+    }
+
+
 
     @Override
     public void collideAction(Player player){
         super.collideAction(player);
-        effect.setOwner(player);
+        effect.setTarget(player);
     }
 
     @Override
     public void use() {
         removeFromInventory();
-        ((Player)getOwner()).addPotionInEffect(this);
-    }
-
-    public void applyPotionEffect(){
-        effect.applyPotionEffect();
-    }
-
-    public void updateEffectDuration(){
-        effect.updateEffectDuration();
-    }
-
-    public int getDurationLeft(){
-        return effect.getDurationLeft();
+        effect.apply();
     }
 }
