@@ -1,36 +1,77 @@
 package dungeonmania.entity.creature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dungeonmania.entity.Entity;
 import dungeonmania.entity.collectable.Collectable;
+import dungeonmania.entity.collectable.Effect;
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.Guard;
-import dungeonmania.entity.interfaces.Weapon;
+import dungeonmania.entity.square.Boulder;
+import dungeonmania.entity.interfaces.BattleGear;
+import dungeonmania.map.DungeonMap;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.Position;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Creature extends Entity{
-    //TODO NOT MENTIONED IN UML(CREATURE SHOULDN'T HAVE INVENTORY AND CHANGE BATTLESTAT NAME) 
     private BattleStat battleStat;
+    private ArrayList<Collectable> nonBattleItems; 
 
-    private List<Collectable> nonBattleItems; 
+    Map<String, Integer> buffs;
     
-    public Creature(DungeonMapAPI game, String type, Position position, boolean isInteractable , BattleStat battleStat) {
-        super(game, position, type, isInteractable);
-        this.battleStat = battleStat;
+    
+    public Creature(DungeonMapAPI game, String type, Position position) {
+        super(game, position, type);
         this.nonBattleItems = new ArrayList<>();
+        buffs = new HashMap<>();
+        buffs.put("invisibility", 0);
+        buffs.put("invincibility", 0);
     }
 
-    //TODO NOT MENTIONED IN UML
+    public void setPosition(Position position) {
+         super.setPosition(position);
+    }
+
+    public Position getPosition() {
+        return super.getPosition();
+    }
+
+    
+    
+    public void applyInvisibleBuff() {
+        buffs.put("invisibility", buffs.get("invisibility").intValue() + 1);
+    }
+
+
+    public void applyInvincibleBuff() {
+        buffs.put("invincibility", buffs.get("invincibility").intValue() + 1);
+    }
+
+    public void revertInvisibleBuff() {
+        buffs.put("invisibility", buffs.get("invisibility").intValue() - 1);
+    }
+
+
+    public void revertInvincibleBuff() {
+        buffs.put("invincibility", buffs.get("invincibility").intValue() - 1);
+    }
+
+
+
+    //getter setters
+    public boolean isInvisible() {
+        return buffs.get("invisibility") > 0;
+    }
+
+    public boolean isInvincible() {
+        return buffs.get("invincibility") > 0;
+    }
+
     public void addCollectable(Collectable newItem){
-        if (newItem instanceof Weapon){
-            battleStat.addWeapon((Weapon)newItem);
-        }
-        else if(newItem instanceof Guard){
-            battleStat.addGuard((Guard)newItem);
-        }
+        if (newItem instanceof BattleGear)
+            battleStat.addBattleGear((BattleGear)newItem);
         else{
             nonBattleItems.add(newItem);
         }
@@ -40,7 +81,11 @@ public abstract class Creature extends Entity{
         nonBattleItems.remove(item);
     }
 
-    //getter setters
+    @Override
+    public boolean canBeOnSamePosition(Boulder boulder){
+        return false;
+    }
+
     public BattleStat getBattleStat() {
         return battleStat;
     }
@@ -49,7 +94,7 @@ public abstract class Creature extends Entity{
         this.battleStat = battleStat;
     }
 
-    public List<Collectable> getNonBattleItems() {
+    public ArrayList<Collectable> getNonBattleItems() {
         return nonBattleItems;
     }
 
@@ -57,20 +102,25 @@ public abstract class Creature extends Entity{
         this.nonBattleItems = nonBattleItems;
     }
 
-    public ArrayList<Weapon> getOwnedWeapons(){
-        return battleStat.getWeapons();
+    public ArrayList<BattleGear> getBattleGears(){
+        return battleStat.getBattleGears();
     }
 
-    public ArrayList<Guard> getOwnedGuards(){
-        return battleStat.getGuards();
+    public ArrayList<Collectable> getAllCollectables(){
+        ArrayList<Collectable> retList = new ArrayList<>();
+        retList.addAll(nonBattleItems);
+        for (BattleGear item : getBattleGears()){
+            retList.add((Collectable)item);
+        }
+        return retList;
     }
 
-    public Collectable getNonBattleItemFromInventory(String id){
-        for (Collectable collectable : nonBattleItems){
-            if (collectable.getId().equals(id)){
-                return collectable;
+    public void removeItemOfType(String type){
+        for (Collectable item : getAllCollectables()){
+            if (item.getType().equals(type)){
+                removeCollectable(item);
+                return;
             }
         }
-        return null;
     }
 }

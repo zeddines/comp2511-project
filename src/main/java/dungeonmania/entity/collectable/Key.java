@@ -1,11 +1,13 @@
 package dungeonmania.entity.collectable;
 import dungeonmania.entity.*;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
 public class Key extends Collectable{
-   //private String door; 
+    private int key; 
 
     /**
      * can be picked up by the player when they move into the square containing it
@@ -13,8 +15,26 @@ public class Key extends Collectable{
      * fits that key
      * the key also disappears once it is used to open its corresponding door  
      */
-    public Key(Position current, String type, DungeonMapAPI map) {
-        super(map, type, current, false);
-        //this.do = entityContents.getString("key");
+    public Key(Position current, String type, int key, DungeonMapAPI map) {
+        super(map, type, current);
+        this.key = key;
+    }
+
+    public Key(Creature owner, String type, int key, DungeonMapAPI map) {
+        super(map, type, owner);
+        this.key = key;
+    }
+
+    public int getKey(){
+        return key;
+    }
+
+    @Override
+    public void collideAction(Player player){
+        for (Collectable collectable : player.getNonBattleItems()){
+            if (collectable instanceof Key)
+                return;
+        }
+        super.collideAction(player);
     }
 }

@@ -35,7 +35,7 @@ public class AllGoals implements Goals{
             }
         }
 
-        System.out.println(check);
+//        System.out.println(check);
 
         if (check.equals("And")) {
 
@@ -63,7 +63,7 @@ public class AllGoals implements Goals{
 
             return d.getGoals();
         } else {
-            System.out.println("Herlro");
+//            System.out.println("Herlro");
             for (Goals g: children) {
                 if (!g.goalSatisfied(d).equals("")){
                     return d.getGoals();
