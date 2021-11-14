@@ -32,23 +32,23 @@ public class MapBuilder implements MapBuilderAPI {
             //TESTING !!!!!!!!!!!!!!!a
             
             ////TESTING END
-            // String goals = "";
-            // JSONObject goalConditions = map.getJSONObject("goal-condition");
-            // if (goalConditions.has("subgoals")) {
-            //     String goalConnected = goalConditions.getString("goal");
-            //     JSONArray subGoals = goalConditions.getJSONArray("subgoals");
-            //     for (int i = 0 ; i < subGoals.length(); i++) {
-            //        if (i < subGoals.length() - 1 )
-            //             goals = goals + subGoals.getJSONObject(i).getString("goal") + goalConnected;
-            //        else {
-            //            goals = goals + subGoals.getJSONObject(i).getString("goal");
-            //        } 
-            //     }
+             String goals = "";
+             JSONObject goalConditions = map.getJSONObject("goal-condition");
+             if (goalConditions.has("subgoals")) {
+                 String goalConnected = goalConditions.getString("goal");
+                 JSONArray subGoals = goalConditions.getJSONArray("subgoals");
+                 for (int i = 0 ; i < subGoals.length(); i++) {
+                    if (i < subGoals.length() - 1 )
+                         goals = goals + subGoals.getJSONObject(i).getString("goal") + goalConnected;
+                    else {
+                        goals = goals + subGoals.getJSONObject(i).getString("goal");
+                    }
+                 }
 
-            // } else {
-            //     goals = goals + goalConditions.getString("goal");
-            // }
-            // newGame.setGoals(goals);
+             } else {
+                 goals = goals + goalConditions.getString("goal");
+             }
+             newGame.setGoals(goals);
             return newGame;
 
         } catch (IOException e) {

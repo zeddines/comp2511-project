@@ -28,7 +28,15 @@ public abstract class Creature extends Entity{
         buffs = new HashMap<>();
         buffs.put("invisibility", 0);
         buffs.put("invincibility", 0);
-    } 
+    }
+
+    public void setPosition(Position position) {
+         super.setPosition(position);
+    }
+
+    public Position getPosition() {
+        return super.getPosition();
+    }
 
     
     

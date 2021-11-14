@@ -2,6 +2,7 @@ package dungeonmania.entityfactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import dungeonmania.entity.interfaces.MovementNPC;
 import org.json.JSONObject;
 import dungeonmania.entity.creature.*;
 import dungeonmania.entity.interfaces.BattleStat;
@@ -40,19 +41,19 @@ public class CreatureFactory extends PrimaryFactory {
             case "spider":
                 NonInteractableEnemy spider =  new NonInteractableEnemy(position, type, map);
                 spider.setBattleStat(makeBattleState(spider));
-                spider.setMovement(null);
+                spider.setMovement(makeMovementNPC(spider));
                 return spider;
             case "zombie_toast":
                 NonInteractableEnemy zombieToast =  new NonInteractableEnemy(position, type, map);
                 zombieToast.setBattleStat(makeBattleState(zombieToast));
-                zombieToast.setMovement(null);
+                zombieToast.setMovement(makeMovementNPC(zombieToast));
                 return zombieToast;
             case "mercenary":
                 InteractableEnemy mercenary =  new InteractableEnemy(position, type, map);
                 mercenary.setBattleStat(makeBattleState(mercenary));
                 mercenary.addItemsRequiredToBribe(Arrays.asList("treasure"));
                 mercenary.addItemsRequiredToBribe(Arrays.asList("sun_stone"));
-                mercenary.setMovement(null);
+                mercenary.setMovement(makeMovementNPC(mercenary));
                 return mercenary;
             case "assassin":
                 InteractableEnemy assassin =  new InteractableEnemy(position, type, map);
@@ -97,4 +98,29 @@ public class CreatureFactory extends PrimaryFactory {
         }
         
     }
+
+    private MovementNPC makeMovementNPC(Creature creature) {
+        switch (creature.getType()) {
+            case "spider":
+                return new SpiderMovementNPC();
+            case "zombie_toast":
+                return new ZombieToastMovementNPC();
+            case "mercenary":
+                return new MercenaryMovementNPC();
+            default:
+                return null;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
