@@ -209,7 +209,7 @@ public class DungeonMap implements DungeonMapAPI {
         //MOVE() WHEN THEY ARE STUCK
         //UPDATE THE HASHMAP EVERY TICK
         for (EntityAPI entity : getAllEntitiesInMap()){
-            if (entity.isHostile())
+            if (entity instanceof Enemy)
                 ((Enemy)entity).move();
         }
         //NPC MOVEMENT ENDS HERE//
