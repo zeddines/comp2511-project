@@ -113,6 +113,8 @@ public class MovementTest {
         Entities.stream()
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), itemLocation));
+
+                
     }
 
 
