@@ -1,5 +1,6 @@
 package dungeonmania.entity.collectable;
 import dungeonmania.entity.*;
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
@@ -14,8 +15,13 @@ public class Key extends Collectable{
      * fits that key
      * the key also disappears once it is used to open its corresponding door  
      */
-    public Key(Position current, String type, int key,DungeonMapAPI map) {
+    public Key(Position current, String type, int key, DungeonMapAPI map) {
         super(map, type, current);
+        this.key = key;
+    }
+
+    public Key(Creature owner, String type, int key, DungeonMapAPI map) {
+        super(map, type, owner);
         this.key = key;
     }
 

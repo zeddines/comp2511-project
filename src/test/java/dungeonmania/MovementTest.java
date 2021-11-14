@@ -25,6 +25,12 @@ public class MovementTest {
         DungeonResponse Response = Controller.newGame("advanced", "Peaceful");
         List<EntityResponse>  Entities = Response.getEntities();
 
+//        for (EntityResponse e: Entities) {
+//            if (e.getType().equals("player")) {
+//                System.out.println(e.getPosition().toString());
+//            }
+//        }
+
         Position original = new Position(1,1);
         Position oneStep = new Position(2,1);
 
@@ -32,7 +38,7 @@ public class MovementTest {
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), original));
 
-        DungeonResponse newResponse = Controller.tick("player", Direction.RIGHT);
+        DungeonResponse newResponse = Controller.tick(null, Direction.RIGHT);
 
         List<EntityResponse> newEntities = newResponse.getEntities();
 
@@ -54,8 +60,8 @@ public class MovementTest {
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), original));
 
-        Controller.tick("player", Direction.DOWN);
-        DungeonResponse newResponse = Controller.tick("player", Direction.RIGHT);
+        Controller.tick(null, Direction.DOWN);
+        DungeonResponse newResponse = Controller.tick(null, Direction.RIGHT);
 
         List<EntityResponse> newEntities = newResponse.getEntities();
 
@@ -74,13 +80,13 @@ public class MovementTest {
         Position twoStep = new Position(1, 3);
 
         Entities.stream()
-                .filter(e -> e.getType().equals("player"))
+                .filter(e -> e.getType().equals(null))
                 .forEach(e -> assertEquals(e.getPosition(), original));
 
-        Controller.tick("player", Direction.DOWN);
-        Controller.tick("player", Direction.RIGHT);
-        Controller.tick("player", Direction.LEFT);
-        DungeonResponse newResponse = Controller.tick("player", Direction.DOWN);
+        Controller.tick(null, Direction.DOWN);
+        Controller.tick(null, Direction.RIGHT);
+        Controller.tick(null, Direction.LEFT);
+        DungeonResponse newResponse = Controller.tick(null, Direction.DOWN);
 
         List<EntityResponse> newEntities = newResponse.getEntities();
 
@@ -96,8 +102,8 @@ public class MovementTest {
 
         Position itemLocation = new Position(6,1);
 
-        for (int i = 0; i < 6; i++) {
-            Response = Controller.tick("none", Direction.RIGHT);
+        for (int i = 0; i < 5; i++) {
+            Response = Controller.tick(null, Direction.RIGHT);
         }
 
         List<EntityResponse> Entities = Response.getEntities();
@@ -106,8 +112,8 @@ public class MovementTest {
                 .filter(e -> e.getType().equals("player"))
                 .forEach(e -> assertEquals(e.getPosition(), itemLocation));
 
-        Controller.tick("none", Direction.RIGHT);
-        Response = Controller.tick("none", Direction.LEFT);
+        Controller.tick(null, Direction.RIGHT);
+        Response = Controller.tick(null, Direction.LEFT);
         Entities = Response.getEntities();
 
         Entities.stream()

@@ -10,17 +10,16 @@ public class Sword extends Collectable implements BattleGear{
     private int durability;
 
     //constructor for sword with an owner
-    //TODO durability should be passed from the factory, rn it is hard coded
-    public Sword(String type, DungeonMapAPI map, Creature owner) {
+    public Sword(String type, DungeonMapAPI map, Creature owner, int durability) {
         super(map, type, owner);
-        this.durability = 5;
+        this.durability = durability;
     }
 
 
     //constructor for sword on ground, rn the factory is using this one
-    public Sword(Position current, String type, DungeonMapAPI map) {
+    public Sword(Position current, String type, DungeonMapAPI map, int durability) {
         super(map, type, current);
-        this.durability = 1;
+        this.durability = durability;
     }
     
     @Override

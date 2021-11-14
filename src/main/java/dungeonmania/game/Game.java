@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Game implements GameAPI {
 
     private String dungeonName;
-    private String dungeonId = "";
+    private String dungeonId;
     public static Integer numGames = 0;
     private String gameMode;
     private DungeonMapAPI map;
@@ -33,17 +33,17 @@ public class Game implements GameAPI {
     @Override
     public DungeonResponse toDungeonResponse() {
         map.getGoals();
-        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.toEntityResponseList(), map.toItemResponseList() , new ArrayList<String>(), map.getGoals());
-        return hello;
-    }
-
-    public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
-        map.tick(itemUsed, movementDirection);
-        return toDungeonResponse();
+        DungeonResponse dungeonResponse = new DungeonResponse(dungeonId, dungeonName, map.toEntityResponseList(), map.toItemResponseList() , map.buildableItems(), map.getGoals());
+        return dungeonResponse;
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException{
         map.interact(entityId);
+        return toDungeonResponse();
+    }
+
+    public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
+        map.tick(itemUsed, movementDirection, toDungeonResponse());
         return toDungeonResponse();
     }
 
@@ -59,7 +59,12 @@ public class Game implements GameAPI {
         return map.getPlayer();
     }
 
+<<<<<<< HEAD
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
+=======
+    @Override
+    public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException{
+>>>>>>> M2M3Bertram
         map.build(buildable);
         return toDungeonResponse();
     }

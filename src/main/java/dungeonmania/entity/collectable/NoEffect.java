@@ -4,7 +4,7 @@ import dungeonmania.entity.creature.Creature;
 import dungeonmania.map.DungeonMapAPI;
 
 public class NoEffect extends Effect{
-    public NoEffect(Creature target, int lastFor, DungeonMapAPI game) {
+    public NoEffect(Creature target, DungeonMapAPI game) {
         super(target, game);
     }
 

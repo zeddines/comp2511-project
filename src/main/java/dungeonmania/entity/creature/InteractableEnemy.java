@@ -11,7 +11,7 @@ import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.util.*;
 
 public class InteractableEnemy extends Enemy implements Interactable{
-    ArrayList<String> itemsRequiredToBribe;
+    List<List<String>> itemsRequiredToBribe;
     /**
      * On maps with at least one enemy, mercenaries spawn at the entry location periodically
      * They constrantly move towarsd the character, stopping if they cannot move any closer 
@@ -24,6 +24,7 @@ public class InteractableEnemy extends Enemy implements Interactable{
      // please set battleStat and movement as input to constructor( movment rn is null)
     public InteractableEnemy(Position current, String type, DungeonMapAPI map) {
         super(map, type, current);
+        itemsRequiredToBribe = new ArrayList<List<String>>();
     }
 
     @Override
@@ -36,19 +37,20 @@ public class InteractableEnemy extends Enemy implements Interactable{
         for (Collectable collectable : player.getNonBattleItems()){
             if (collectable instanceof Sceptre){
                 ((Sceptre)collectable).mindControl(this);
+                return;
             }
         }
-        ArrayList<Collectable> collectablesReceived = player.give(itemsRequiredToBribe);
-        if (collectablesReceived == null)
-            throw new InvalidActionException("does not have items to bribe");
-        getGame().addToAlly(this);
+        for (List<String> bribeList : itemsRequiredToBribe){
+            ArrayList<Collectable> collectablesReceived = player.give(bribeList);
+            if (collectablesReceived != null){
+                getGame().addToAlly(this);
+                return;
+            }
+        }
+        throw new InvalidActionException("does not have items to bribe");
     }
 
-    public ArrayList<String> getItemsRequiredToBribe() {
-        return itemsRequiredToBribe;
-    }
-
-    public void setItemsRequiredToBribe(List<String> itemsRequiredToBribe) {
-        this.itemsRequiredToBribe = new ArrayList<>(itemsRequiredToBribe);
+    public void addItemsRequiredToBribe(List<String> itemsRequiredToBribe) {
+        this.itemsRequiredToBribe.add(itemsRequiredToBribe);
     }
 }

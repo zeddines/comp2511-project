@@ -19,10 +19,9 @@ public class Shield extends Collectable implements BattleGear{
      * before it deteriorates 
      */
 
-    //TODO shield doesn't have a postion since they are buildables, rn the durability is hard coded, need to change factory
-    public Shield(String type, DungeonMapAPI map, Creature owner) {
+    public Shield(String type, DungeonMapAPI map, Creature owner, int durability) {
         super(map, type, owner);
-        this.durability = 4;
+        this.durability = durability;
     }
 
     @Override

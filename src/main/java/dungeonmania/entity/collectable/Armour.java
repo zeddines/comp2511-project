@@ -12,16 +12,16 @@ public class Armour extends Collectable implements BattleGear{
 
     //constructor for armour with an owner
     //rn durability is hard coded, should pass in as constructor argument
-    public Armour(String type, DungeonMapAPI map, Creature owner) {
+    public Armour(String type, DungeonMapAPI map, Creature owner, int durability) {
         super(map, type, owner);
-        this.durability = 5;
+        this.durability = durability;
     }
 
 
     //constructor for armour on ground
-    public Armour(Position current, String type, DungeonMapAPI map) {
+    public Armour(Position current, String type, DungeonMapAPI map, int durability) {
         super(map, type, current);
-        this.durability = 5;
+        this.durability = durability;
     }
 
     @Override

@@ -16,29 +16,20 @@ import org.json.*;
 
 public class MapBuilder implements MapBuilderAPI {
 
-    private FactoryAPI entityFactory;
+    private FactoryFront entityFactory;
 
     public DungeonMap build(String dungeonName, String gameMode) {
         DungeonMap newGame = new DungeonMap();
         entityFactory = new FactoryFront(gameMode, newGame);
+        newGame.setFactory(entityFactory);
         try {
             String mapString = FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json");
             JSONObject map = new JSONObject(mapString);
             JSONArray entities = map.getJSONArray("entities");  
             for (int i = 0; i < entities.length(); i++) {
-                newGame.addEntity(entityFactory.build(entities.getJSONObject(i), newGame));
+                newGame.addEntity(entityFactory.build(entities.getJSONObject(i)));
             }         
-
-            // InteractableEnemy assassin = new InteractableEnemy(new Position(6, 5), "assassin", newGame);
-            // assassin.setBattleStat(new BossBattleStat(assassin, 5, 5, 0));
-            // assassin.setMovement(null);
-            // newGame.addEntity(assassin);
-            // mercenary.addCollectable(new Armour("armour", newGame, mercenary));
-            // newGame.addEntity(mercenary);
             //TESTING !!!!!!!!!!!!!!!a
-            
-            // newGame.addEntity(new Portal(new Position(5,5), "portal", "BLUE", newGame));
-            // newGame.addEntity(new Portal(new Position(5,9), "portal", "BLUE", newGame));
             
             ////TESTING END
             // String goals = "";

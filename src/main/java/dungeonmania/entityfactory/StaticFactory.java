@@ -1,7 +1,10 @@
 package dungeonmania.entityfactory;
 import dungeonmania.entity.*;
 import dungeonmania.entity.square.*;
+import dungeonmania.map.DungeonMap;
 import dungeonmania.map.DungeonMapAPI;
+
+import java.util.HashMap;
 
 import org.json.JSONObject;
 import dungeonmania.util.*;
@@ -10,39 +13,47 @@ public class StaticFactory extends PrimaryFactory {
 
     public static String[] staticEntities = {"wall", "exit", "boulder", "switch", "door", "portal", "zombie_toast_spawner"}; 
     
-    public StaticFactory(String difficulty, DungeonMapAPI game) {
-        super(staticEntities, difficulty, game);
+    public StaticFactory(FactoryFront factory) {
+        super(staticEntities, factory);
     }
 
     @Override
-    public Entity build(JSONObject entityContents, DungeonMapAPI map) {
+    public Entity build(JSONObject entityContents) {
         String type = entityContents.getString("type");
-        if (type.equals("wall"))
-            return new Wall(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if (type.equals("exit"))
-            return new Exit(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if(type.equals("boulder"))
-            return new Boulder(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if(type.equals("switch"))
-            return new FloorSwitch(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if(type.equals("door"))
-            return new Door(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), entityContents.getInt("key"), map);
-        else if(type.equals("portal"))
-            return new Portal(new Position(entityContents.getInt("x"), entityContents.getInt("y")), entityContents.getString("type"), entityContents.getString("colour"), map);
-        else
-            return new ZombieToastSpawner(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-    }
-    
-    /*
-    public Square makeStatics(String type, Position current, DungeonMapAPI map){
+        Position position = new Position(entityContents.getInt("x"), entityContents.getInt("y"));
+        DungeonMap map = getMap();
+        
+        //TODO ADD Swamp Tile and test it in json
         switch(type){
             case "wall":
-                return new Wall(current, type, map);
+                return new Wall(position, type, map);
             case "exit":
-                return new Exit(current, type, map);
-                
+                return new Exit(position, type, map);
+            case"boulder":
+                return new Boulder(position, type, map);
+            case "switch":
+                return new FloorSwitch(position, type, map);
+            case "door":
+                return new Door(position, type, entityContents.getInt("key"),  map);
+            case "portal":
+                return new Portal(position, type, entityContents.getString("colour"), map);
+            case "zombie_toast_spawner":
+                return new Spawner(position, type, map, makeSpawningHashMap());
+            default:
+                return null;
         }
-
     }
-    */
+    
+    private HashMap<String, Integer> makeSpawningHashMap(){
+        HashMap<String, Integer> spawnHashMap = new HashMap<>();
+        switch(getDifficulty()){
+            case "Hard":
+                spawnHashMap.put("zombie_toast", 15);
+                spawnHashMap.put("hydra", 50);
+                return spawnHashMap;
+            default:
+                spawnHashMap.put("zombie_toast", 20);
+                return spawnHashMap;
+        }
+    }
 }

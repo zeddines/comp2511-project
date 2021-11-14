@@ -78,8 +78,7 @@ public class StandardBattleStat implements BattleStat{
                 battleGears.remove(battleGear);
         }
     }
-    
-    //TODO NOT MENTIONED IN UML (resets and modifiers methods)
+
     private void resetModifiers(){
         flatAttackIncrease = 0;
         flatDefenseIncrease = 0;

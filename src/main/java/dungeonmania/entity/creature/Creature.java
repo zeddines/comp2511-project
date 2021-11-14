@@ -17,7 +17,7 @@ import java.util.Map;
 
 public abstract class Creature extends Entity{
     private BattleStat battleStat;
-    private List<Collectable> nonBattleItems; 
+    private ArrayList<Collectable> nonBattleItems; 
 
     Map<String, Integer> buffs;
     
@@ -86,7 +86,7 @@ public abstract class Creature extends Entity{
         this.battleStat = battleStat;
     }
 
-    public List<Collectable> getNonBattleItems() {
+    public ArrayList<Collectable> getNonBattleItems() {
         return nonBattleItems;
     }
 
@@ -98,12 +98,21 @@ public abstract class Creature extends Entity{
         return battleStat.getBattleGears();
     }
 
-    public Collectable getNonBattleItemFromInventory(String id){
-        for (Collectable collectable : nonBattleItems){
-            if (collectable.getId().equals(id)){
-                return collectable;
+    public ArrayList<Collectable> getAllCollectables(){
+        ArrayList<Collectable> retList = new ArrayList<>();
+        retList.addAll(nonBattleItems);
+        for (BattleGear item : getBattleGears()){
+            retList.add((Collectable)item);
+        }
+        return retList;
+    }
+
+    public void removeItemOfType(String type){
+        for (Collectable item : getAllCollectables()){
+            if (item.getType().equals(type)){
+                removeCollectable(item);
+                return;
             }
         }
-        return null;
     }
 }

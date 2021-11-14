@@ -1,5 +1,6 @@
 package dungeonmania.entity.collectable;
 
+import dungeonmania.entity.creature.Creature;
 import dungeonmania.entity.interfaces.BattleGear;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.map.DungeonMapAPI;
@@ -8,10 +9,19 @@ import dungeonmania.util.Position;
 public class Anduril extends Collectable implements BattleGear{
     private int durability;
 
-    public Anduril(Position position, String type, DungeonMapAPI map) {
+    public Anduril(Position position, String type, DungeonMapAPI map, int durability) {
         super(map, type, position);
-        this.durability = 3;
+        this.durability = durability;
     }
+
+    
+
+    public Anduril(Creature owner, DungeonMapAPI game, String type, int durability) {
+        super(game, type, owner);
+        this.durability = durability;
+    }
+
+
 
     @Override
     public void modifyStates(BattleStat battleStat) {
