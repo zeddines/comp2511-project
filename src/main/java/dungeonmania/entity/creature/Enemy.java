@@ -23,7 +23,8 @@ public class Enemy extends Creature implements MovableNPC{
     //TODO DELETE THE CONDITIONAL AFTER IMPLEMENTATION, CUZ NOW MOVEMENT IS NULL
     @Override
     public void move() {
-        super.setPosition(movement.move(super.getPosition()));
+        if (movement != null)
+            movement.move(); 
     }
 
     //getter setter
