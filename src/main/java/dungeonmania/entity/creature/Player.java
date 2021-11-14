@@ -12,6 +12,7 @@ import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.collectable.Effect;
 import dungeonmania.entity.collectable.Key;
 import dungeonmania.entity.collectable.Potion;
+import dungeonmania.entity.collectable.SunStone;
 import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.entity.interfaces.BattleGear;
 import dungeonmania.entity.interfaces.Usable;
@@ -23,21 +24,26 @@ import dungeonmania.util.Position;
 
 public class Player extends Creature{
 
-    public Player(DungeonMapAPI map, String type, Position position) {
+    public Player(Position position, String type, DungeonMapAPI map) {
         super(map, type, position);
         map.setPlayer(this);
     }
 
     
     public void use(String id) throws IllegalArgumentException, InvalidActionException{
-        Entity entity = getNonBattleItemFromInventory(id);
-        if (entity == null){
-            throw new InvalidActionException(id);
+        for (Collectable collectable : getAllCollectables()){
+            if (id.equals(collectable.getId())){
+                if (!(collectable instanceof Usable)){
+                    throw new IllegalArgumentException("item is not usable");
+                }
+                else{
+                    Usable item = (Usable)collectable;    
+                    item.use();
+                    return;
+                }
+            }
         }
-        if (!(entity instanceof Usable))
-            throw new IllegalArgumentException("item is not usable");
-        Usable item = (Usable)entity;    
-        item.use();
+        throw new InvalidActionException("item is not in player's inventory");
     }
 
     public ArrayList<ItemResponse> inventoryToItemResponseList(){
@@ -55,8 +61,7 @@ public class Player extends Creature{
         return returnList;
     }
 
-    //PLEASE LOOK
-    public ArrayList<Collectable> give(ArrayList<String> itemsRequired){
+    public ArrayList<Collectable> give(List<String> itemsRequired){
         ArrayList<Integer> positionOfItems = new ArrayList<>();
         for (String itemRequired : itemsRequired){
             boolean itemIsMissing = true;
@@ -73,12 +78,13 @@ public class Player extends Creature{
         }
         ArrayList<Collectable> collectablesToGive = new ArrayList<>();
         for (int i : positionOfItems){
-            collectablesToGive.add(getNonBattleItems().get(i));
+            if (!(getNonBattleItems().get(i) instanceof SunStone)){
+                collectablesToGive.add(getNonBattleItems().get(i));
+            }
         }
         for (Collectable collectableToRemove : collectablesToGive){
             getNonBattleItems().remove(collectableToRemove);
         }
         return collectablesToGive;
     }
-
 }

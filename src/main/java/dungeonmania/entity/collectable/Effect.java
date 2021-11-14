@@ -10,10 +10,10 @@ abstract public class Effect {
     private DungeonMapAPI game;
 
     public Effect(Creature target, int lastFor, DungeonMapAPI game){
-        this.target = target;
         this.effectDuration = lastFor;
         this.durationLeft = lastFor;
         this.game = game;
+        this.target = (target == null) ? game.getPlayer() : target;
     }
 
     public Effect(Creature target, DungeonMapAPI game){

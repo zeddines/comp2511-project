@@ -13,11 +13,15 @@ public class InvincibilityEffect extends Effect{
     public void applyEffect() {
         getTarget().applyInvincibleBuff();
         //TODO SET ALL ENEMIES FLEEING MOVEMENT BEHAVIOUR
+
+        //SHOULD CALL SOME FUNCTION IN MAPDUNGEON TO SET ALL ENEMY MOVEMENT TO FLEE
     }
 
     @Override
     public void endEffect() {
         getTarget().revertInvincibleBuff();
-        //set all enemies back to default
+        //TODO SET ALL ENEMIES BACK TO DEFAULT BEHAVIOUR
+
+        //SHOULD CALL SOME FUNCTION IN MAPDUNGEON TO SET ALL ENEMY BACK TO DEFAULT
     }
 }

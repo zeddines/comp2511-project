@@ -7,6 +7,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
+import org.eclipse.jetty.servlet.ServletHandler.Default404Servlet;
+
 import java.util.Iterator;
 
 import dungeonmania.entity.Entity;
@@ -24,19 +26,25 @@ import dungeonmania.entity.interfaces.MovableNPC;
 import dungeonmania.entity.square.Boulder;
 import dungeonmania.entity.square.Door;
 import dungeonmania.entity.square.Portal;
+import dungeonmania.entity.square.Spawner;
+import dungeonmania.entityfactory.BuildableFactory;
+import dungeonmania.entityfactory.FactoryFront;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.*;
 
 import java.util.List;
 
 public class DungeonMap implements DungeonMapAPI {
+    private FactoryFront factory;
 
     private Map<Position,List<EntityAPI>> entities;
     private String goals;
     private Player player;
     private ArrayList<Enemy> enemyFaction;
     private ArrayList<Creature> allies;
-
+    
+    private Position entryPosition;
+    private int tick;
     private ArrayList<Effect> effectsInAction;
     
     public DungeonMap() {
@@ -44,6 +52,11 @@ public class DungeonMap implements DungeonMapAPI {
         enemyFaction = new ArrayList<>();
         allies = new ArrayList<>();
         effectsInAction = new ArrayList<>();
+        tick = 0;
+    }
+
+    public void setFactory(FactoryFront factory){
+        this.factory = factory; 
     }
 
     public ArrayList<EntityAPI> getAllEntitiesInMap(){
@@ -147,20 +160,55 @@ public class DungeonMap implements DungeonMapAPI {
         addEntity(entity);
     }
 
+    public void spawn(){
+        int maxX = getMapSizeX();
+        int maxY = getMapSizeY();
+        Random rand = new Random();
+        if (tick == 0){
+            entryPosition = getPlayer().getPosition();
+            int numOfSpiders = rand.nextInt(5);
+            for (int i = 0; i < numOfSpiders; i++){
+                Position tryPosition;
+                Enemy enemy;
+                do{
+                tryPosition = new Position(rand.nextInt(maxX), rand.nextInt(maxY));
+                enemy = factory.makeEnemy("spider", tryPosition);
+                } while (!canBeInPosition(enemy, tryPosition));
+                addEntity(enemy);
+            }
+        }
+        else if (tick%20 == 0){
+            if (rand.nextInt(5) == 0)
+                addEntity(factory.makeEnemy("assassin", entryPosition));
+            else if (rand.nextInt(3) == 0)
+                addEntity(factory.makeEnemy("mercenary", entryPosition, new ArrayList<>(Arrays.asList("armour"))));
+            else
+                addEntity(factory.makeEnemy("mercenary", entryPosition));
+        }
+        for (EntityAPI entity : getAllEntitiesInMap()){
+            if (entity instanceof Spawner)
+                ((Spawner)entity).spawn();
+        }
+    }
+
     public void tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
+        spawn();
         if (itemUsedId != null){
             player.use(itemUsedId);
         }
         else{
             playerMove(movementDirection);
         }
+        //TODO ADD YOUR MOVE ALL ENTITY FUNCTION HERE
+
+        //-----//
         doCollideAction(player);
         updateEffects();
-        
 
         //resolve battle numbers, reward and stuff
         if (!enemyFaction.isEmpty())
             battle();
+        tick++;
     }
 
     public void interact(String entityId) throws IllegalArgumentException, InvalidActionException{
@@ -171,6 +219,21 @@ public class DungeonMap implements DungeonMapAPI {
             }
         }
         throw new IllegalArgumentException("entityId is not a valid entity ID");
+    }
+
+    public void build(String buildable) throws IllegalArgumentException, InvalidActionException{
+        if (!Arrays.asList(BuildableFactory.buildables).contains(buildable)){
+            throw new IllegalArgumentException("is not a buildable entity");
+        }
+        Collectable newItem = factory.makeBuildable(buildable);
+        if (newItem == null)
+            throw new InvalidActionException("player does not have sufficient items to craft the buildable");
+        else
+            player.addCollectable(newItem);
+    }
+
+    public List<String> buildableItems(){
+        return factory.getAllBuildableItems(player.getAllCollectables());
     }
 
     // public <T extends Entity> void doCollideAction(T entity){
@@ -241,38 +304,49 @@ public class DungeonMap implements DungeonMapAPI {
         playerFaction.addAll(allies);
 
         while (defeatedEnemies.size() != enemyFaction.size()){
-            for (int j = 0; j < enemyFaction.size() && !defeatedEnemies.contains(enemyFaction.get(j)); j++){
-                Enemy enemy = enemyFaction.get(j);
-                BattleStat enemyStat = enemy.getBattleStat();
-                for (int i = 0; i < playerFaction.size() && !defeatedAllies.contains(playerFaction.get(i)) && !defeatedEnemies.contains(enemy); i++){
-                    Creature ally = playerFaction.get(i);
-                    BattleStat allyStat = ally.getBattleStat();
-                    System.out.println("-----------------------------------------------------");
-                    displayBattleInfo(ally, enemy);
-                    double allyReceivedDamage = (allyStat.getReducedAttack(enemyStat.getAttack()) * enemyStat.getHealth()) / 10;
-                    double enemyReceivedDamage = (enemyStat.getReducedAttack(allyStat.getAttack()) * allyStat.getHealth()) / 5;
-                    allyStat.reduceHealth(allyReceivedDamage, enemy);
-                    enemyStat.reduceHealth(enemyReceivedDamage, ally);
-                    allyStat.reduceAllDurability();
-                    allyStat.removeAllDeteriorated();
-                    enemyStat.reduceAllDurability();
-                    enemyStat.removeAllDeteriorated();
-                    if (allyStat.getHealth() <= 0){
-                        defeatedAllies.add(ally);
-                    }
-                    if(enemyStat.getHealth() <= 0){
-                        defeatedEnemies.add(enemy);
-                    }
-                    displayBattleInfo(ally, enemy);
-                   System.out.println("defeatedEnemies" + defeatedEnemies);
-                   System.out.println("defeatedAllies" + defeatedAllies);
-                   System.out.println("-----------------------------------------------------");
-                    if(defeatedAllies.contains(player)){
-                        removeEntity(player);
-                        return;
+            for (int j = 0; j < enemyFaction.size(); j++){
+                if (!defeatedEnemies.contains(enemyFaction.get(j))){
+                    Enemy enemy = enemyFaction.get(j);
+                    BattleStat enemyStat = enemy.getBattleStat();
+                    for (int i = 0; i < playerFaction.size() && !defeatedEnemies.contains(enemy); i++){
+                        if (!defeatedAllies.contains(playerFaction.get(i))){
+                            Creature ally = playerFaction.get(i);
+                            BattleStat allyStat = ally.getBattleStat();
+                            System.out.println("-----------------------------------------------------");
+                            displayBattleInfo(ally, enemy);
+                            double allyReceivedDamage = (allyStat.getReducedAttack(enemyStat.getAttack()) * enemyStat.getHealth()) / 10;
+                            double enemyReceivedDamage = (enemyStat.getReducedAttack(allyStat.getAttack()) * allyStat.getHealth()) / 5;
+                            allyStat.reduceHealth(allyReceivedDamage, enemy);
+                            enemyStat.reduceHealth(enemyReceivedDamage, ally);
+                            allyStat.reduceAllDurability();
+                            allyStat.removeAllDeteriorated();
+                            enemyStat.reduceAllDurability();
+                            enemyStat.removeAllDeteriorated();
+                            if (allyStat.getHealth() <= 0){
+                                defeatedAllies.add(ally);
+                            }
+                            if(enemyStat.getHealth() <= 0){
+                                defeatedEnemies.add(enemy);
+                            }
+                            displayBattleInfo(ally, enemy);
+                            System.out.println("allEnimies" + enemyFaction);
+                            System.out.println("enemysize" + enemyFaction.size());
+                            System.out.println("allAllies" + playerFaction);
+                            System.out.println("alliesSize" + playerFaction.size());
+                            System.out.println("enemysize" + enemyFaction.size());
+                            System.out.println("defeatedEnemies" + defeatedEnemies);
+                            System.out.println("defeatedEnemySize" + defeatedEnemies.size());
+                            System.out.println("defeatedAllies" + defeatedAllies);
+                            System.out.println("-----------------------------------------------------");
+                            if(defeatedAllies.contains(player)){
+                                removeEntity(player);
+                                return;
+                            }
+                        }
                     }
                 }
             }
+
         }
 
         System.out.println("BattleEnded");
@@ -302,9 +376,9 @@ public class DungeonMap implements DungeonMapAPI {
             }
             removeEntity(enemy);
         }
-        boolean wonOneRing = (new Random().nextInt(1)==0);
+        boolean wonOneRing = (new Random().nextInt(10)==0);
         if (wonOneRing){
-            player.addCollectable(new Ring("one_ring", this, player));
+            player.addCollectable(factory.makeCollectable("one_ring", player));
         }
     }
 
@@ -354,4 +428,46 @@ public class DungeonMap implements DungeonMapAPI {
         return player;
     }
 
+    public FactoryFront getFactory(){
+        return factory;
+    }
+
+    public int getMapSizeX(){
+        int x = 0;
+        for (EntityAPI entity : getAllEntitiesInMap()){
+            if (entity.getPosition().getX() > x){
+                x = entity.getPosition().getX();
+            }
+        }
+        return x + 1;
+    }
+
+    public int getMapSizeY(){
+        int y = 0;
+        for (EntityAPI entity : getAllEntitiesInMap()){
+            if (entity.getPosition().getY() > y){
+                y = entity.getPosition().getY();
+            }
+        }
+        return y + 1;
+    }
+
+    /////TODO FOR GOWTHAM////
+
+    //GETWEIGHTOFPOSITION
+
+    //CREATE THE SWAMP CLASS AND ADD IT TO FACTORY
+
+    //private boolean specialMovementApplied;
+
+    //SWITCHALLTODEFAULT, set specialMovementApplied to false;
+
+    //NOTE SWITCH FOR FLEE OR RANDOM SHOULD ONLY BE DONE WHEN NO OTHER SPECIAL MOVEMENT IS APPLYING
+    //OR ELSE IT WILL CONFLICT AND RESULT IN UNEXPECTED BEHAVIOUR
+    //SWITCHALLTOFLEE, set specialMovementApplied to true;
+
+
+    //SWITCHALLTORANDOM, set specialMovementApplied to true;
+
+    //CALL THESE SWITCH METHODS IN POTION EFFECT
 }

@@ -12,9 +12,9 @@ public class Bow extends Collectable implements BattleGear{
      * crafted with 1 wood and 3 arrows 
      * allows char to attack twice in a single round 
      */
-    public Bow(String type, DungeonMapAPI map, Creature owner) {
+    public Bow(String type, DungeonMapAPI map, Creature owner, int durability) {
         super(map, type, owner);
-        this.durability = 4;
+        this.durability = durability;
     }
 
     @Override

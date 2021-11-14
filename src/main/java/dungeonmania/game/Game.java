@@ -33,8 +33,8 @@ public class Game implements GameAPI {
     @Override
     public DungeonResponse toDungeonResponse() {
         map.getGoals();
-        DungeonResponse hello = new DungeonResponse(dungeonId, dungeonName, map.toEntityResponseList(), map.toItemResponseList() , new ArrayList<String>(), map.getGoals());
-        return hello;
+        DungeonResponse dungeonResponse = new DungeonResponse(dungeonId, dungeonName, map.toEntityResponseList(), map.toItemResponseList() , map.buildableItems(), map.getGoals());
+        return dungeonResponse;
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
@@ -57,5 +57,11 @@ public class Game implements GameAPI {
 
     public Player getPlayer() {
         return map.getPlayer();
+    }
+
+    @Override
+    public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException{
+        map.build(buildable);
+        return toDungeonResponse();
     }
 }

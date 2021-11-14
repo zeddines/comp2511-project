@@ -2,6 +2,7 @@ package dungeonmania.entity.square;
 import dungeonmania.entity.*;
 import dungeonmania.entity.collectable.Collectable;
 import dungeonmania.entity.collectable.Key;
+import dungeonmania.entity.collectable.SunStone;
 import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMap;
@@ -27,10 +28,9 @@ public class Door extends Entity {
         this.key = key;
     }
 
-    ///TODO MODIFY WHEN IMPLEMENTING SUNSTONE
     public boolean canUnlock(List<Collectable> nonBattleItems){
         for (Collectable item : nonBattleItems){
-            if (item instanceof Key && ((Key)item).getKey() == key){
+            if (item instanceof Key && ((Key)item).getKey() == key || item instanceof SunStone){
                 return true;
             }
         }
@@ -57,6 +57,9 @@ public class Door extends Entity {
                     nonBattleItems.remove(keyObj);
                     getGame().removeEntity(this);
                 }
+            }
+            else if (collectable instanceof SunStone){
+                getGame().removeEntity(this);
             }
         }       
     }

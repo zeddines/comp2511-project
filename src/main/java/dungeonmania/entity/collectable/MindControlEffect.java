@@ -7,7 +7,6 @@ public class MindControlEffect extends Effect{
 
     public MindControlEffect(Creature target, int lastFor, DungeonMapAPI game) {
         super(target, lastFor, game);
-        //TODO Auto-generated constructor stub
     }
 
     @Override

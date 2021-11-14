@@ -13,14 +13,16 @@ public class InvisibilityEffect extends Effect{
     @Override
     public void applyEffect() {
         getTarget().applyInvisibleBuff();
-        //TODO set all enemy random movement behaviour
+        //TODO SET ALL ENEMIES RANDOM MOVEMENT BEHAVIOUR
 
+        //SHOULD CALL SOME FUNCTION IN MAPDUNGEON TO SET ALL ENEMY MOVEMENT TO RANDOM
     }
 
     @Override
     public void endEffect() {
         getTarget().revertInvisibleBuff();
-        //set all enemy back to default movement behaviour
+        //TODO SET ALL ENEMIES BACK TO DEFAULT BEHAVIOUR
 
+        //SHOULD CALL SOME FUNCTION IN MAPDUNGEON TO SET ALL ENEMY BACK TO DEFAULT
     }
 }

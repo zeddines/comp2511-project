@@ -24,6 +24,7 @@ public class HydraBattleStat extends BossBattleStat{
         else{
             Random random = new Random();
             if (random.nextInt(2) == 1){
+                System.out.println("recovering");
                 recover(15);
             }
             else{

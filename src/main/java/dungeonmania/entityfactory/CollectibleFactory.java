@@ -4,120 +4,90 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 import dungeonmania.entity.*;
 import dungeonmania.entity.collectable.*;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.map.DungeonMap;
 import dungeonmania.map.DungeonMapAPI;
-import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.*;
 
 public class CollectibleFactory extends PrimaryFactory {
 
-    public static final String[] collectibles = {"treasure", "key", "health_potion", "invincibility_potion", "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour", "anduril", "sceptre", "midnight_armour"};
+    public static final String[] collectibles = {"one_ring", "treasure", "key", "health_potion", "invincibility_potion", "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour", "anduril", "sun_stone"};
 
-    ArrayList<Collectable> collectables = new ArrayList<>();
 
-    public CollectibleFactory(String difficulty, DungeonMapAPI game) {
-        super(collectibles, difficulty, game);
+    public CollectibleFactory(FactoryFront factory) {
+        super(collectibles, factory);      
     }
-    
+
     @Override
-    public Entity build(JSONObject entityContents, DungeonMapAPI map) {
+    public Entity build(JSONObject entityContents) {
+        Position position = new Position(entityContents.getInt("x"), entityContents.getInt("y"));
         String type = entityContents.getString("type");
-        if (type.equals("treasure"))
-            return new Treasure(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if (type.equals("key"))
-            return new Key(new Position(entityContents.getInt("x"), entityContents.getInt("y")), entityContents.getString("type"),  entityContents.getInt("key"), map);
-        else if(type.equals("health_potion"))
-                return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"),map, new RecoverHealthEffect(null, map));   
-        else if(type.equals("invincibility_potion"))
-            return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map, new InvincibilityEffect(null, 30, map));
-        else if (type.equals("invisibility_potion"))
-            return new Potion(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map, new InvisibilityEffect(null, 30, map));
-        else if (type.equals("wood"))
-            return new Wood(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if (type.equals("arrow"))
-            return new Arrow(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if (type.equals("bomb"))
-            return new Bomb(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);
-        else if (type.equals("armour"))
-            return new Armour(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map);   
-        else if (type.equals("sword"))
-            return new Sword(new Position(entityContents.getInt("x"), entityContents.getInt("y")),entityContents.getString("type"), map); 
-        else if (type.equals("anduril")){
-            return new Anduril(new Position(entityContents.getInt("x"), entityContents.getInt("y")), entityContents.getString("type"), map);
-        }
-        else
-            return null;
-    }
-    
+        DungeonMap map = getMap();
 
-    //public makePotion(String type, DungeonMapAPI map){
-    //    switch(type){
-    //        case "health_potion":
-    //            if (difficulty.equals("hard"))
-    //                return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"),map, new NoEffect());                       
-    //            else
-    //                return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"),map, new RecoverHealthEffect()); 
-    //        case "invisibility_potion":
-    //            return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map, new InvisibilityEffect(30));
-    //        case "invincibility_potion":
-    //            return new Potion(new Position(type.getInt("x"), type.getInt("y")),type.getString("type"), map, new InvincibilityEffect(30));
-    //    }
-    //}
-
-    public Collectable makeCollectables(String type, Position current, DungeonMapAPI map, DungeonResponse dungeonResponse){
         switch(type){
-            case "treasure":
-                Treasure treasure = new Treasure(current, type, map);
-                collectables.add(treasure);
-                return treasure;                
-            case "key":
-                //Key key = new Key(current, type, map);
-                //return key;                
-                return null;
-            case "wood":
-                Wood wood = new Wood(current, type, map);                
-                collectables.add(wood);
-                return wood;                
-            case "arrow":
-                Arrow arrow = new Arrow(current, type, map);
-                collectables.add(arrow);
-                return arrow;                
-            case "sword":
-                Sword sword = new Sword(current, type, map); 
-                collectables.add(sword);
-                return sword;                
-            case "armour":
-                Armour armour = new Armour(current, type, map); 
-                collectables.add(armour);
-                return armour;                
-            case "health_potion":
-                // Potion healthPotion = new Potion(current, type, map, makeEffect("RecoverHealthEffect"));
-                // return healthPotion;                
-            case "invisibility_potion":
-                // Potion invisiblePotion = new Potion(current, type, map, makeEffect("InvisibilityEffect"));
-                // return invisiblePotion;                
+            case "treasure": 
+                return new Treasure(position, type, map);
+            case "key": 
+                return new Key(position, type, entityContents.getInt("key"), map);
+            case "health_potion": 
+                return new Potion(position, type, map, makeEffect("RecoverHealthEffect", null));   
             case "invincibility_potion":
-                // Potion invinciblePotion = new Potion(current, type, map, makeEffect("InvincibilityEffect"));
-                // return invinciblePotion;                
+                return new Potion(position, type, map, makeEffect("InvincibilityEffect", null));
+            case "invisibility_potion":
+                return new Potion(position, type, map, makeEffect("InvisibilityEffect", null));
+            case "wood":
+                return new Wood(position, type, map);
+            case"arrow":
+                return new Arrow(position, type, map);
+            case"bomb":
+                return new Bomb(position, type, map, 2);
+            case "armour":
+                return new Armour(position, type, map, 5);   
+            case "sword":
+                return new Sword(position, type, map, 5); 
+            case"anduril":
+                return new Anduril(position, type, map, 5);
+            case "sun_stone":
+                return new SunStone(position, type, map);
+            default:
+                return null;
+        }
+    }
+
+    public Collectable makeCollectable(String type, Creature owner){
+        DungeonMapAPI map = getMap();
+        switch(type){           
+            case "sword":
+                return new Sword(type, map, owner, 5);
+            case "armour":
+                return new Armour(type, map, owner, 5);  
+            case "anduril":
+                return new Anduril(owner, map, type, 5);            
+            case "health_potion":
+                return new Potion(owner, type, map, makeEffect("RecoverHealthEffect", owner));   
+            case "invisibility_potion":
+                return new Potion(owner, type, map, makeEffect("InvisibilityEffect", owner));               
+            case "invincibility_potion":
+                return new Potion(owner, type, map, makeEffect("InvincibilityEffect", owner));  
+            case "one_ring":
+                return new Ring(type, map, owner);
             default:
                 return null;                
         }
     }
 
-    public ArrayList<Collectable> getCollectables(){
-        return collectables;
+    private Effect makeEffect(String effect, Creature target){
+        String difficulty = getDifficulty();
+        DungeonMapAPI game = getMap();
+        switch(effect){
+            case "RecoverHealthEffect":
+                return difficulty.equals("Hard") ? new NoEffect(target, game) : new RecoverHealthEffect(target, game);             
+            case "InvisibilityEffect":
+                return difficulty.equals("Hard") ? new InvisibilityEffect(target, 3, game) : new InvisibilityEffect(target, 15, game);                
+            case "InvincibilityEffect":
+            return difficulty.equals("Hard") ? new NoEffect(target, game) : new InvincibilityEffect(target, 5, game);                
+            default: 
+                return null;
+        }
     }
-
-    // public PotionEffect makeEffect(String effect){
-    //     switch(effect){
-    //         case "RecoverHealthEffect":
-    //             return getDifficulty().equals("hard") ? new NoEffect() : new RecoverHealthEffect();                
-    //         case "InvisibilityEffect":
-    //             return getDifficulty().equals("hard") ? new InvisibilityEffect(3) : new InvisibilityEffect(15);                
-    //         case "InvincibilityEffect":
-    //             return new InvincibilityEffect(30);
-    //         default: 
-    //             return null;
-    //     }
-    // }
-    
 }

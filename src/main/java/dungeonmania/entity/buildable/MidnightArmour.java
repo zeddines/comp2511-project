@@ -9,10 +9,9 @@ import dungeonmania.map.DungeonMapAPI;
 public class MidnightArmour extends Collectable implements BattleGear{
     private int durability; 
 
-    public MidnightArmour(DungeonMapAPI game, String type, Creature owner) {
+    public MidnightArmour(DungeonMapAPI game, String type, Creature owner, int durability) {
         super(game, type, owner);
-        //TODO Auto-generated constructor stub
-        this.durability = 5;
+        this.durability = durability;
     }
 
     @Override
