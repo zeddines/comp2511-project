@@ -2,35 +2,37 @@ package dungeonmania.entity.creature;
 
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.interfaces.BattleStat;
-import dungeonmania.entity.interfaces.CollideActionEntity;
 import dungeonmania.entity.interfaces.MovementNPC;
-import dungeonmania.entity.interfaces.RegularActionEntity;
+import dungeonmania.entity.interfaces.MovableNPC;
 import dungeonmania.util.Position;
 
-public class Enemy extends Creature implements CollideActionEntity, RegularActionEntity{
-
+public class Enemy extends Creature implements MovableNPC{
     private MovementNPC movement;
-    
-    public Enemy(DungeonMapAPI game, String type, Position position, boolean isInteractable,
-                 MovementNPC movement, BattleStat battleStat) {
-        super(game, type, position, isInteractable, battleStat);
-        this.movement = movement;
+
+    public Enemy(DungeonMapAPI game, String type, Position position) {
+        super(game, type, position);
     }
 
+    @Override
     public void collideAction(Player player) {
-        if (!player.isInvisible()){
+        if (!player.isInvisible() && this.isHostile()){
             getGame().addToBattle(this);
         }
     }
 
-    @Override 
-    public void action(Player player){
-        collideAction(player);
+    //TODO DELETE THE CONDITIONAL AFTER IMPLEMENTATION, CUZ NOW MOVEMENT IS NULL
+    @Override
+    public void move() {
+        super.setPosition(movement.move(super.getPosition()));
     }
 
-    @Override
-    public void regularAction() {
-        movement.move();
+    //getter setter
+    public MovementNPC getMovement() {
+        return movement;
+    }
+
+    public void setMovement(MovementNPC movement) {
+        this.movement = movement;
     }
 
 }

@@ -1,6 +1,7 @@
 package dungeonmania.entity.square;
 
 import dungeonmania.entity.Entity;
+import dungeonmania.entity.creature.Enemy;
 import dungeonmania.entity.creature.Player;
 import dungeonmania.map.DungeonMapAPI;
 import dungeonmania.entity.*;
@@ -9,7 +10,7 @@ import org.json.JSONObject;
 
 public class Wall extends Entity {
     public Wall(Position current, String type, DungeonMapAPI map) {
-        super(map, current, type, false); 
+        super(map, current, type); 
     }
 
 
@@ -23,7 +24,19 @@ public class Wall extends Entity {
 
     //nothing occurs 
     @Override
-    public boolean canCoExist() {
+    public boolean canBeOnSamePosition(Player player) {
+        return false;
+    }
+
+    @Override 
+    public boolean canBeOnSamePosition(Enemy enemy){
+        if ("spider".equals(enemy.getType()))
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean canBeOnSamePosition(Boulder boulder){
         return false;
     }
 }

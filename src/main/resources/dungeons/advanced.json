@@ -216,7 +216,7 @@
       {
         "x": 0,
         "y": 5,
-        "type": "wall"
+        "type": "mercenary"
       },
       {
         "x": 3,
@@ -231,7 +231,7 @@
       {
         "x": 17,
         "y": 5,
-        "type": "wall"
+        "type": "invisibility_potion"
       },
       {
         "x": 0,
@@ -241,12 +241,12 @@
       {
         "x": 6,
         "y": 6,
-        "type": "wall"
+        "type": "assassin"
       },
       {
         "x": 8,
         "y": 6,
-        "type": "wall"
+        "type": "anduril"
       },
       {
         "x": 9,
@@ -381,7 +381,7 @@
       {
         "x": 6,
         "y": 10,
-        "type": "wall"
+        "type": "treasure"
       },
       {
         "x": 7,
@@ -392,6 +392,11 @@
         "x": 11,
         "y": 10,
         "type": "invisibility_potion"
+      },
+      {
+        "x": 11,
+        "y": 10,
+        "type": "zombie_toast_spawner"
       },
       {
         "x": 17,

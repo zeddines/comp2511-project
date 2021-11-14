@@ -5,10 +5,11 @@ import dungeonmania.entity.creature.Creature;
 import dungeonmania.util.*;
 import org.json.JSONObject;
 
-import dungeonmania.entity.interfaces.*;
+import dungeonmania.entity.interfaces.BattleGear;
+import dungeonmania.entity.interfaces.BattleStat;
 import dungeonmania.map.DungeonMapAPI;
 
-public class Shield extends Collectable implements Guard{
+public class Shield extends Collectable implements BattleGear{
     private int durability; 
 
     /**
@@ -18,20 +19,33 @@ public class Shield extends Collectable implements Guard{
      * before it deteriorates 
      */
 
-    //TODO shield doesn't have a postion since they are buildables, rn the durability is hard coded, need to change factory
-    public Shield(String type, DungeonMapAPI map, Creature owner) {
-        super(map, type, false, owner);
-        this.durability = 4;
+    public Shield(String type, DungeonMapAPI map, Creature owner, int durability) {
+        super(map, type, owner);
+        this.durability = durability;
     }
 
     @Override
-    public void modifyDefense(BattleStat battleStat) {
+    public void modifyStates(BattleStat battleStat) {
         battleStat.multiplyDefense(4);
-        durability--;
     }
 
     @Override
     public int getDurability() {
         return durability;
     } 
+
+    @Override
+    public void reduceDurability(){
+        durability--;
+    }
+
+    @Override
+    public boolean isWeapon() {
+        return false;
+    }
+
+    @Override
+    public boolean isDefense() {
+        return true;
+    }
 }

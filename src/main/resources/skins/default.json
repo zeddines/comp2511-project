@@ -28,6 +28,24 @@
         "mercenary": "images/tileset/entities/ranger.png",
         "switch": "images/tileset/floor_switch.png",
         "invincibility_potion": "images/tileset/items/potion_10.png",
-        "sword": "images/tileset/items/sword_silver.png"
+        "sword": "images/tileset/items/sword_silver.png",
+        "door": "images/tileset/walls/wooden/door_locked_silver.png",
+        "portal": "images/tileset/entities/portal_01.png",
+        "zombie_toast_spawner": "images/tileset/entities/zombie_spawner.png",
+        "zombie_toast": "images/tileset/entities/zombie_00.png",
+        "key": "images/tileset/items/key_silver.png",
+        "health_potion": "images/tileset/items/potion_6.png",
+        "invisibility_potion": "images/tileset/items/potion_8.png",
+        "shield": "images/tileset/items/shield.png",
+        "armour": "images/tileset/items/armour.png",
+        "one_ring": "images/tileset/items/ring_0_special.png",
+        "anduril": "images/tileset/entities/anduril.png",
+        "assassin": "images/tileset/entities/assassin.png",
+        "swamp_tile": "images/tileset/entities/swamp_tile.png",
+        "hydra": "images/tileset/entities/hydra.png",
+        "sun_stone": "images/tileset/entities/sun_stone.png",
+        "sceptre": "images/tileset/entities/sceptre.png",
+        "midnight_armour": "images/tileset/entities/midnight_armour.png"
     }
+
 }

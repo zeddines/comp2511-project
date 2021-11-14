@@ -18,9 +18,9 @@ public class BoulderGoal implements Goals{
         List<EntityResponse> listOfEntities = d.getEntities();
 
         for (EntityResponse e: listOfEntities) {
-            if (e.getType().equals("boulders")) {
+            if (e.getType().equals("boulder")) {
                 boulderPositions.add(e.getPosition());
-            } else if (e.getType().equals("switches")) {
+            } else if (e.getType().equals("switch")) {
                 switchPositions.add(e.getPosition());
             }
         }

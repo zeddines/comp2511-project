@@ -8,11 +8,13 @@ public interface GameAPI {
 
     public String getId();   
     
-    public DungeonResponse getInfo();
+    public DungeonResponse toDungeonResponse();
 
     public void setID(String name);
 
     public Player getPlayer();
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection);
+    public DungeonResponse interact(String entityId);
+    public DungeonResponse build(String buildable);
 }

@@ -1,19 +1,20 @@
 package dungeonmania.entity.collectable;
 
-import dungeonmania.entity.creature.Player;
+import dungeonmania.entity.creature.Creature;
+import dungeonmania.map.DungeonMapAPI;
 
-public class RecoverHealthEffect extends PotionEffect{
-    public RecoverHealthEffect(){
-        super(1);
+public class RecoverHealthEffect extends Effect{
+    public RecoverHealthEffect(Creature target, DungeonMapAPI game){
+        super(target, game);
+    }
+    
+    @Override
+    public void applyEffect() {
+        getTarget().getBattleStat().recoverToFull();
     }
 
     @Override
-    public String getType() {
-        return "health_potion";
-    }
-
-    @Override
-    public void applyPotionEffect() {
-        getOwner().getBattleStat().recoverToFull();
+    public void endEffect() {
+        return;
     }  
 }

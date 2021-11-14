@@ -1,5 +1,7 @@
 package dungeonmania.entity.interfaces;
 
+import dungeonmania.util.Position;
+
 public interface MovementNPC {
-    public void move();
+    public Position move(Position position);
 }
