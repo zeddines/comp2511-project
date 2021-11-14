@@ -26,7 +26,8 @@ public interface DungeonMapAPI {
     public void removeFromAlly(Creature enemy);
     public void setPlayer(Player newPlayer);
     public Player getPlayer();
-    public void tick(String itemUsedId, Direction movementDirection);
+
+    public void tick(String itemUsedId, Direction movementDirection, DungeonResponse d);
     public void interact(String entityId);
     public void build(String buildable);
     public List<String> buildableItems();

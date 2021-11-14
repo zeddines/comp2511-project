@@ -1,4 +1,5 @@
 package dungeonmania.map;
+import dungeonmania.goal.*;
 import dungeonmania.util.*;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class DungeonMap implements DungeonMapAPI {
 
     private Map<Position,List<EntityAPI>> entities;
     private String goals;
+    private AllGoals allGoals = new AllGoals();
     private Player player;
     private ArrayList<Enemy> enemyFaction;
     private ArrayList<Creature> allies;
@@ -154,6 +156,7 @@ public class DungeonMap implements DungeonMapAPI {
         return true;
     }
 
+
     public void moveFromPositionTo(EntityAPI entity, Position to){
         entities.get(entity.getPosition()).remove(entity);
         entity.setPosition(to);
@@ -191,7 +194,7 @@ public class DungeonMap implements DungeonMapAPI {
         }
     }
 
-    public void tick(String itemUsedId, Direction movementDirection) throws IllegalArgumentException, InvalidActionException{
+    public void tick(String itemUsedId, Direction movementDirection, DungeonResponse d) throws IllegalArgumentException, InvalidActionException{
         spawn();
         if (itemUsedId != null){
             player.use(itemUsedId);
@@ -218,6 +221,9 @@ public class DungeonMap implements DungeonMapAPI {
         if (!enemyFaction.isEmpty())
             battle();
         tick++;
+
+        //TODO GOAL
+        goals = allGoals.goalSatisfied(d);
     }
 
     public void interact(String entityId) throws IllegalArgumentException, InvalidActionException{
@@ -234,12 +240,14 @@ public class DungeonMap implements DungeonMapAPI {
         if (!Arrays.asList(BuildableFactory.buildables).contains(buildable)){
             throw new IllegalArgumentException("is not a buildable entity");
         }
+
         Collectable newItem = factory.makeBuildable(buildable);
         if (newItem == null)
             throw new InvalidActionException("player does not have sufficient items to craft the buildable");
         else
             player.addCollectable(newItem);
     }
+        
 
     public List<String> buildableItems(){
         return factory.getAllBuildableItems(player.getAllCollectables());
@@ -425,8 +433,63 @@ public class DungeonMap implements DungeonMapAPI {
     public String getGoals() {
         return goals;
     }
+
     public void setGoals(String goals) {
+//        System.out.println("Hello");
         this.goals = goals;
+
+//        System.out.println(goals);
+
+        String[] parts;
+
+        if (goals.contains("AND")) {
+            parts = goals.split("AND");
+
+            for (String s: parts) {
+//                System.out.println(s);
+
+                if (s.equals("boulders")) {
+                    allGoals.addGoal(new BoulderGoal());
+                } else if (s.equals("enemies")) {
+                    allGoals.addGoal(new Enemies());
+                } else if (s.equals("treasure")) {
+                    allGoals.addGoal(new TreasureGoal());
+                } else if (s.equals("exit")) {
+                    allGoals.addGoal(new ExitGoal());
+                }
+            }
+
+            allGoals.addGoal(new And());
+        } else if (goals.contains("OR")) {
+            parts = goals.split("OR");
+
+            for (String s: parts) {
+//                System.out.println(s);
+
+                if (s.equals("boulders")) {
+                    allGoals.addGoal(new BoulderGoal());
+                } else if (s.equals("enemies")) {
+                    allGoals.addGoal(new Enemies());
+                } else if (s.equals("treasure")) {
+                    allGoals.addGoal(new TreasureGoal());
+                } else if (s.equals("exit")) {
+                    allGoals.addGoal(new ExitGoal());
+                }
+            }
+
+            allGoals.addGoal(new Or());
+        } else {
+            if (goals.equals("boulders")) {
+                allGoals.addGoal(new BoulderGoal());
+            } else if (goals.equals("enemies")) {
+                allGoals.addGoal(new Enemies());
+            } else if (goals.equals("treasure")) {
+                allGoals.addGoal(new TreasureGoal());
+            } else if (goals.equals("exit")) {
+                allGoals.addGoal(new ExitGoal());
+            }
+        }
+
     }
 
     public void setPlayer(Player newPlayer) {
